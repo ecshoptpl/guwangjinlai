@@ -6,7 +6,7 @@ package com.smartydroid.android.starter.kit.account;
 
 public interface Account {
 
-  String token();
+  //String token();
 
   Object key();
 

@@ -1,0 +1,10 @@
+package com.jinguanguke.guwangjinlai.ui.fragment;
+
+import com.jinguanguke.android.starter.kit.app.StarterFragment;
+
+/**
+ * Created by YuGang Yang on February 21, 2016.
+ * Copyright 2015-2016 qiji.tech. All rights reserved.
+ */
+public abstract class BaseFragment extends StarterFragment {
+}

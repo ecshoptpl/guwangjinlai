@@ -10,6 +10,7 @@ import com.smartydroid.android.starter.kit.app.StarterKitApp;
 import java.util.ArrayList;
 import me.alexrs.prefs.lib.Prefs;
 
+
 /**
  * @author YuGang Yang <smartydroid@gmail.com>
  * @package com.smartydroid.android.starter.kit.account
@@ -53,7 +54,8 @@ public class AccountManager implements AccountProvider {
   public static boolean isSameAccount(Account account) {
     return account != null
         && getCurrentAccount() != null
-        && getCurrentAccount().key() == account.key();
+       // && getCurrentAccount().key() == account.key()
+            ;
   }
 
   @SuppressWarnings("unchecked") public static <T extends Account> T getCurrentAccount() {
@@ -127,11 +129,11 @@ public class AccountManager implements AccountProvider {
     return SingletonHolder.INSTANCE;
   }
 
-  @Override public String provideToken() {
-    if (isLogin()) {
-      return getCurrentAccount().token();
-    }
-
-    return null;
-  }
+//  @Override public String provideToken() {
+//    if (isLogin()) {
+//      return getCurrentAccount().token();
+//    }
+//
+//    return null;
+//  }
 }

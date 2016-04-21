@@ -44,9 +44,9 @@ public class DefaultHeaderInterceptor implements HeaderInterceptor {
       builder.add("channel", channel);
     }
 
-    if (mAccountProvider != null && !Strings.isBlank(mAccountProvider.provideToken())) {
-      builder.add("Authorization", "Bearer " + mAccountProvider.provideToken());
-    }
+//    if (mAccountProvider != null && !Strings.isBlank(mAccountProvider.provideToken())) {
+//      builder.add("Authorization", "Bearer " + mAccountProvider.provideToken());
+//    }
 
     if (!Strings.isBlank(mApiVersionAccept)) {
       builder.add("Accept", mApiVersionAccept);
