@@ -13,7 +13,7 @@ import android.util.TypedValue;
 import android.view.View;
 import butterknife.Bind;
 import com.jinguanguke.guwangjinlai.R;
-import com.jinguanguke.android.starter.kit.app.StarterKitApp;
+import com.smartydroid.android.starter.kit.app.StarterKitApp;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,9 +32,13 @@ public class FeedsFragment extends BaseFragment {
     mAdapter = new Adapter(getChildFragmentManager());
 
     Resources r = StarterKitApp.appResources();
+
+
     mAdapter.addFragment(new VideoFragment(), r.getString(R.string.feed_with_page));
-    mAdapter.addFragment(FeedsKeyFragment.create(), r.getString(R.string.feed_with_id));
-    mAdapter.addFragment(FeedsWithoutFragment.create(), r.getString(R.string.feed_without));
+
+    mAdapter.addFragment(new MovieFragment(), r.getString(R.string.feed_with_id));
+
+   // mAdapter.addFragment(new VideoFragment(), r.getString(R.string.feed_without));
   }
 
   @Override public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {

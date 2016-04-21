@@ -8,7 +8,7 @@ import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.OnClick;
 import com.jinguanguke.guwangjinlai.R;
-import com.jinguanguke.android.starter.kit.app.StarterActivity;
+import com.smartydroid.android.starter.kit.app.StarterActivity;
 import support.ui.content.ContentPresenter;
 import support.ui.content.EmptyView;
 import support.ui.content.ErrorView;

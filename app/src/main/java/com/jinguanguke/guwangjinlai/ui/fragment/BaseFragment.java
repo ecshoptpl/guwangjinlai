@@ -1,6 +1,6 @@
 package com.jinguanguke.guwangjinlai.ui.fragment;
 
-import com.jinguanguke.android.starter.kit.app.StarterFragment;
+import com.smartydroid.android.starter.kit.app.StarterFragment;
 
 /**
  * Created by YuGang Yang on February 21, 2016.

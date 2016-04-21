@@ -10,7 +10,7 @@
 
   <include layout="@layout/include_feed_header"/>
 
-  <com.smartydroid.android.kit.demo.ui.view.PhotoCollectionView
+  <com.jinguanguke.guwangjinlai.ui.view.PhotoCollectionView
       android:id="@+id/feed_photo_view"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"

@@ -32,7 +32,7 @@ public class FeedsMultiImageViewHolder extends EasyViewHolder<Feed> {
   @Override public void bindTo(Feed feed) {
     //mAvatarView.setImageURI(feed.user.uri());
 //    mUsernameTextView.setText(feed.user.uname);
-    mContentTextView.setText(feed.content);
-    mPhotoView.setData(feed.images);
+    mContentTextView.setText(feed.code);
+//    mPhotoView.setData(feed.list);
   }
 }

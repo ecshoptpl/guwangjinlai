@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.app.FragmentTabHost xmlns:android="http://schemas.android.com/apk/res/android"
+
+    xmlns:fab="http://schemas.android.com/tools"
     android:id="@android:id/tabhost"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="match_parent">
 
   <FrameLayout
       android:layout_width="match_parent"
@@ -29,4 +30,14 @@
         />
 
   </FrameLayout>
+  <com.github.clans.fab.FloatingActionButton
+      android:id="@+id/fab"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="bottom|center"
+      android:layout_marginBottom="8dp"
+      android:src="@drawable/ic_menu"
+      fab:fab_colorNormal="@color/app_primary"
+      fab:fab_colorPressed="@color/app_primary_pressed"
+      fab:fab_colorRipple="@color/app_ripple"/>
 </android.support.v4.app.FragmentTabHost>

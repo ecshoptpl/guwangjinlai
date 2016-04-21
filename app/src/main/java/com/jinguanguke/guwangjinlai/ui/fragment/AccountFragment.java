@@ -12,8 +12,8 @@ import com.jinguanguke.guwangjinlai.NavUtils;
 import com.jinguanguke.guwangjinlai.R;
 import com.jinguanguke.guwangjinlai.model.entity.User;
 import com.jinguanguke.guwangjinlai.update.CheckUpdate;
-import com.jinguanguke.android.starter.kit.account.AccountManager;
-import com.jinguanguke.android.starter.kit.utilities.ViewUtils;
+import com.smartydroid.android.starter.kit.account.AccountManager;
+import com.smartydroid.android.starter.kit.utilities.ViewUtils;
 
 /**
  * Created by YuGang Yang on February 21, 2016.

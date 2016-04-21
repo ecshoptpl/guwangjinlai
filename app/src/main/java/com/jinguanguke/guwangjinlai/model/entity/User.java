@@ -2,7 +2,7 @@ package com.jinguanguke.guwangjinlai.model.entity;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jinguanguke.android.starter.kit.account.Account;
+import com.smartydroid.android.starter.kit.account.Account;
 
 /**
  * Created by YuGang Yang on February 20, 2016.

@@ -8,8 +8,8 @@ import com.jinguanguke.guwangjinlai.api.ApiService;
 import com.jinguanguke.guwangjinlai.api.service.AuthService;
 import com.jinguanguke.guwangjinlai.model.entity.User;
 import com.jinguanguke.guwangjinlai.util.MessageCallback;
-import com.jinguanguke.android.starter.kit.app.StarterActivity;
-import com.jinguanguke.android.starter.kit.utilities.NetworkUtils;
+import com.smartydroid.android.starter.kit.app.StarterActivity;
+import com.smartydroid.android.starter.kit.utilities.NetworkUtils;
 import retrofit2.Call;
 
 /**

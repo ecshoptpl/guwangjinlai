@@ -27,7 +27,7 @@ public class YourApp extends StarterKitApp {
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
-<com.smartydroid.android.starter.kit.widget.ForegroundLinearLayout
+<jinguanguke.android.starter.kit.widget.ForegroundLinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -78,7 +78,7 @@ public class YourApp extends StarterKitApp {
         android:textSize="14sp"
         />
   </RelativeLayout>
-</com.smartydroid.android.starter.kit.widget.ForegroundLinearLayout>
+</jinguanguke.android.starter.kit.widget.ForegroundLinearLayout>
 ```
 
 # 自定义ViewHolder，继承EasyViewHolder
@@ -183,7 +183,7 @@ public class FeedFragment extends PagesRecyclerViewFragment<Tweet> {
 # Gradle文件
 
 ```java
-	compile 'com.smartydroid:android-starter-kit:0.0.4'
+	compile 'jinguanguke:android-starter-kit:0.0.4'
 ```
 
 # 第三方库

@@ -1,4 +1,4 @@
-package com.jinguanguke.android.kit.demo;
+package com.jinguanguke.guwangjinlai;
 
 import org.junit.Test;
 

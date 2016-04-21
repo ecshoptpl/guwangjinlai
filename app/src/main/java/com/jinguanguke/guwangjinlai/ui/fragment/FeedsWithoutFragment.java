@@ -11,7 +11,7 @@ import com.jinguanguke.guwangjinlai.model.entity.Feed;
 import com.jinguanguke.guwangjinlai.ui.view.AppEmptyView;
 import com.jinguanguke.guwangjinlai.ui.viewholder.FeedViewHolderFactory;
 import com.jinguanguke.guwangjinlai.ui.viewholder.FeedsTextViewHolder;
-import com.jinguanguke.android.starter.kit.app.StarterRecyclerFragment;
+import com.smartydroid.android.starter.kit.app.StarterRecyclerFragment;
 import java.util.ArrayList;
 import retrofit2.Call;
 import support.ui.content.RequiresContent;
@@ -42,7 +42,7 @@ public class FeedsWithoutFragment extends StarterRecyclerFragment<Feed> {
   }
 
   @Override public Object getKeyForData(Feed item) {
-    return item.id;
+    return item.code;
   }
 
   @Override public void bindViewHolders(EasyRecyclerAdapter adapter) {
@@ -52,7 +52,7 @@ public class FeedsWithoutFragment extends StarterRecyclerFragment<Feed> {
   @Override public void onItemClick(int position, View view) {
     super.onItemClick(position, view);
     final Feed feed = getItem(position);
-    Toast.makeText(getContext(), feed.content, Toast.LENGTH_SHORT).show();
+    Toast.makeText(getContext(), feed.code, Toast.LENGTH_SHORT).show();
   }
 
 }

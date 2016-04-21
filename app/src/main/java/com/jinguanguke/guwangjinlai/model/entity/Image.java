@@ -5,7 +5,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.TextUtils;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.jinguanguke.android.starter.kit.model.entity.Entity;
+import com.smartydroid.android.starter.kit.model.entity.Entity;
 
 /**
  * Created by YuGang Yang on February 20, 2016.

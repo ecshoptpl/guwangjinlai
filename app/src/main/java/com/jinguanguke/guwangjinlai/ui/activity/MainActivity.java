@@ -9,14 +9,19 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import butterknife.Bind;
+
+//import com.alibaba.sdk.android.AlibabaSDK;
+//import com.alibaba.sdk.android.callback.InitResultCallback;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.jinguanguke.guwangjinlai.NavUtils;
 import com.jinguanguke.guwangjinlai.R;
 import com.jinguanguke.guwangjinlai.model.entity.User;
-import com.jinguanguke.android.starter.kit.account.AccountManager;
-import com.jinguanguke.android.starter.kit.app.StarterActivity;
-import com.jinguanguke.android.starter.kit.utilities.ViewUtils;
+import com.smartydroid.android.starter.kit.account.AccountManager;
+import com.smartydroid.android.starter.kit.app.StarterActivity;
+import com.smartydroid.android.starter.kit.utilities.ViewUtils;
 
 /**
  * Created by YuGang Yang on February 21, 2016.
@@ -63,6 +68,17 @@ public class MainActivity extends StarterActivity {
         });
       }
     }
+
+//    AlibabaSDK.asyncInit(this, new InitResultCallback() {
+//      @Override
+//      public void onSuccess() {
+//        Toast.makeText(MainActivity.this, "初始化成功", Toast.LENGTH_SHORT).show();
+//      }
+//      @Override
+//      public void onFailure(int i, String s) {
+//        Toast.makeText(MainActivity.this, "初始化失败" + s, Toast.LENGTH_SHORT).show();
+//      }
+//    });
   }
 
   @Override protected void onResume() {

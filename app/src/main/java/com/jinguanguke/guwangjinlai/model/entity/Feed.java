@@ -8,12 +8,12 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.jinguanguke.android.starter.kit.model.entity.Entity;
+import com.smartydroid.android.starter.kit.model.entity.Entity;
 import java.util.ArrayList;
 
 @JsonIgnoreProperties(ignoreUnknown = true) public class Feed extends Entity {
 
-  public int id;
+  public int code;
   public String content;
   @JsonProperty("created_at") public int createdAt;
 
@@ -24,7 +24,7 @@ import java.util.ArrayList;
   }
 
   public Feed(Parcel source) {
-    this.id = source.readInt();
+    this.code = source.readInt();
     this.content = source.readString();
     this.createdAt = source.readInt();
 
@@ -48,7 +48,7 @@ import java.util.ArrayList;
   }
 
   @Override public void writeToParcel(Parcel dest, int flags) {
-    dest.writeInt(id);
+    dest.writeInt(code);
     dest.writeString(content);
     dest.writeInt(createdAt);
    // dest.writeParcelable(user, flags);

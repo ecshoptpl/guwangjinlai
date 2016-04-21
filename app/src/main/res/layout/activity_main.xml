@@ -9,7 +9,7 @@
     >
 
   <fragment
-      android:name="com.smartydroid.android.kit.demo.ui.fragment.FeedsFragment"
+      android:name="com.jinguanguke.guwangjinlai.ui.fragment.FeedsFragment"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
       android:tag="FeedsFragment"

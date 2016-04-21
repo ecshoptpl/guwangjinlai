@@ -5,14 +5,14 @@ import android.support.annotation.NonNull;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.jinguanguke.guwangjinlai.NavUtils;
-import com.jinguanguke.android.starter.kit.model.ErrorModel;
+import com.smartydroid.android.starter.kit.model.ErrorModel;
 
 /**
  * Created by YuGang Yang on February 27, 2016.
  * Copyright 2015-2016 qiji.tech. All rights reserved.
  */
 public class MessageCallback<T> extends
-    com.jinguanguke.android.starter.kit.network.callback.MessageCallback<T> {
+    com.smartydroid.android.starter.kit.network.callback.MessageCallback<T> {
 
   public MessageCallback(Activity activity) {
     super(activity);

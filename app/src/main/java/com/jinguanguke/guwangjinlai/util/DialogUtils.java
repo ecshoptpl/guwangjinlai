@@ -2,7 +2,7 @@ package com.jinguanguke.guwangjinlai.util;
 
 import android.app.Activity;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.jinguanguke.android.starter.kit.R;
+import com.smartydroid.android.starter.kit.R;
 
 /**
  * Created by YuGang Yang on February 27, 2016.
