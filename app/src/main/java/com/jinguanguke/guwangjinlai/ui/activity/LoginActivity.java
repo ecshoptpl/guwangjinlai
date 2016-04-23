@@ -68,8 +68,8 @@ public class LoginActivity extends StarterNetworkActivity<User> implements View.
       startActivity(new Intent(LoginActivity.this, TabActivity.class));
       finish();
     } else {
-      ShareSDK.initSDK(this);
-      handler = new Handler(this);
+     // ShareSDK.initSDK(this);
+//      handler = new Handler(this);
       setContentView(R.layout.activity_login);
 
       mAuthService = ApiService.createAuthService();
@@ -122,6 +122,13 @@ public class LoginActivity extends StarterNetworkActivity<User> implements View.
         doLogin();
         break;
       }
+      case R.id.container_register:{
+        Intent intent = new Intent();
+        intent.setClass(LoginActivity.this, SignupActivity.class);
+        startActivity(intent);
+        finish();
+        break;
+      }
     }
   }
 
@@ -169,6 +176,10 @@ public class LoginActivity extends StarterNetworkActivity<User> implements View.
       intent.setClass(LoginActivity.this, TabActivity.class);
       startActivity(intent);
       finish();//停止当前的Activity,如果不写,则按返回键会跳转回原来的Activit
+    }
+    else
+    {
+      Snackbar.make(getWindow().getDecorView(), "用户名或密码错误", Snackbar.LENGTH_SHORT).show();
     }
   }
 
@@ -247,12 +258,10 @@ public class LoginActivity extends StarterNetworkActivity<User> implements View.
               Intent intent = new Intent();
               intent.setClass(LoginActivity.this, SignupActivity.class);
               startActivity(intent);
-              finish();//停止当前的Activity,如果不写,则按返回键会跳转回原来的Activit
-              Log.i("resu", "jiade");
+              //finish();
             }
             else
             {
-              Log.i("resu", "zhende");
             }
           }
 
@@ -261,7 +270,6 @@ public class LoginActivity extends StarterNetworkActivity<User> implements View.
             Log.i("shibai", t.toString());
           }
         });
-        Log.i("sign", sign.toString());
         Object[] objs = (Object[]) msg.obj;
         String platform = (String) objs[0];
         Toast.makeText(getBaseContext(), platform, Toast.LENGTH_SHORT).show();

@@ -57,13 +57,16 @@ dependencies {
   compile 'com.github.bumptech.glide:glide:3.6.1'
   compile 'com.squareup.retrofit2:converter-gson:2.0.0'
   compile 'com.github.clans:fab:1.6.3'
+  //compile 'com.jude:smssdk_mob:1.1.0'
   compile 'com.zhy:okhttputils:2.3.9'
+ // compile 'com.lzy.net:okhttputils:1.4.0'
 //  compile 'com.lzy.net:okhttpserver:0.1.0'
   compile(deps.materialDialogs) {
     transitive = true
   }
+
   compile name: 'SMSSDK-2.0.2',ext:'aar'
-  compile name: 'SMSSDKGUI-2.0.2', ext:'aar'
+  //compile name: 'SMSSDKGUI-2.0.2', ext:'aar'
   compile project(':library')
   compile project(path: ':wkvideoplayer')
   compile project(':onekey')

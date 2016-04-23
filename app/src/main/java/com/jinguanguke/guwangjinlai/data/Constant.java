@@ -28,4 +28,6 @@ public class Constant {
      * 水印本地路径，文件必须为rgba格式的PNG图片
      */
     public static  String WATER_MARK_PATH ="assets://Qupai/watermark/qupai-logo.png";
+
+    public static String HOST = "http://www.jinguanguke.com/plus/io/";
 }

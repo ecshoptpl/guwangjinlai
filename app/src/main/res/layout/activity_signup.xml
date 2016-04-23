@@ -31,14 +31,22 @@
             android:orientation="vertical"
             android:weightSum="1">
 
-            <AutoCompleteTextView
-                android:id="@+id/email"
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/til_number"
                 android:layout_width="match_parent"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:hint="@string/prompt_email"
-                android:inputType="phone"
-                android:maxLines="1"
-                android:singleLine="true" />
+
+                >
+
+                <android.support.v7.widget.AppCompatEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:hint="输入手机号"/>
+
+            </android.support.design.widget.TextInputLayout>
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -47,7 +55,7 @@
                 android:layout_gravity="center_horizontal">
 
                 <EditText
-                    android:id="@+id/editText"
+                    android:id="@+id/til_code"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:hint="验证码"
@@ -63,7 +71,7 @@
 
                 <Button
                     style="?android:attr/buttonStyleSmall"
-                    android:layout_width="80dp"
+                    android:layout_width="120dp"
                     android:layout_gravity="right"
                     android:layout_height="wrap_content"
                     android:text="获取"
@@ -88,7 +96,7 @@
                 android:singleLine="true" />
 
             <EditText
-                android:id="@+id/editText2"
+                android:id="@+id/puser"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="推荐人（选填）"

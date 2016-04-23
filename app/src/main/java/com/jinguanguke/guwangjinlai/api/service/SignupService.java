@@ -1,9 +1,13 @@
 package com.jinguanguke.guwangjinlai.api.service;
 
+import com.jinguanguke.guwangjinlai.model.entity.Register;
 import com.jinguanguke.guwangjinlai.model.entity.Signup;
+import com.jinguanguke.guwangjinlai.model.entity.checkMobile;
 
 import retrofit2.Call;
+import retrofit2.http.Field;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 /**
@@ -15,4 +19,19 @@ public interface SignupService {
             @Query("oauth_name") String oauth_name,
             @Query("oauth_id") int oauth_id
     );
+
+    @GET("index.php?c=api&_interface=check_mobile&_table=dede_member")
+    Call<checkMobile> check_mobile(
+            @Query("mobile") String mobile
+
+    );
+
+    @POST("index.php?c=api&_interface=check_mobile&_table=dede_member")
+    Call<Register> register(
+            @Query("userid") String mobile,
+            @Query("pwd") String pwd,
+            @Query("puserid") String puserid,
+            @Query("primary_id") String primary_id
+    );
+
 }
