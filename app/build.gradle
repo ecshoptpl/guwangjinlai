@@ -57,6 +57,7 @@ dependencies {
   compile 'com.github.bumptech.glide:glide:3.6.1'
   compile 'com.squareup.retrofit2:converter-gson:2.0.0'
   compile 'com.github.clans:fab:1.6.3'
+  compile 'com.google.guava:guava:19.0'
   //compile 'com.jude:smssdk_mob:1.1.0'
   compile 'com.zhy:okhttputils:2.3.9'
  // compile 'com.lzy.net:okhttputils:1.4.0'
@@ -70,4 +71,6 @@ dependencies {
   compile project(':library')
   compile project(path: ':wkvideoplayer')
   compile project(':onekey')
+  compile project(':QupaiSDK')
+  compile project(':OneSDK')
 }

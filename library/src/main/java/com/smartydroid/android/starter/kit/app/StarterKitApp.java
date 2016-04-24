@@ -28,7 +28,7 @@ public abstract class StarterKitApp extends SupportApp {
     super.onCreate();
 
     if (StarterKit.isDebug()) {
-      Timber.plant(new Timber.DebugTree());
+//      Timber.plant(new Timber.DebugTree());
     } else {
       Timber.plant(new CrashReportingTree());
     }
