@@ -61,4 +61,19 @@ public class AccountFragment extends BaseFragment {
   }) public void onUpdaateClick(View view) {
     CheckUpdate.getInstance().startCheck(view.getContext());
   }
+
+  @OnClick({
+          R.id.container_account_logout,
+  }) public void onLogoutClick(View view) {
+    AccountManager.registerObserver(new Logout());
+    AccountManager.logout();
+  }
+
+  class Logout implements AccountManager.CurrentAccountObserver {
+    @Override
+    public void notifyChange() {
+      getActivity().finish();
+      System.exit(0);
+    }
+  }
 }

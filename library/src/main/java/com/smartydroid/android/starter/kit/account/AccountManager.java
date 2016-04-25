@@ -6,8 +6,12 @@ package com.smartydroid.android.starter.kit.account;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Log;
+
 import com.smartydroid.android.starter.kit.app.StarterKitApp;
 import java.util.ArrayList;
+import java.util.Map;
+
 import me.alexrs.prefs.lib.Prefs;
 
 
@@ -105,6 +109,7 @@ public class AccountManager implements AccountProvider {
     if (mCurrentAccount != null) {
       prefs().save(PREFS_KEY_ACCOUNT_JSON, mCurrentAccount.toJson());
     }
+
   }
 
   private void clear() {
@@ -114,6 +119,7 @@ public class AccountManager implements AccountProvider {
 
   private void clearAccountData() {
     prefs().remove(PREFS_ACCOUNT_STORAGE);
+    prefs().remove(PREFS_KEY_ACCOUNT_JSON);
   }
 
   private static Prefs prefs() {

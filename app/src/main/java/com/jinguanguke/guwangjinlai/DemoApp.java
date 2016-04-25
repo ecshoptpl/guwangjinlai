@@ -23,6 +23,7 @@ import com.facebook.drawee.backends.pipeline.Fresco;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.io.Files;
 import com.jinguanguke.guwangjinlai.data.Constant;
+import com.jinguanguke.guwangjinlai.model.entity.User;
 import com.smartydroid.android.starter.kit.StarterKit;
 import com.smartydroid.android.starter.kit.account.Account;
 import com.smartydroid.android.starter.kit.app.StarterKitApp;
@@ -116,11 +117,11 @@ public class DemoApp extends StarterKitApp {
 
   @Override public Account accountFromJson(String json) {
     ObjectMapper mapper = new ObjectMapper();
-//    try {
-//      //return mapper.readValue(json, User.class);
-//    } catch (IOException e) {
-//      // Nothing to do
-//    }
+    try {
+      return mapper.readValue(json, User.class);
+    } catch (IOException e) {
+      // Nothing to do
+    }
     return null;
   }
 

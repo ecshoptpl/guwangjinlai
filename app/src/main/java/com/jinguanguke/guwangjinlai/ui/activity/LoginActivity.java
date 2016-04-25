@@ -23,6 +23,7 @@ import com.jinguanguke.guwangjinlai.api.service.SignupService;
 import com.jinguanguke.guwangjinlai.model.entity.DataInfo;
 import com.jinguanguke.guwangjinlai.model.entity.Signup;
 import com.jinguanguke.guwangjinlai.model.entity.User;
+import com.smartydroid.android.starter.kit.account.AccountManager;
 import com.smartydroid.android.starter.kit.app.StarterKitApp;
 import com.smartydroid.android.starter.kit.app.StarterNetworkActivity;
 import android.os.Handler.Callback;
@@ -62,14 +63,9 @@ public class LoginActivity extends StarterNetworkActivity<User> implements View.
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
-    SharedPreferences.Editor editor = pref.edit();
-    if(pref.getBoolean("isUserLogin", false)){
-      startActivity(new Intent(LoginActivity.this, TabActivity.class));
-      finish();
-    } else {
-     // ShareSDK.initSDK(this);
-//      handler = new Handler(this);
+
+      ShareSDK.initSDK(this);
+      handler = new Handler(this);
       setContentView(R.layout.activity_login);
 
       mAuthService = ApiService.createAuthService();
@@ -79,7 +75,7 @@ public class LoginActivity extends StarterNetworkActivity<User> implements View.
       mUsernameContainer.setHint(resources.getString(R.string.login_username_hint));
       mPasswordContainer.setHint(resources.getString(R.string.login_passowrd_hint));
       setupViews();
-    }
+   // }
   }
 
   private void setupViews() {
@@ -135,7 +131,6 @@ public class LoginActivity extends StarterNetworkActivity<User> implements View.
   @OnClick({ R.id.image_login_qq}) public void onQqClick(View view) {
     Platform qzone = ShareSDK.getPlatform(QZone.NAME);
     authorize(qzone);
-    Log.i("qq_long", "qqstart");
   }
   //执行授权,获取用户信息
   //文档：http://wiki.mob.com/Android_%E8%8E%B7%E5%8F%96%E7%94%A8%E6%88%B7%E8%B5%84%E6%96%99
@@ -170,7 +165,7 @@ public class LoginActivity extends StarterNetworkActivity<User> implements View.
 //    User user = (User) users.get(0);
 
     if(data.getUserid() != null) {
-      //AccountManager.store(data.getData().getItems().get(0));
+      AccountManager.store(data);
       Snackbar.make(getWindow().getDecorView(), "登录成功", Snackbar.LENGTH_SHORT).show();
       Intent intent = new Intent();
       intent.setClass(LoginActivity.this, TabActivity.class);
@@ -227,15 +222,17 @@ public class LoginActivity extends StarterNetworkActivity<User> implements View.
     switch(msg.what) {
       case MSG_AUTH_CANCEL: {
         //取消授权
-//        Toast.makeText(activity, R.string.auth_cancel, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "取消授权", Toast.LENGTH_SHORT).show();
       }
       break;
       case MSG_AUTH_ERROR: {
         //授权失败
-//        Toast.makeText(activity, R.string.auth_error, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "授权失败", Toast.LENGTH_SHORT).show();
       }
       break;
       case MSG_AUTH_COMPLETE: {
+        Toast.makeText(this, "授权成功", Toast.LENGTH_SHORT).show();
+
         //授权成功
         OkHttpClient client = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS).writeTimeout(10, TimeUnit.SECONDS)
                 .readTimeout(30, TimeUnit.SECONDS)
@@ -262,6 +259,7 @@ public class LoginActivity extends StarterNetworkActivity<User> implements View.
             }
             else
             {
+              Log.i("state","2");
             }
           }
 
