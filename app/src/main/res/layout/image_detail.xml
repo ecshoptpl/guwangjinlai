@@ -34,5 +34,19 @@
             android:visibility="gone">
         </com.android.tedcoder.wkvideoplayer.view.SuperVideoPlayer>
 
+
+
     </FrameLayout>
+
+
+    <cn.sharesdk.socialization.QuickCommentBar
+        android:id="@+id/qcBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:background="#fff3f3f3"
+        />
+
 </LinearLayout>

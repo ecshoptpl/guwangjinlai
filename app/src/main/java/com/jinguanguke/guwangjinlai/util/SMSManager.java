@@ -25,8 +25,14 @@ public class SMSManager {
         return instance;
     }
     public static boolean DEBUG = true;
-    public static final String DEFAULT_APPKEY = "f259d98c6a74";
-    public static final String DEFAULT_APPSECRET = "e16b4b62e67ee992f4806ab1c531c68a";
+    //SMSSDK.initSDK(this, "11f51793ba29d", "eca0cd11b8e6d9e7da6fbcb6dcb72ce3");
+//    public static final String DEFAULT_APPKEY = "f259d98c6a74";
+//    public static final String DEFAULT_APPSECRET = "e16b4b62e67ee992f4806ab1c531c68a";
+
+
+
+    public static final String DEFAULT_APPKEY = "11f51793ba29d";
+    public static final String DEFAULT_APPSECRET = "eca0cd11b8e6d9e7da6fbcb6dcb72ce3";
     public static int DEFAULT_DELAY = 60;
 
     public ArrayList<TimeListener> timeList = new ArrayList<>();

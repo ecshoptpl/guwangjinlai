@@ -25,6 +25,10 @@ import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import cn.sharesdk.framework.ShareSDK;
+import cn.sharesdk.onekeyshare.OnekeyShare;
+import cn.sharesdk.socialization.QuickCommentBar;
+import cn.sharesdk.socialization.Socialization;
 
 /**
  * Created by jin on 16/4/13.
@@ -33,6 +37,9 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
 
     @Bind(R.id.iv_meizi)
     ImageView image;
+
+    @Bind(R.id.qcBar)
+    QuickCommentBar qcBar;
 //
 //    @Override
 //    public void onCreate(Bundle savedInstanceState) {
@@ -173,6 +180,12 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         mPlayBtnView.setOnClickListener(this);
         mSuperVideoPlayer.setVideoPlayCallback(mVideoPlayCallback);
         startDLNAService();
+
+
+        qcBar.setTopic("1", "test", null, null);
+        qcBar.getBackButton().setOnClickListener(this);
+        OnekeyShare oks = new OnekeyShare();
+        qcBar.setOnekeyShare(oks);
     }
 
     private void init() {
@@ -180,6 +193,8 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         String url = getIntent().getExtras().getString("url");
         this.vurl = getIntent().getExtras().getString("vurl");
         Glide.with(this).load(url).diskCacheStrategy(DiskCacheStrategy.ALL).into(image);
+        ShareSDK.initSDK(this);
+        ShareSDK.registerService(Socialization.class);
 
     }
 

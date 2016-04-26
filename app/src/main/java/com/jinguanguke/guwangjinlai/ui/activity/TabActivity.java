@@ -93,7 +93,7 @@ public class TabActivity extends StarterActivity {
                 .setBeautySkinOn(true)
                 .build();
         qupaiService.initRecord(info);
-        qupaiService.showRecordPage(TabActivity.this, RequestCode.RECORDE_SHOW, true,
+        qupaiService.showRecordPage(TabActivity.this, RequestCode.RECORDE_SHOW, false,
                 new FailureCallback() {
                   @Override
                   public void onFailure(int i, String s) {

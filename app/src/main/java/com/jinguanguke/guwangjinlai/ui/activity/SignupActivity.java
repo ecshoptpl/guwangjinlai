@@ -54,13 +54,16 @@ import com.jinguanguke.guwangjinlai.model.entity.checkMobile;
 import com.jinguanguke.guwangjinlai.util.Callback;
 import com.jinguanguke.guwangjinlai.util.LocalAccountManager;
 import com.jinguanguke.guwangjinlai.util.SMSManager;
+import com.smartydroid.android.starter.kit.app.StarterKitApp;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnTextChanged;
 import cn.smssdk.EventHandler;
+import cn.smssdk.SMSSDK;
 import okhttp3.Call;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -72,30 +75,22 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import static android.Manifest.permission.READ_CONTACTS;
 
 /**
- * A login screen that offers login via email/password.
+ * 用户注册
  */
-public class SignupActivity extends Activity implements LoaderCallbacks<Cursor>, TimeListener{
+public class SignupActivity extends Activity implements  TimeListener{
 
-    /**
-     * Id to identity READ_CONTACTS permission request.
-     */
+
     private static final int REQUEST_READ_CONTACTS = 0;
     public static final int EXTERNAL_STORAGE_REQ_CODE = 10 ;
 
-    /**
-     * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
-     */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world"
-    };
-    /**
-     * Keep track of the login task to ensure we can cancel it if requested.
-     */
-    private UserLoginTask mAuthTask = null;
+
+
 
     @Bind(R.id.til_number)
     TextInputLayout tilNumber;
+
+//    @Bind(R.id.til_password)
+//    TextInputLayout passwordContainer;
 
     @Bind(R.id.get_code)
     Button btnCode;
@@ -109,39 +104,19 @@ public class SignupActivity extends Activity implements LoaderCallbacks<Cursor>,
     @Bind(R.id.puser)
     EditText tilpuser;
 
-    private AutoCompleteTextView mEmailView;
-    private EditText mPasswordView;
-    private View mProgressView;
-    private View mLoginFormView;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        //SMSSDK.initSDK(this, "11f51793ba29d", "eca0cd11b8e6d9e7da6fbcb6dcb72ce3");
-//        RegisterPage registerPage = new RegisterPage();
-//        registerPage.setRegisterCallback(new EventHandler() {
-//            public void afterEvent(int event, int result, Object data) {
-//// 解析注册结果
-//                if (result == SMSSDK.RESULT_COMPLETE) {
-//                    @SuppressWarnings("unchecked")
-//                    HashMap<String,Object> phoneMap = (HashMap<String, Object>) data;
-//                    String country = (String) phoneMap.get("country");
-//                    String phone = (String) phoneMap.get("phone");
-//
-//// 提交用户信息
-//                    registerUser(country, phone);
-//                }
-//            }
-//        });
-//        registerPage.show(this);
-
-
         setContentView(R.layout.activity_signup);
-
         ButterKnife.bind(this);
+
+
         SMSManager.getInstance().registerTimeListener(this);
         SMSManager.getInstance().setDefaultDelay(60);
+
 
         btnCode.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -165,17 +140,7 @@ public class SignupActivity extends Activity implements LoaderCallbacks<Cursor>,
       //  mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
        // populateAutoComplete();
 
-        mPasswordView = (EditText) findViewById(R.id.password);
-        mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-                if (id == R.id.login || id == EditorInfo.IME_NULL) {
-                    attemptLogin();
-                    return true;
-                }
-                return false;
-            }
-        });
+
 
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
@@ -193,8 +158,7 @@ public class SignupActivity extends Activity implements LoaderCallbacks<Cursor>,
 //            }
 //        });
 
-        mLoginFormView = findViewById(R.id.login_form);
-        mProgressView = findViewById(R.id.login_progress);
+
     }
 
     public void sendCode()  {
@@ -205,7 +169,7 @@ public class SignupActivity extends Activity implements LoaderCallbacks<Cursor>,
             Toast.makeText(this,"请输入正确手机号",Toast.LENGTH_SHORT).show();
             return;
         }
-        //授权成功
+
         OkHttpClient client = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS).writeTimeout(10, TimeUnit.SECONDS)
                 .readTimeout(30, TimeUnit.SECONDS)
                 .build();
@@ -260,21 +224,6 @@ public class SignupActivity extends Activity implements LoaderCallbacks<Cursor>,
             @Override
             public void success() {
 
-
-//                if (LocalAccountManager.getInstance(SignupActivity.this).create(SignupActivity.this,
-//                        new Account(
-//                                tilNumber.getEditText().getText().toString(),
-//                                tilPassword.getText().toString()
-//                                ))) {
-//                    Intent i = new Intent();
-//                    i.putExtra("number", tilNumber.getEditText().getText().toString());
-//                    i.putExtra("password", tilPassword.getText().toString());
-//                    setResult(RESULT_OK, i);
-//                    Toast.makeText(SignupActivity.this, "注册成功", Toast.LENGTH_SHORT).show();
-//                    finish();
-//                } else {
-//                    Toast.makeText(SignupActivity.this, "注册失败", Toast.LENGTH_SHORT).show();
-//                }
 
                 OkHttpClient client = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS).writeTimeout(10, TimeUnit.SECONDS)
                         .readTimeout(30, TimeUnit.SECONDS)
@@ -358,296 +307,6 @@ public class SignupActivity extends Activity implements LoaderCallbacks<Cursor>,
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home){
-            finish();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    private void populateAutoComplete() {
-        if (!mayRequestContacts()) {
-            return;
-        }
-
-        getLoaderManager().initLoader(0, null, this);
-    }
-
-    private boolean mayRequestContacts() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            return true;
-        }
-        if (checkSelfPermission(READ_CONTACTS) == PackageManager.PERMISSION_GRANTED) {
-            return true;
-        }
-        if (shouldShowRequestPermissionRationale(READ_CONTACTS)) {
-            Snackbar.make(mEmailView, R.string.permission_rationale, Snackbar.LENGTH_INDEFINITE)
-                    .setAction(android.R.string.ok, new View.OnClickListener() {
-                        @Override
-                        @TargetApi(Build.VERSION_CODES.M)
-                        public void onClick(View v) {
-                            requestPermissions(new String[]{READ_CONTACTS}, REQUEST_READ_CONTACTS);
-                        }
-                    });
-        } else {
-            requestPermissions(new String[]{READ_CONTACTS}, REQUEST_READ_CONTACTS);
-        }
-        return false;
-    }
-
-//    /**
-//     * Callback received when a permissions request has been completed.
-//     */
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-//                                           @NonNull int[] grantResults) {
-//        if (requestCode == REQUEST_READ_CONTACTS) {
-//            if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//                populateAutoComplete();
-//            }
-//        }
-//    }
-
-
-    /**
-     * Attempts to sign in or register the account specified by the login form.
-     * If there are form errors (invalid email, missing fields, etc.), the
-     * errors are presented and no actual login attempt is made.
-     */
-    private void attemptLogin() {
-        if (mAuthTask != null) {
-            return;
-        }
-
-        // Reset errors.
-        mEmailView.setError(null);
-        mPasswordView.setError(null);
-
-        // Store values at the time of the login attempt.
-        String email = mEmailView.getText().toString();
-        String password = mPasswordView.getText().toString();
-
-        boolean cancel = false;
-        View focusView = null;
-
-        // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
-            mPasswordView.setError(getString(R.string.error_invalid_password));
-            focusView = mPasswordView;
-            cancel = true;
-        }
-
-        // Check for a valid email address.
-        if (TextUtils.isEmpty(email)) {
-            mEmailView.setError(getString(R.string.error_field_required));
-            focusView = mEmailView;
-            cancel = true;
-        } else if (!isEmailValid(email)) {
-            mEmailView.setError(getString(R.string.error_invalid_email));
-            focusView = mEmailView;
-            cancel = true;
-        }
-
-        if (cancel) {
-            // There was an error; don't attempt login and focus the first
-            // form field with an error.
-            focusView.requestFocus();
-        } else {
-            // Show a progress spinner, and kick off a background task to
-            // perform the user login attempt.
-            showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
-            mAuthTask.execute((Void) null);
-        }
-    }
-
-
-
-    private boolean isEmailValid(String email) {
-        //TODO: Replace this with your own logic
-        return email.contains("@");
-    }
-
-    private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
-        return password.length() > 4;
-    }
-
-    /**
-     * Shows the progress UI and hides the login form.
-     */
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
-    private void showProgress(final boolean show) {
-        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
-        // for very easy animations. If available, use these APIs to fade-in
-        // the progress spinner.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
-
-            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-            mLoginFormView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-                }
-            });
-
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mProgressView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-                }
-            });
-        } else {
-            // The ViewPropertyAnimator APIs are not available, so simply show
-            // and hide the relevant UI components.
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-        }
-    }
-
-    @Override
-    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-        return new CursorLoader(this,
-                // Retrieve data rows for the device user's 'profile' contact.
-                Uri.withAppendedPath(ContactsContract.Profile.CONTENT_URI,
-                        ContactsContract.Contacts.Data.CONTENT_DIRECTORY), ProfileQuery.PROJECTION,
-
-                // Select only email addresses.
-                ContactsContract.Contacts.Data.MIMETYPE +
-                        " = ?", new String[]{ContactsContract.CommonDataKinds.Email
-                .CONTENT_ITEM_TYPE},
-
-                // Show primary email addresses first. Note that there won't be
-                // a primary email address if the user hasn't specified one.
-                ContactsContract.Contacts.Data.IS_PRIMARY + " DESC");
-    }
-
-    @Override
-    public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
-        List<String> emails = new ArrayList<>();
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            emails.add(cursor.getString(ProfileQuery.ADDRESS));
-            cursor.moveToNext();
-        }
-
-        addEmailsToAutoComplete(emails);
-    }
-
-    @Override
-    public void onLoaderReset(Loader<Cursor> cursorLoader) {
-
-    }
-
-    private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
-        //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
-        ArrayAdapter<String> adapter =
-                new ArrayAdapter<>(SignupActivity.this,
-                        android.R.layout.simple_dropdown_item_1line, emailAddressCollection);
-
-        mEmailView.setAdapter(adapter);
-    }
-
-
-    private interface ProfileQuery {
-        String[] PROJECTION = {
-                ContactsContract.CommonDataKinds.Email.ADDRESS,
-                ContactsContract.CommonDataKinds.Email.IS_PRIMARY,
-        };
-
-        int ADDRESS = 0;
-        int IS_PRIMARY = 1;
-    }
-
-    /**
-     * Represents an asynchronous login/registration task used to authenticate
-     * the user.
-     */
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
-
-        private final String mEmail;
-        private final String mPassword;
-
-        UserLoginTask(String email, String password) {
-            mEmail = email;
-            mPassword = password;
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
-
-            try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                return false;
-            }
-
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
-                }
-            }
-
-            // TODO: register the new account here.
-            return true;
-        }
-
-        @Override
-        protected void onPostExecute(final Boolean success) {
-            mAuthTask = null;
-            showProgress(false);
-
-            if (success) {
-                finish();
-            } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
-            }
-        }
-
-        @Override
-        protected void onCancelled() {
-            mAuthTask = null;
-            showProgress(false);
-        }
-    }
-
-    // 提交用户信息
-    private void registerUser(String country, String phone) {
-        Random rnd = new Random();
-        int id = Math.abs(rnd.nextInt());
-        String uid = String.valueOf(id);
-        String nickName = "SmsSDK_User_" + uid;
-        String avatar = AVATARS[id % 12];
-        //SMSSDK.submitUserInfo(uid, nickName, avatar, country, phone);
-    }
-
-    // 短信注册，随机产生头像
-    private static final String[] AVATARS = {
-            "http://tupian.qqjay.com/u/2011/0729/e755c434c91fed9f6f73152731788cb3.jpg",
-            "http://99touxiang.com/public/upload/nvsheng/125/27-011820_433.jpg",
-            "http://img1.touxiang.cn/uploads/allimg/111029/2330264224-36.png",
-            "http://img1.2345.com/duoteimg/qqTxImg/2012/04/09/13339485237265.jpg",
-            "http://diy.qqjay.com/u/files/2012/0523/f466c38e1c6c99ee2d6cd7746207a97a.jpg",
-            "http://img1.touxiang.cn/uploads/20121224/24-054837_708.jpg",
-            "http://img1.touxiang.cn/uploads/20121212/12-060125_658.jpg",
-            "http://img1.touxiang.cn/uploads/20130608/08-054059_703.jpg",
-            "http://diy.qqjay.com/u2/2013/0422/fadc08459b1ef5fc1ea6b5b8d22e44b4.jpg",
-            "http://img1.2345.com/duoteimg/qqTxImg/2012/04/09/13339510584349.jpg",
-            "http://img1.touxiang.cn/uploads/20130515/15-080722_514.jpg",
-            "http://diy.qqjay.com/u2/2013/0401/4355c29b30d295b26da6f242a65bcaad.jpg"
-    };
-
-    @Override
     public void onLastTimeNotify(int lastSecond) {
         if (lastSecond > 0)
             btnCode.setText(lastSecond + "秒后重新发送");
@@ -659,5 +318,29 @@ public class SignupActivity extends Activity implements LoaderCallbacks<Cursor>,
     public void onAbleNotify(boolean valuable) {
         btnCode.setEnabled(valuable);
     }
+
+//    @OnTextChanged(
+//            R.id.til_number)
+//    public void onUsernameTextChanged(CharSequence s, int start, int before, int count) {
+//        if (s.length() < 6) {
+//            tilNumber.setErrorEnabled(true);
+//            tilNumber.setError(
+//                    StarterKitApp.appResources().getString(R.string.login_username_error));
+//        } else {
+//            tilNumber.setErrorEnabled(false);
+//        }
+//    }
+
+//    @OnTextChanged(
+//            R.id.til_password)
+//    public void onPasswordTextChanged(CharSequence s, int start, int before, int count) {
+//        if (s.length() < 6) {
+//            passwordContainer.setErrorEnabled(true);
+//            passwordContainer.setError(
+//                    StarterKitApp.appResources().getString(R.string.login_passowrd_error));
+//        } else {
+//            passwordContainer.setErrorEnabled(false);
+//        }
+//    }
 }
 

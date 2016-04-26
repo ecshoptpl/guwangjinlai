@@ -88,29 +88,7 @@ public class LoginActivity extends StarterNetworkActivity<User> implements View.
     mPasswordEdit = mPasswordContainer.getEditText();
   }
 
-  @OnTextChanged(
-      R.id.edit_login_username)
-  public void onUsernameTextChanged(CharSequence s, int start, int before, int count) {
-    if (s.length() < 6) {
-      mUsernameContainer.setErrorEnabled(true);
-      mUsernameContainer.setError(
-          StarterKitApp.appResources().getString(R.string.login_username_error));
-    } else {
-      mUsernameContainer.setErrorEnabled(false);
-    }
-  }
 
-  @OnTextChanged(
-      R.id.edit_login_password)
-  public void onPasswordTextChanged(CharSequence s, int start, int before, int count) {
-    if (s.length() < 6) {
-      mPasswordContainer.setErrorEnabled(true);
-      mPasswordContainer.setError(
-          StarterKitApp.appResources().getString(R.string.login_passowrd_error));
-    } else {
-      mPasswordContainer.setErrorEnabled(false);
-    }
-  }
 
   @OnClick({ R.id.btn_login, R.id.container_register }) public void onClick(View view) {
     switch (view.getId()) {
@@ -122,7 +100,7 @@ public class LoginActivity extends StarterNetworkActivity<User> implements View.
         Intent intent = new Intent();
         intent.setClass(LoginActivity.this, SignupActivity.class);
         startActivity(intent);
-        finish();
+       // finish();
         break;
       }
     }
