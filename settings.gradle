@@ -1,1 +1,1 @@
-include ':app', ':library', ':wkvideoplayer', ':share', ':onekey', ':OneSDK', ':QupaiSDK'
+include ':app', ':library', ':wkvideoplayer', ':share', ':onekey', ':OneSDK', ':Qupaisdk'

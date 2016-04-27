@@ -13,6 +13,23 @@ android {
     multiDexEnabled true
   }
 
+  signingConfigs {
+    debug {
+      storeFile file("$rootDir/debug.jks")
+      storePassword "123456"
+      keyAlias "debug"
+      keyPassword "123456"
+    }
+
+    release {
+      storeFile file("$rootDir/debug.jks")
+      storePassword "123456"
+      keyAlias "debug"
+      keyPassword "123456"
+    }
+  }
+
+
   packagingOptions {
     exclude 'META-INF/DEPENDENCIES'
     exclude 'META-INF/NOTICE'
@@ -24,7 +41,15 @@ android {
   buildTypes {
     release {
       minifyEnabled false
-      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+      shrinkResources true
+//      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+      signingConfig signingConfigs.release
+    }
+
+    debug {
+      minifyEnabled false
+//      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-project.pro'
+      signingConfig signingConfigs.debug
     }
   }
 
@@ -71,7 +96,7 @@ dependencies {
   compile project(':library')
   compile project(path: ':wkvideoplayer')
   compile project(':onekey')
-  compile project(':QupaiSDK')
-  compile project(':OneSDK')
+  compile project(':Qupaisdk')
+  //compile project(':OneSDK')
   compile files('libs/ShareSDK-Socialization-1.1.0.jar')
 }

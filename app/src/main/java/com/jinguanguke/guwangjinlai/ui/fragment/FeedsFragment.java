@@ -11,6 +11,8 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.View;
+import android.widget.TextView;
+
 import butterknife.Bind;
 import com.jinguanguke.guwangjinlai.R;
 import com.smartydroid.android.starter.kit.app.StarterKitApp;
@@ -24,6 +26,9 @@ public class FeedsFragment extends BaseFragment {
   @Bind(R.id.view_pager) ViewPager mViewPager;
   @Bind(R.id.tabs) TabLayout mTabLayout;
   @Bind(R.id.toolbar) Toolbar mToolbar;
+
+  @Bind(R.id.toolbar_title)
+  TextView mToolbar_title;
 
   private Adapter mAdapter;
 
@@ -43,7 +48,8 @@ public class FeedsFragment extends BaseFragment {
 
   @Override public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
-    mToolbar.setTitle(R.string.app_name);
+    mToolbar.setTitle("");
+    mToolbar_title.setText(R.string.app_name);
     mViewPager.setAdapter(mAdapter);
 
     final int pageMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4,

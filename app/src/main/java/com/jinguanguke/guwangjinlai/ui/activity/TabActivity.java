@@ -28,6 +28,7 @@ import butterknife.ButterKnife;
 //import com.duanqu.qupai.utils.AppGlobalSetting;
 import com.alibaba.sdk.android.AlibabaSDK;
 import com.alibaba.sdk.android.callback.FailureCallback;
+import com.duanqu.qupai.engine.session.MovieExportOptions;
 import com.duanqu.qupai.engine.session.VideoSessionCreateInfo;
 import com.duanqu.qupai.sdk.android.QupaiService;
 import com.duanqu.qupai.utils.AppGlobalSetting;
@@ -66,9 +67,6 @@ public class TabActivity extends StarterActivity {
     setContentView(R.layout.activity_tab);
     FloatingActionButton myFab = (FloatingActionButton)  mTabHost.findViewById(R.id.fab);
 
-
-
-
     myFab.setOnClickListener(new View.OnClickListener() {
 
 
@@ -81,6 +79,10 @@ public class TabActivity extends StarterActivity {
                   Toast.LENGTH_LONG).show();
           return;
         }
+        MovieExportOptions movie_options = new MovieExportOptions.Builder()
+                .configureMuxer("movflags", "+faststart")
+                .configureMuxer("An invalid option", "generates a warning and is ignored.")
+                .build();
         VideoSessionCreateInfo info =new VideoSessionCreateInfo.Builder()
                 .setOutputDurationLimit(Constant.DEFAULT_DURATION_LIMIT)
                 .setOutputVideoBitrate(Constant.DEFAULT_DURATION_LIMIT)
@@ -91,6 +93,7 @@ public class TabActivity extends StarterActivity {
                 .setCameraFacing(Camera.CameraInfo.CAMERA_FACING_FRONT)
                 .setBeautyProgress(80)
                 .setBeautySkinOn(true)
+                .setMovieExportOptions(movie_options)
                 .build();
         qupaiService.initRecord(info);
         qupaiService.showRecordPage(TabActivity.this, RequestCode.RECORDE_SHOW, false,
