@@ -85,18 +85,19 @@ dependencies {
   compile 'com.google.guava:guava:19.0'
   //compile 'com.jude:smssdk_mob:1.1.0'
   compile 'com.zhy:okhttputils:2.3.9'
- // compile 'com.lzy.net:okhttputils:1.4.0'
-//  compile 'com.lzy.net:okhttpserver:0.1.0'
+  // compile 'com.lzy.net:okhttputils:1.4.0'
+  //  compile 'com.lzy.net:okhttpserver:0.1.0'
   compile(deps.materialDialogs) {
     transitive = true
   }
-
-  compile name: 'SMSSDK-2.0.2',ext:'aar'
-  compile name: 'SMSSDKGUI-2.0.2', ext:'aar'
+  compile name: 'SMSSDK-2.0.2', ext: 'aar'
+  compile name: 'SMSSDKGUI-2.0.2', ext: 'aar'
   compile project(':library')
   compile project(path: ':wkvideoplayer')
   compile project(':onekey')
   compile project(':Qupaisdk')
   //compile project(':OneSDK')
   compile files('libs/ShareSDK-Socialization-1.1.0.jar')
+  compile 'com.android.support:recyclerview-v7:23.3.0'
+  compile 'com.android.support:support-v4:23.3.0'
 }

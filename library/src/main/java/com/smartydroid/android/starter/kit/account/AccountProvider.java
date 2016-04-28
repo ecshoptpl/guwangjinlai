@@ -5,5 +5,5 @@
 package com.smartydroid.android.starter.kit.account;
 
 public interface AccountProvider {
-  //String provideToken();
+  String provideToken();
 }

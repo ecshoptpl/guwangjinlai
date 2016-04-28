@@ -100,10 +100,10 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         Video video = new Video();
         VideoUrl videoUrl1 = new VideoUrl();
         videoUrl1.setFormatName("720P");
-        videoUrl1.setFormatUrl("http://www.jinguanguke.com/" + this.vurl);
+        videoUrl1.setFormatUrl(this.vurl);
         VideoUrl videoUrl2 = new VideoUrl();
         videoUrl2.setFormatName("480P");
-        videoUrl2.setFormatUrl("http://www.jinguanguke.com/" + this.vurl);
+        videoUrl2.setFormatUrl(this.vurl);
         ArrayList<VideoUrl> arrayList1 = new ArrayList<>();
         arrayList1.add(videoUrl1);
         arrayList1.add(videoUrl2);
@@ -113,10 +113,10 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         Video video2 = new Video();
         VideoUrl videoUrl3 = new VideoUrl();
         videoUrl3.setFormatName("720P");
-        videoUrl3.setFormatUrl("http://www.jinguanguke.com/" + this.vurl);
+        videoUrl3.setFormatUrl( this.vurl);
         VideoUrl videoUrl4 = new VideoUrl();
         videoUrl4.setFormatName("480P");
-        videoUrl4.setFormatUrl("http://www.jinguanguke.com/" + this.vurl);
+        videoUrl4.setFormatUrl(this.vurl);
         ArrayList<VideoUrl> arrayList2 = new ArrayList<>();
         arrayList2.add(videoUrl3);
         arrayList2.add(videoUrl4);

@@ -6,14 +6,9 @@ package com.smartydroid.android.starter.kit.account;
 
 import android.content.Context;
 import android.text.TextUtils;
-import android.util.Log;
-
 import com.smartydroid.android.starter.kit.app.StarterKitApp;
 import java.util.ArrayList;
-import java.util.Map;
-
 import me.alexrs.prefs.lib.Prefs;
-
 
 /**
  * @author YuGang Yang <smartydroid@gmail.com>
@@ -58,8 +53,7 @@ public class AccountManager implements AccountProvider {
   public static boolean isSameAccount(Account account) {
     return account != null
         && getCurrentAccount() != null
-       // && getCurrentAccount().key() == account.key()
-            ;
+        && getCurrentAccount().key() == account.key();
   }
 
   @SuppressWarnings("unchecked") public static <T extends Account> T getCurrentAccount() {
@@ -109,7 +103,6 @@ public class AccountManager implements AccountProvider {
     if (mCurrentAccount != null) {
       prefs().save(PREFS_KEY_ACCOUNT_JSON, mCurrentAccount.toJson());
     }
-
   }
 
   private void clear() {
@@ -119,7 +112,6 @@ public class AccountManager implements AccountProvider {
 
   private void clearAccountData() {
     prefs().remove(PREFS_ACCOUNT_STORAGE);
-    prefs().remove(PREFS_KEY_ACCOUNT_JSON);
   }
 
   private static Prefs prefs() {
@@ -135,11 +127,11 @@ public class AccountManager implements AccountProvider {
     return SingletonHolder.INSTANCE;
   }
 
-//  @Override public String provideToken() {
-//    if (isLogin()) {
-//      return getCurrentAccount().token();
-//    }
-//
-//    return null;
-//  }
+  @Override public String provideToken() {
+    if (isLogin()) {
+      return getCurrentAccount().token();
+    }
+
+    return null;
+  }
 }

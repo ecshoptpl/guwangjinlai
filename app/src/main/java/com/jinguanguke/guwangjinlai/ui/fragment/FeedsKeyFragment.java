@@ -1,23 +1,37 @@
 package com.jinguanguke.guwangjinlai.ui.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.Toast;
-import com.carlosdelachica.easyrecycleradapters.adapter.EasyRecyclerAdapter;
+
+
 import com.jinguanguke.guwangjinlai.api.ApiService;
+import com.jinguanguke.guwangjinlai.api.service.BiliService;
 import com.jinguanguke.guwangjinlai.api.service.FeedService;
+import com.jinguanguke.guwangjinlai.model.entity.Bili;
 import com.jinguanguke.guwangjinlai.model.entity.Feed;
+import com.jinguanguke.guwangjinlai.network.MyNetwork;
+import com.jinguanguke.guwangjinlai.ui.activity.DetailActivity;
 import com.jinguanguke.guwangjinlai.ui.viewholder.FeedViewHolderFactory;
 import com.jinguanguke.guwangjinlai.ui.viewholder.FeedsTextViewHolder;
 import com.smartydroid.android.starter.kit.app.StarterKeysFragment;
 import com.smartydroid.android.starter.kit.utilities.RecyclerViewUtils;
+
 import java.util.ArrayList;
 
 import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import support.ui.adapters.EasyRecyclerAdapter;
 
 
+/**
+ * Created by YuGang Yang on February 13, 2016.
+ * Copyright 2015-2016 qiji.tech. All rights reserved.
+ */
 public class FeedsKeyFragment extends StarterKeysFragment<Feed> {
   private FeedService mFeedService;
 
@@ -36,15 +50,17 @@ public class FeedsKeyFragment extends StarterKeysFragment<Feed> {
   }
 
   @Override public void viewHolderFactory(EasyRecyclerAdapter adapter) {
+
     adapter.viewHolderFactory(new FeedViewHolderFactory(getContext()));
   }
 
   @Override public Call<ArrayList<Feed>> paginate(Feed sinceItem, Feed maxItem, int perPage) {
-    return mFeedService.getFeedsWith(maxItem == null ? null : maxItem.code + "", null, perPage);
+    //Call<ArrayList<Feed>> test = mFeedService.getFeedsWith(maxItem == null ? null : maxItem.id + "", null, perPage);
+    return mFeedService.getFeedsWith(maxItem == null ? null : maxItem.id + "", null, perPage);
   }
 
   @Override public Object getKeyForData(Feed item) {
-    return item.code;
+    return item.id;
   }
 
   @Override public void bindViewHolders(EasyRecyclerAdapter adapter) {
@@ -54,6 +70,34 @@ public class FeedsKeyFragment extends StarterKeysFragment<Feed> {
   @Override public void onItemClick(int position, View view) {
     super.onItemClick(position, view);
     final Feed feed = getItem(position);
-    Toast.makeText(getContext(), feed.code, Toast.LENGTH_SHORT).show();
+
+    int aid = feed.id;
+    BiliService biliService = MyNetwork.createBiliService();
+    Call<Bili> bili_video = biliService.getBili(aid);
+    bili_video.enqueue(new Callback<Bili>() {
+      @Override
+      public void onResponse(Call<Bili> call, Response<Bili> response) {
+
+        String url = feed.images.get(0).url;
+
+    Intent intent = new Intent(getActivity(), DetailActivity.class);
+    intent.putExtra("url", url);
+        intent.putExtra("vurl", response.body().getSrc());
+    startActivity(intent);
+//        Toast.makeText(getContext(), response.body().getSrc(), Toast.LENGTH_SHORT).show();
+      }
+
+      @Override
+      public void onFailure(Call<Bili> call, Throwable t) {
+        Toast.makeText(getContext(), "请求失败", Toast.LENGTH_SHORT).show();
+      }
+    });
+    //String vurl = imageInfos.get(position).getVurl();
+
+//    Intent intent = new Intent(getActivity(), DetailActivity.class);
+//    intent.putExtra("url", url);
+    //intent.putExtra("vurl", vurl);
+//    startActivity(intent);
+   // Toast.makeText(getContext(), String.valueOf(feed.id), Toast.LENGTH_SHORT).show();
   }
 }

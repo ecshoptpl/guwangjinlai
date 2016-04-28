@@ -7,14 +7,11 @@ package com.smartydroid.android.starter.kit.app;
 import android.util.Log;
 import com.smartydroid.android.starter.kit.StarterKit;
 import com.smartydroid.android.starter.kit.account.Account;
-import com.smartydroid.android.starter.kit.utilities.AppInfo;
 import com.smartydroid.android.starter.kit.utilities.FakeCrashLibrary;
 import support.ui.app.SupportApp;
 import timber.log.Timber;
 
 public abstract class StarterKitApp extends SupportApp {
-
-  private static volatile AppInfo mAppInfo;
 
   /**
    * 根据 account json 返回 account
@@ -28,25 +25,10 @@ public abstract class StarterKitApp extends SupportApp {
     super.onCreate();
 
     if (StarterKit.isDebug()) {
-//      Timber.plant(new Timber.DebugTree());
+      Timber.plant(new Timber.DebugTree());
     } else {
       Timber.plant(new CrashReportingTree());
     }
-  }
-
-  /**
-   * @return applicaton info
-   */
-  public static AppInfo appInfo() {
-    if (mAppInfo == null) {
-      mAppInfo = new AppInfo(appContext());
-    }
-    return mAppInfo;
-  }
-
-  @Override public void onTerminate() {
-    super.onTerminate();
-    mAppInfo = null;
   }
 
   /** A tree which logs important information for crash reporting. */

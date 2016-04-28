@@ -13,18 +13,18 @@ import java.util.ArrayList;
 
 @JsonIgnoreProperties(ignoreUnknown = true) public class Feed extends Entity {
 
-  public int code;
+  public int id;
   public String content;
   @JsonProperty("created_at") public int createdAt;
 
-  public User user;
+  public User2 user;
   public ArrayList<Image> images;
 
   public Feed() {
   }
 
   public Feed(Parcel source) {
-    this.code = source.readInt();
+    this.id = source.readInt();
     this.content = source.readString();
     this.createdAt = source.readInt();
 
@@ -48,10 +48,10 @@ import java.util.ArrayList;
   }
 
   @Override public void writeToParcel(Parcel dest, int flags) {
-    dest.writeInt(code);
+    dest.writeInt(id);
     dest.writeString(content);
     dest.writeInt(createdAt);
-   // dest.writeParcelable(user, flags);
+    dest.writeParcelable(user, flags);
     dest.writeTypedList(images);
   }
 

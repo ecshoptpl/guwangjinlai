@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.Toast;
-import com.carlosdelachica.easyrecycleradapters.adapter.EasyRecyclerAdapter;
+
 import com.jinguanguke.guwangjinlai.api.ApiService;
 import com.jinguanguke.guwangjinlai.api.service.FeedService;
 import com.jinguanguke.guwangjinlai.model.entity.Feed;
@@ -15,11 +15,8 @@ import com.smartydroid.android.starter.kit.app.StarterRecyclerFragment;
 import java.util.ArrayList;
 import retrofit2.Call;
 import support.ui.content.RequiresContent;
+import support.ui.adapters.EasyRecyclerAdapter;
 
-/**
- * Created by YuGang Yang on February 13, 2016.
- * Copyright 2015-2016 qiji.tech. All rights reserved.
- */
 @RequiresContent(emptyView = AppEmptyView.class)
 public class FeedsWithoutFragment extends StarterRecyclerFragment<Feed> {
   private FeedService mFeedService;
@@ -42,7 +39,7 @@ public class FeedsWithoutFragment extends StarterRecyclerFragment<Feed> {
   }
 
   @Override public Object getKeyForData(Feed item) {
-    return item.code;
+    return item.id;
   }
 
   @Override public void bindViewHolders(EasyRecyclerAdapter adapter) {
@@ -52,7 +49,7 @@ public class FeedsWithoutFragment extends StarterRecyclerFragment<Feed> {
   @Override public void onItemClick(int position, View view) {
     super.onItemClick(position, view);
     final Feed feed = getItem(position);
-    Toast.makeText(getContext(), feed.code, Toast.LENGTH_SHORT).show();
+    Toast.makeText(getContext(), feed.content, Toast.LENGTH_SHORT).show();
   }
 
 }

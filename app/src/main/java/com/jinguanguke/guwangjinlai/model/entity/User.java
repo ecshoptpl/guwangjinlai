@@ -81,5 +81,8 @@ import com.smartydroid.android.starter.kit.account.Account;
         return null;
     }
 
+    @Override public String token() {
+        return rank;
+    }
 
 }

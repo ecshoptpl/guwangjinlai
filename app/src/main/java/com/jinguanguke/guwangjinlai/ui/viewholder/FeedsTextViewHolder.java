@@ -4,15 +4,22 @@
  */
 package com.jinguanguke.guwangjinlai.ui.viewholder;
 
+
 import android.content.Context;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import com.carlosdelachica.easyrecycleradapters.adapter.EasyViewHolder;
+
+import support.ui.adapters.EasyViewHolder;
+
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.jinguanguke.guwangjinlai.R;
 import com.jinguanguke.guwangjinlai.model.entity.Feed;
+
+
+
+
 
 public class FeedsTextViewHolder extends EasyViewHolder<Feed> {
 
@@ -25,9 +32,9 @@ public class FeedsTextViewHolder extends EasyViewHolder<Feed> {
     ButterKnife.bind(this, itemView);
   }
 
-  @Override public void bindTo(Feed feed) {
-    //mAvatarView.setImageURI(feed.name);
-    mUsernameTextView.setText(feed.code);
-    mContentTextView.setText(feed.code);
+  @Override public void bindTo(int position, Feed feed) {
+    mAvatarView.setImageURI(feed.user.uri());
+    mUsernameTextView.setText(feed.user.nickname);
+    mContentTextView.setText(feed.content);
   }
 }

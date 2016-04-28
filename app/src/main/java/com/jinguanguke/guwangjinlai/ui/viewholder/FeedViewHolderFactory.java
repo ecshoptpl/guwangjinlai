@@ -2,9 +2,10 @@ package com.jinguanguke.guwangjinlai.ui.viewholder;
 
 import android.content.Context;
 import android.view.ViewGroup;
-import com.carlosdelachica.easyrecycleradapters.adapter.BaseEasyViewHolderFactory;
-import com.carlosdelachica.easyrecycleradapters.adapter.EasyViewHolder;
+
 import com.jinguanguke.guwangjinlai.model.entity.Feed;
+import support.ui.adapters.BaseEasyViewHolderFactory;
+import support.ui.adapters.EasyViewHolder;
 
 /**
  * Created by YuGang Yang on February 20, 2016.
@@ -21,6 +22,7 @@ public class FeedViewHolderFactory extends BaseEasyViewHolderFactory {
   }
 
   @Override public EasyViewHolder create(int viewType, ViewGroup parent) {
+
     switch (viewType) {
       case VIEW_TYPE_TEXT:
         return new FeedsTextViewHolder(parent.getContext(), parent);

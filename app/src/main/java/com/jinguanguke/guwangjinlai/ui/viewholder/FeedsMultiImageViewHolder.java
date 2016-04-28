@@ -10,11 +10,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import com.carlosdelachica.easyrecycleradapters.adapter.EasyViewHolder;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.jinguanguke.guwangjinlai.R;
 import com.jinguanguke.guwangjinlai.model.entity.Feed;
 import com.jinguanguke.guwangjinlai.ui.view.PhotoCollectionView;
+import support.ui.adapters.EasyViewHolder;
 
 public class FeedsMultiImageViewHolder extends EasyViewHolder<Feed> {
 
@@ -29,10 +29,10 @@ public class FeedsMultiImageViewHolder extends EasyViewHolder<Feed> {
     mPhotoView.setLayoutManager(new GridLayoutManager(context, 3));
   }
 
-  @Override public void bindTo(Feed feed) {
-    //mAvatarView.setImageURI(feed.user.uri());
-//    mUsernameTextView.setText(feed.user.uname);
-    mContentTextView.setText(feed.code);
-//    mPhotoView.setData(feed.list);
+  @Override public void bindTo(int position, Feed feed) {
+    mAvatarView.setImageURI(feed.user.uri());
+    mUsernameTextView.setText(feed.user.nickname);
+
+    mContentTextView.setText(feed.content);
   }
 }

@@ -4,6 +4,8 @@
  */
 package com.smartydroid.android.starter.kit.network;
 
+import android.util.Log;
+
 import com.smartydroid.android.starter.kit.StarterKit;
 import com.smartydroid.android.starter.kit.contracts.Pagination.Emitter;
 import com.smartydroid.android.starter.kit.contracts.Pagination.PaginatorContract;
@@ -90,6 +92,10 @@ public abstract class Paginator<T extends Entity>
 
   @Override public boolean isLoading() {
     return mIsLoading;
+  }
+
+  @Override public void clearAll() {
+    mResources.clear();
   }
 
   @Override public void cancel() {
