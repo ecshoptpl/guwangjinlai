@@ -2,6 +2,11 @@
     <string name="app_name">骨网金来</string>
     <string name="toolbar_title_account">个人中心</string>
 
+    <string name="status_capturesuccess">Capture successful: %s</string>
+    <string name="status_capturecancelled">Capture cancelled by user</string>
+    <string name="status_capturefailed">Capture failed</string>
+    <string name="status_nocapture">nothing captured yet</string>
+
     <string name="tab_home">首页</string>
     <string name="tab_account">我的</string>
     <string name="tab_null"></string>

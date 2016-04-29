@@ -10,11 +10,12 @@ import com.jinguanguke.guwangjinlai.model.entity.Feed;
 import java.util.ArrayList;
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 public interface FeedService {
 
-  @GET("index.php?c=api&_interface=list&_table=dede_archives") Call<ArrayList<Feed>> getFeedList(
+  @GET("index.php?c=player&a=play_music") Call<ArrayList<Feed>> getFeedList(
       @Query("page") int page,
       @Query("page_size") int pageSize);
 
@@ -29,4 +30,6 @@ public interface FeedService {
 //  @GET("index.php?c=player&a=play_movie")
   @GET("index.php?c=api&_interface=list&_table=dede_archives&typeid=13")
   Call<DataInfo> Dat();
+
+
 }

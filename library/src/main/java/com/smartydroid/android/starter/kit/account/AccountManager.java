@@ -10,10 +10,7 @@ import com.smartydroid.android.starter.kit.app.StarterKitApp;
 import java.util.ArrayList;
 import me.alexrs.prefs.lib.Prefs;
 
-/**
- * @author YuGang Yang <smartydroid@gmail.com>
- * @package com.smartydroid.android.starter.kit.account
- */
+
 public class AccountManager implements AccountProvider {
 
   private static final String PREFS_ACCOUNT_STORAGE = "accounts";

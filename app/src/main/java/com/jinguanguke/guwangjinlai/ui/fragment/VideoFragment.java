@@ -307,6 +307,7 @@ public class VideoFragment extends Fragment implements OnVideoClickListener{
         String vurl = imageInfos.get(position).getVurl();
 
         Intent intent = new Intent(getActivity(), DetailActivity.class);
+        intent.setAction("com.guwangjinlai.jiankang");
         intent.putExtra("url", url);
         intent.putExtra("vurl", vurl);
         startActivity(intent);

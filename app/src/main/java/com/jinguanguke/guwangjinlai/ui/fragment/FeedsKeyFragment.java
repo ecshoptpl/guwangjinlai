@@ -70,34 +70,10 @@ public class FeedsKeyFragment extends StarterKeysFragment<Feed> {
   @Override public void onItemClick(int position, View view) {
     super.onItemClick(position, view);
     final Feed feed = getItem(position);
-
-    int aid = feed.id;
-    BiliService biliService = MyNetwork.createBiliService();
-    Call<Bili> bili_video = biliService.getBili(aid);
-    bili_video.enqueue(new Callback<Bili>() {
-      @Override
-      public void onResponse(Call<Bili> call, Response<Bili> response) {
-
-        String url = feed.images.get(0).url;
-
+    String url = feed.images.get(0).url;
     Intent intent = new Intent(getActivity(), DetailActivity.class);
     intent.putExtra("url", url);
-        intent.putExtra("vurl", response.body().getSrc());
+    intent.putExtra("aid", feed.id);
     startActivity(intent);
-//        Toast.makeText(getContext(), response.body().getSrc(), Toast.LENGTH_SHORT).show();
-      }
-
-      @Override
-      public void onFailure(Call<Bili> call, Throwable t) {
-        Toast.makeText(getContext(), "请求失败", Toast.LENGTH_SHORT).show();
-      }
-    });
-    //String vurl = imageInfos.get(position).getVurl();
-
-//    Intent intent = new Intent(getActivity(), DetailActivity.class);
-//    intent.putExtra("url", url);
-    //intent.putExtra("vurl", vurl);
-//    startActivity(intent);
-   // Toast.makeText(getContext(), String.valueOf(feed.id), Toast.LENGTH_SHORT).show();
   }
 }

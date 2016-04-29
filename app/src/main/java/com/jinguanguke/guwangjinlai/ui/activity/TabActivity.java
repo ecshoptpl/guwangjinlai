@@ -1,14 +1,22 @@
 package com.jinguanguke.guwangjinlai.ui.activity;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.hardware.Camera;
+import android.media.ThumbnailUtils;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.FragmentTabHost;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Switch;
@@ -18,6 +26,14 @@ import android.widget.Toast;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 //import com.alibaba.sdk.android.AlibabaSDK;
 //import com.alibaba.sdk.android.callback.FailureCallback;
@@ -26,16 +42,17 @@ import butterknife.ButterKnife;
 //import com.duanqu.qupai.engine.session.VideoSessionCreateInfo;
 //import com.duanqu.qupai.sdk.android.QupaiService;
 //import com.duanqu.qupai.utils.AppGlobalSetting;
-import com.alibaba.sdk.android.AlibabaSDK;
-import com.alibaba.sdk.android.callback.FailureCallback;
-import com.duanqu.qupai.engine.session.MovieExportOptions;
-import com.duanqu.qupai.engine.session.VideoSessionCreateInfo;
-import com.duanqu.qupai.sdk.android.QupaiService;
-import com.duanqu.qupai.utils.AppGlobalSetting;
+
+import com.facebook.common.file.FileUtils;
 import com.github.clans.fab.FloatingActionButton;
 //import com.google.common.io.Files;
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.common.io.Files;
+import com.jinguanguke.guwangjinlai.DemoApp;
 import com.jinguanguke.guwangjinlai.R;
+import com.jinguanguke.guwangjinlai.api.service.FileUploadService;
 import com.jinguanguke.guwangjinlai.data.Constant;
 
 import com.jinguanguke.guwangjinlai.data.RequestCode;
@@ -44,80 +61,122 @@ import com.jinguanguke.guwangjinlai.ui.fragment.FeedsFragment;
 
 import com.jinguanguke.guwangjinlai.util.AppConfig;
 
+
 import com.jinguanguke.guwangjinlai.util.RecordResult;
+import com.jinguanguke.guwangjinlai.util.ServiceGenerator;
+import com.jmolsmobile.landscapevideocapture.VideoCaptureActivity;
+import com.jmolsmobile.landscapevideocapture.configuration.CaptureConfiguration;
+import com.jmolsmobile.landscapevideocapture.configuration.PredefinedCaptureConfigurations;
 import com.smartydroid.android.starter.kit.app.StarterActivity;
 //import com.google.common.io.Files;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.UUID;
+
+import com.jmolsmobile.landscapevideocapture.VideoCaptureActivity;
+import com.jmolsmobile.landscapevideocapture.configuration.CaptureConfiguration;
+import com.jmolsmobile.landscapevideocapture.configuration.PredefinedCaptureConfigurations.CaptureQuality;
+import com.jmolsmobile.landscapevideocapture.configuration.PredefinedCaptureConfigurations.CaptureResolution;
 
 public class TabActivity extends StarterActivity {
 
   // Tab identifier
   public static final String TAB_FEEDS = "tab_feed_identifier";
   public static final String TAB_ACCOUNT = "tab_account_identifier";
+  private String filename = null;
+  private String statusMessage = null;
 
 
+  @Bind(android.R.id.tabhost)
+  FragmentTabHost mTabHost;
+  /**
+   * ATTENTION: This was auto-generated to implement the App Indexing API.
+   * See https://g.co/AppIndexing/AndroidStudio for more information.
+   */
+  private GoogleApiClient client;
 
-
-  @Bind(android.R.id.tabhost) FragmentTabHost mTabHost;
-
-  @Override protected void onCreate(Bundle savedInstanceState) {
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_tab);
-    FloatingActionButton myFab = (FloatingActionButton)  mTabHost.findViewById(R.id.fab);
+
+    FloatingActionButton myFab = (FloatingActionButton) mTabHost.findViewById(R.id.fab);
 
     myFab.setOnClickListener(new View.OnClickListener() {
 
 
       public void onClick(View v) {
-        QupaiService qupaiService = AlibabaSDK
-                .getService(QupaiService.class);
 
-        if (qupaiService == null) {
-          Toast.makeText(TabActivity.this, "插件没有初始化，无法获取 QupaiService",
-                  Toast.LENGTH_LONG).show();
-          return;
-        }
-        MovieExportOptions movie_options = new MovieExportOptions.Builder()
-                .configureMuxer("movflags", "+faststart")
-                .configureMuxer("An invalid option", "generates a warning and is ignored.")
-                .build();
-        VideoSessionCreateInfo info =new VideoSessionCreateInfo.Builder()
-                .setOutputDurationLimit(Constant.DEFAULT_DURATION_LIMIT)
-                .setOutputVideoBitrate(Constant.DEFAULT_DURATION_LIMIT)
-                .setHasImporter( true)
-                .setWaterMarkPath(Constant.WATER_MARK_PATH)
-                .setWaterMarkPosition(1)
-                .setHasEditorPage(true)
-                .setCameraFacing(Camera.CameraInfo.CAMERA_FACING_FRONT)
-                .setBeautyProgress(80)
-                .setBeautySkinOn(true)
-                .setMovieExportOptions(movie_options)
-                .build();
-        qupaiService.initRecord(info);
-        qupaiService.showRecordPage(TabActivity.this, RequestCode.RECORDE_SHOW, false,
-                new FailureCallback() {
-                  @Override
-                  public void onFailure(int i, String s) {
-                    Toast.makeText(TabActivity.this, "onFailure:"+ s + "CODE"+ i, Toast.LENGTH_LONG).show();
-                  }
-                });
+        final EditText inputServer = new EditText(TabActivity.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(TabActivity.this);
+        builder.setTitle("视频标题").setIcon(android.R.drawable.ic_dialog_info).setView(inputServer)
+                .setNegativeButton("取消", null);
+        builder.setPositiveButton("完成", new DialogInterface.OnClickListener() {
 
-
+          public void onClick(DialogInterface dialog, int which) {
+            String title = inputServer.getText().toString();
+            startVideoCaptureActivity();
+          }
+        });
+        builder.show();
       }
     });
     setupTab();
+    // ATTENTION: This was auto-generated to implement the App Indexing API.
+    // See https://g.co/AppIndexing/AndroidStudio for more information.
+    client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
   }
+
+  @Override
+  public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+    if (resultCode == Activity.RESULT_OK) {
+      filename = data.getStringExtra(VideoCaptureActivity.EXTRA_OUTPUT_FILENAME);
+      statusMessage = String.format(getString(R.string.status_capturesuccess), filename);
+      uploadFile(filename);
+      Log.i("filename", filename);
+    } else if (resultCode == Activity.RESULT_CANCELED) {
+      filename = null;
+      statusMessage = getString(R.string.status_capturecancelled);
+    } else if (resultCode == VideoCaptureActivity.RESULT_ERROR) {
+      filename = null;
+      statusMessage = getString(R.string.status_capturefailed);
+    }
+    updateStatusAndThumbnail();
+
+    super.onActivityResult(requestCode, resultCode, data);
+  }
+
+  private void updateStatusAndThumbnail() {
+    if (statusMessage == null) {
+      statusMessage = getString(R.string.status_nocapture);
+    }
+//    statusTv.setText(statusMessage);
+
+    final Bitmap thumbnail = getThumbnail();
+
+    if (thumbnail != null) {
+      //thumbnailIv.setImageBitmap(thumbnail);
+    } else {
+      //thumbnailIv.setImageResource(R.drawable.thumbnail_placeholder);
+    }
+  }
+
+  private Bitmap getThumbnail() {
+    if (filename == null) return null;
+    return ThumbnailUtils.createVideoThumbnail(filename, MediaStore.Video.Thumbnails.FULL_SCREEN_KIND);
+  }
+
 
   private void setupTab() {
     mTabHost.setup(this, getSupportFragmentManager(), android.R.id.tabcontent);
 
     mTabHost.addTab(createTabSpec(TAB_FEEDS, R.string.tab_home,
-        R.drawable.ic_account_balance_black_24dp), FeedsFragment.class, null);
+            R.drawable.ic_account_balance_black_24dp), FeedsFragment.class, null);
 
     mTabHost.addTab(createTabSpec(TAB_ACCOUNT, R.string.tab_account,
-        R.drawable.selector_tab_account), AccountFragment.class, null);
+            R.drawable.selector_tab_account), AccountFragment.class, null);
   }
 
   private TabHost.TabSpec createTabSpec(String tag, int stringRes, int drawableResId) {
@@ -125,7 +184,7 @@ public class TabActivity extends StarterActivity {
     spec.setIndicator(createTabIndicator(stringRes, drawableResId));
     spec.setContent(new TabHost.TabContentFactory() {
       public View createTabContent(String tag) {
-       return findViewById(android.R.id.tabcontent);
+        return findViewById(android.R.id.tabcontent);
       }
     });
     return spec;
@@ -133,7 +192,7 @@ public class TabActivity extends StarterActivity {
 
   private View createTabIndicator(int res, int drawableResId) {
     LinearLayout tabIndicator = (LinearLayout) LayoutInflater.from(this)
-        .inflate(R.layout.tab_indicator, mTabHost.getTabWidget(), false);
+            .inflate(R.layout.tab_indicator, mTabHost.getTabWidget(), false);
 
     ImageView icon = (ImageView) tabIndicator.findViewById(android.R.id.icon1);
     icon.setImageResource(drawableResId);
@@ -151,44 +210,68 @@ public class TabActivity extends StarterActivity {
   }
 
 
-  @Override
-  protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-    Toast.makeText(TabActivity.this, "RESULT_CANCELED", Toast.LENGTH_LONG).show();
-    if (resultCode == RESULT_OK) {
-//      RecordResult result =new RecordResult(data);
-//      //得到视频地址，和缩略图地址的数组，返回十张缩略图
-//      String videoPath = result.getPath();
-//      String [] thum = result.getThumbnail();
-//
-//      try{
-//        String newVideoPath = Constant.VIDEOPATH;
-//        String newThumPath = Constant.THUMBPATH;
-//        Files.move(new File(videoPath), new File( newVideoPath ));
-//        Files.move(new File(thum[0]), new File( newThumPath ));
-//
-//        Toast.makeText(this,"视频路径:" + newVideoPath + "图片路径:" + newThumPath,Toast.LENGTH_LONG).show();
-//      }catch (IOException e){
-//        Toast.makeText(this,"拷贝失败",Toast.LENGTH_LONG).show();
-//        e.printStackTrace();
-//      }
-//
-//      /**
-//       * 清除草稿,草稿文件将会删除。所以在这之前我们执行拷贝move操作。
-//       * 上面的拷贝操作请自行实现，第一版本的copyVideoFile接口不再使用
-//       */
-//      QupaiService qupaiService = AlibabaSDK
-//              .getService(QupaiService.class);
-//      qupaiService.deleteDraft(getApplicationContext(),data);
+  private void startVideoCaptureActivity() {
+    final CaptureConfiguration config = createCaptureConfiguration();
+    final String filename = UUID.randomUUID() + ".mp4";
 
-    } else {
-      if (resultCode == RESULT_CANCELED) {
-        Toast.makeText(TabActivity.this, "RESULT_CANCELED", Toast.LENGTH_LONG).show();
-      }
-    }
-
+    final Intent intent = new Intent(TabActivity.this, VideoCaptureActivity.class);
+    intent.putExtra(VideoCaptureActivity.EXTRA_CAPTURE_CONFIGURATION, config);
+    intent.putExtra(VideoCaptureActivity.EXTRA_OUTPUT_FILENAME, filename);
+    startActivityForResult(intent, 101);
   }
 
+  private CaptureConfiguration createCaptureConfiguration() {
+    final CaptureResolution resolution = CaptureResolution.RES_480P;
+    final CaptureQuality quality = CaptureQuality.MEDIUM;
+    int fileDuration = CaptureConfiguration.NO_DURATION_LIMIT;
+    fileDuration = 10;
+    int filesize = CaptureConfiguration.NO_FILESIZE_LIMIT;
+    filesize = 10;
+    final CaptureConfiguration config = new CaptureConfiguration(resolution, quality, fileDuration, filesize, true);
+    return config;
+  }
 
+  private void uploadFile(String fileUri) {
+    // create upload service client
+    FileUploadService service =
+            ServiceGenerator.createService(FileUploadService.class);
+
+    // use the FileUtils to get the actual file by uri
+//    File file = FileUtils.getFile(this, fileUri);
+    File file = new File(filename);
+
+    // create RequestBody instance from file
+    RequestBody requestFile =
+            RequestBody.create(MediaType.parse("multipart/form-data"), file);
+
+    // MultipartBody.Part is used to send also the actual file name
+    MultipartBody.Part body =
+            MultipartBody.Part.createFormData("picture", file.getName(), requestFile);
+    MultipartBody.Part video =
+            MultipartBody.Part.createFormData("name", file.getName(), requestFile);
+
+
+    // add another part within the multipart request
+    String descriptionString = "hello, this is description speaking";
+    RequestBody description =
+            RequestBody.create(
+                    MediaType.parse("multipart/form-data"), descriptionString);
+
+    // finally, execute the request
+    Call<ResponseBody> call = service.upload(description, body);
+    call.enqueue(new Callback<ResponseBody>() {
+      @Override
+      public void onResponse(Call<ResponseBody> call,
+                             Response<ResponseBody> response) {
+        Log.v("Upload", response.body().toString());
+      }
+
+      @Override
+      public void onFailure(Call<ResponseBody> call, Throwable t) {
+        Log.e("Upload error:", t.getMessage());
+      }
+    });
+  }
 
 }
 

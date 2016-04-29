@@ -13,6 +13,10 @@ public class Constant {
      */
     public static  int DEFAULT_DURATION_LIMIT = 8;
     /**
+     * 默认最小时长
+     */
+    public static  int DEFAULT_DURATION_MIN = 2;
+    /**
      * 默认码率
      */
     public static  int DEFAULT_BITRATE =2000 * 1000;
