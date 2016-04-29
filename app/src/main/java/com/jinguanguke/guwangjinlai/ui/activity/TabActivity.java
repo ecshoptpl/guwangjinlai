@@ -78,6 +78,8 @@ import com.jmolsmobile.landscapevideocapture.VideoCaptureActivity;
 import com.jmolsmobile.landscapevideocapture.configuration.CaptureConfiguration;
 import com.jmolsmobile.landscapevideocapture.configuration.PredefinedCaptureConfigurations.CaptureQuality;
 import com.jmolsmobile.landscapevideocapture.configuration.PredefinedCaptureConfigurations.CaptureResolution;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.StringCallback;
 
 public class TabActivity extends StarterActivity {
 
@@ -86,6 +88,8 @@ public class TabActivity extends StarterActivity {
   public static final String TAB_ACCOUNT = "tab_account_identifier";
   private String filename = null;
   private String statusMessage = null;
+  private String url = "http://www.jinguanguke.com/plus/io/index.php?" +
+          "c=upload&a=file";
 
 
   @Bind(android.R.id.tabhost)
@@ -157,6 +161,24 @@ public class TabActivity extends StarterActivity {
     final Bitmap thumbnail = getThumbnail();
 
     if (thumbnail != null) {
+      OkHttpUtils.post()//
+              .addFile("video", UUID.randomUUID() + ".png", thumbnail)//
+              .url(url)
+
+              .build()//
+              .execute(new StringCallback() {
+                @Override
+                public void onError(okhttp3.Call call, Exception e) {
+                  Log.i("kkk","is had error");
+                }
+
+                @Override
+                public void onResponse(String response) {
+                  Log.i("sucess",response);
+
+                }
+              });
+
       //thumbnailIv.setImageBitmap(thumbnail);
     } else {
       //thumbnailIv.setImageResource(R.drawable.thumbnail_placeholder);
@@ -232,45 +254,25 @@ public class TabActivity extends StarterActivity {
   }
 
   private void uploadFile(String fileUri) {
-    // create upload service client
-    FileUploadService service =
-            ServiceGenerator.createService(FileUploadService.class);
+    File file = new File(fileUri);
 
-    // use the FileUtils to get the actual file by uri
-//    File file = FileUtils.getFile(this, fileUri);
-    File file = new File(filename);
+    OkHttpUtils.post()//
+            .addFile("video", file.getName(), file)//
+            .url(url)
 
-    // create RequestBody instance from file
-    RequestBody requestFile =
-            RequestBody.create(MediaType.parse("multipart/form-data"), file);
+            .build()//
+            .execute(new StringCallback() {
+              @Override
+              public void onError(okhttp3.Call call, Exception e) {
+                Log.i("kkk","is had error");
+              }
 
-    // MultipartBody.Part is used to send also the actual file name
-    MultipartBody.Part body =
-            MultipartBody.Part.createFormData("picture", file.getName(), requestFile);
-    MultipartBody.Part video =
-            MultipartBody.Part.createFormData("name", file.getName(), requestFile);
+              @Override
+              public void onResponse(String response) {
+                Log.i("sucess",response);
 
-
-    // add another part within the multipart request
-    String descriptionString = "hello, this is description speaking";
-    RequestBody description =
-            RequestBody.create(
-                    MediaType.parse("multipart/form-data"), descriptionString);
-
-    // finally, execute the request
-    Call<ResponseBody> call = service.upload(description, body);
-    call.enqueue(new Callback<ResponseBody>() {
-      @Override
-      public void onResponse(Call<ResponseBody> call,
-                             Response<ResponseBody> response) {
-        Log.v("Upload", response.body().toString());
-      }
-
-      @Override
-      public void onFailure(Call<ResponseBody> call, Throwable t) {
-        Log.e("Upload error:", t.getMessage());
-      }
-    });
+              }
+            });
   }
 
 }

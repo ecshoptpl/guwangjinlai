@@ -1,5 +1,7 @@
 package com.jinguanguke.guwangjinlai.api.service;
 
+import java.util.Map;
+
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
@@ -14,6 +16,5 @@ import retrofit2.http.Part;
 public interface FileUploadService  {
     @Multipart
     @POST("index.php?c=upload&a=file")
-    Call<ResponseBody> upload(@Part("description") RequestBody description,
-                              @Part MultipartBody.Part file);
+    Call<ResponseBody> upload(@Part("description") Map<String, RequestBody> params);
 }
