@@ -1,7 +1,10 @@
 package com.jinguanguke.guwangjinlai.util;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Environment;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -46,4 +49,6 @@ public class FileUtils {
                 + "video_" + str + ".mp4";
         return fileName;
     }
+
+
 }

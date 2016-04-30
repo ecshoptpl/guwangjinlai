@@ -2,6 +2,7 @@ package com.jinguanguke.guwangjinlai.ui.activity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -9,6 +10,7 @@ import android.hardware.Camera;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.FragmentTabHost;
 import android.text.TextUtils;
@@ -52,16 +54,19 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.common.io.Files;
 import com.jinguanguke.guwangjinlai.DemoApp;
 import com.jinguanguke.guwangjinlai.R;
+import com.jinguanguke.guwangjinlai.api.service.ArctinyService;
 import com.jinguanguke.guwangjinlai.api.service.FileUploadService;
 import com.jinguanguke.guwangjinlai.data.Constant;
 
 import com.jinguanguke.guwangjinlai.data.RequestCode;
+import com.jinguanguke.guwangjinlai.model.entity.Arctiny;
 import com.jinguanguke.guwangjinlai.ui.fragment.AccountFragment;
 import com.jinguanguke.guwangjinlai.ui.fragment.FeedsFragment;
 
 import com.jinguanguke.guwangjinlai.util.AppConfig;
 
 
+import com.jinguanguke.guwangjinlai.util.ImageUtils;
 import com.jinguanguke.guwangjinlai.util.RecordResult;
 import com.jinguanguke.guwangjinlai.util.ServiceGenerator;
 import com.jmolsmobile.landscapevideocapture.VideoCaptureActivity;
@@ -70,8 +75,16 @@ import com.jmolsmobile.landscapevideocapture.configuration.PredefinedCaptureConf
 import com.smartydroid.android.starter.kit.app.StarterActivity;
 //import com.google.common.io.Files;
 
+import java.io.BufferedWriter;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Writer;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.UUID;
 
 import com.jmolsmobile.landscapevideocapture.VideoCaptureActivity;
@@ -90,6 +103,8 @@ public class TabActivity extends StarterActivity {
   private String statusMessage = null;
   private String url = "http://www.jinguanguke.com/plus/io/index.php?" +
           "c=upload&a=file";
+  private String video_remote_path = null;
+  private String img_remote_path = null;
 
 
   @Bind(android.R.id.tabhost)
@@ -147,37 +162,38 @@ public class TabActivity extends StarterActivity {
       filename = null;
       statusMessage = getString(R.string.status_capturefailed);
     }
+    Log.i("statusMessage", statusMessage);
     updateStatusAndThumbnail();
 
     super.onActivityResult(requestCode, resultCode, data);
   }
 
   private void updateStatusAndThumbnail() {
-    if (statusMessage == null) {
-      statusMessage = getString(R.string.status_nocapture);
-    }
-//    statusTv.setText(statusMessage);
 
     final Bitmap thumbnail = getThumbnail();
 
     if (thumbnail != null) {
-      OkHttpUtils.post()//
-              .addFile("video", UUID.randomUUID() + ".png", thumbnail)//
-              .url(url)
+      File file = storeImage(thumbnail);
+      Log.i("thumbanail","is there");
 
-              .build()//
-              .execute(new StringCallback() {
-                @Override
-                public void onError(okhttp3.Call call, Exception e) {
-                  Log.i("kkk","is had error");
-                }
+      if(file != null) {
+        OkHttpUtils.post()//
+                .addFile("img", file.getName(), file)//
+                .url(url)
+                .build()//
+                .execute(new StringCallback() {
+                  @Override
+                  public void onError(okhttp3.Call call, Exception e) {
+                    Log.i("img_err", "is had error");
+                  }
 
-                @Override
-                public void onResponse(String response) {
-                  Log.i("sucess",response);
+                  @Override
+                  public void onResponse(String response) {
+                    set_img_remote_path(response);
 
-                }
-              });
+                  }
+                });
+      }
 
       //thumbnailIv.setImageBitmap(thumbnail);
     } else {
@@ -259,20 +275,128 @@ public class TabActivity extends StarterActivity {
     OkHttpUtils.post()//
             .addFile("video", file.getName(), file)//
             .url(url)
-
             .build()//
             .execute(new StringCallback() {
               @Override
               public void onError(okhttp3.Call call, Exception e) {
-                Log.i("kkk","is had error");
+                Log.i("video_error","is had error");
               }
 
               @Override
               public void onResponse(String response) {
-                Log.i("sucess",response);
+                set_video_remote_path(response.toString());
 
               }
             });
+  }
+
+
+  private  File getOutputMediaFile(){
+    // To be safe, you should check that the SDCard is mounted
+    // using Environment.getExternalStorageState() before doing this.
+    boolean sdCardExist = Environment.getExternalStorageState()
+            .equals(android.os.Environment.MEDIA_MOUNTED);
+    String save_path = null;
+    if(sdCardExist) {
+       save_path = Environment.getExternalStorageDirectory()
+              + "/Android/data/"
+              + getApplicationContext().getPackageName()
+              + "/Files";
+    }
+    else
+    {
+       save_path = Environment.getDataDirectory()
+              //+ "/Android/data/"
+              + getApplicationContext().getPackageName()
+              + "/Files";
+    }
+    File mediaStorageDir = new File(save_path);
+    // This location works best if you want the created images to be shared
+    // between applications and persist after your app has been uninstalled.
+
+    // Create the storage directory if it does not exist
+    if (! mediaStorageDir.exists()){
+      if (! mediaStorageDir.mkdirs()){
+        return null;
+      }
+    }
+    // Create a media file name
+    String timeStamp = UUID.randomUUID().toString();
+    File mediaFile;
+    String mImageName="MI_"+ timeStamp +".jpg";
+    mediaFile = new File(mediaStorageDir.getPath() + File.separator + mImageName);
+    return mediaFile;
+  }
+
+  //存储视频缩略图到本地
+  private File storeImage(Bitmap image) {
+    File pictureFile = getOutputMediaFile();
+    if (pictureFile == null) {
+      Log.d("storeImage",
+              "Error creating media file, check storage permissions: ");// e.getMessage());
+      return null;
+    }
+    try {
+      FileOutputStream fos = new FileOutputStream(pictureFile);
+      image.compress(Bitmap.CompressFormat.JPEG, 50, fos);
+      fos.close();
+   } catch (FileNotFoundException e) {
+      Log.d("storeImage", "File not found: " + e.getMessage());
+      return null;
+    } catch (IOException e) {
+      Log.d("storeImage", "Error accessing file: " + e.getMessage());
+      return null;
+    }
+    return pictureFile;
+
+  }
+
+  //设置视频远程路径
+  private void set_video_remote_path(String path){
+    video_remote_path = path;
+    if (img_remote_path != null)
+    {
+      update_website();
+    }
+  }
+
+  //设置视频缩略图的远程路径
+  private void set_img_remote_path(String path)
+  {
+    img_remote_path = path;
+    if (video_remote_path != null)
+    {
+      update_website();
+    }
+  }
+
+  //更新网站
+  private void update_website()
+  {
+    ArctinyService arctinyService = ServiceGenerator.createService(ArctinyService.class);
+    Call<Arctiny> call = arctinyService.add("1");
+    call.enqueue(new Callback<Arctiny>() {
+      @Override
+      public void onResponse(Call<Arctiny> call, Response<Arctiny> response) {
+        //update_archives(response.body().getData().get(0).getId());
+        Log.i("kskdl",response.toString());
+    }
+
+      @Override
+      public void onFailure(Call<Arctiny> call, Throwable t) {
+        Log.i("arctiny_fail","chucuole");
+
+      }
+    });
+//    Log.i("update","webset");
+//    Log.i("img_path",img_remote_path);
+//    Log.i("video_path",video_remote_path);
+  }
+
+  //更新主表dede_archives
+  private void update_archives(String id)
+  {
+    Log.i("aid",id);
   }
 
 }
