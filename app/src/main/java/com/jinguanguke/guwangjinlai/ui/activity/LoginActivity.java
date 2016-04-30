@@ -35,6 +35,7 @@ import java.util.concurrent.TimeUnit;
 import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.PlatformActionListener;
 import cn.sharesdk.framework.ShareSDK;
+import cn.sharesdk.tencent.qq.QQ;
 import cn.sharesdk.tencent.qzone.QZone;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
@@ -63,6 +64,8 @@ public class LoginActivity extends StarterNetworkActivity<User> implements View.
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+
+
 
       ShareSDK.initSDK(this);
       handler = new Handler(this);
@@ -108,7 +111,8 @@ public class LoginActivity extends StarterNetworkActivity<User> implements View.
 
   @OnClick({ R.id.image_login_qq}) public void onQqClick(View view) {
     Platform qzone = ShareSDK.getPlatform(QZone.NAME);
-    authorize(qzone);
+    Platform qq = ShareSDK.getPlatform(QQ.NAME);
+    authorize(qq);
   }
   //执行授权,获取用户信息
   //文档：http://wiki.mob.com/Android_%E8%8E%B7%E5%8F%96%E7%94%A8%E6%88%B7%E8%B5%84%E6%96%99

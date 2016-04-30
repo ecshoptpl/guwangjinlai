@@ -43,6 +43,7 @@ public class DemoApp extends StarterKitApp {
 
     // init api service
     new RetrofitBuilder.Builder()
+
         .accept(Profile.API_ACCEPT)
         .baseUrl(Profile.API_ENDPOINT)
         .build();

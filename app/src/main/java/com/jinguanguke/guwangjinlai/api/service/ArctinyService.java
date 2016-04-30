@@ -15,6 +15,6 @@ import retrofit2.http.Query;
  * Created by jin on 16/4/30.
  */
 public interface ArctinyService {
-    @POST("_interface=insert&_table=dede_arctiny&c=api&channel=18&typeid=14")
+    @POST("index.php?_interface=insert&_table=dede_arctiny&c=api&channel=18&typeid=14")
     Call<Arctiny> add(@Query("mid") String mid);
 }

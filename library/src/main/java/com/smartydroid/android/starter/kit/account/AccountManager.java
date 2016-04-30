@@ -6,8 +6,11 @@ package com.smartydroid.android.starter.kit.account;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Log;
+
 import com.smartydroid.android.starter.kit.app.StarterKitApp;
 import java.util.ArrayList;
+
 import me.alexrs.prefs.lib.Prefs;
 
 
@@ -54,6 +57,7 @@ public class AccountManager implements AccountProvider {
   }
 
   @SuppressWarnings("unchecked") public static <T extends Account> T getCurrentAccount() {
+
     return (T) getInstance().mCurrentAccount;
   }
 
@@ -83,6 +87,7 @@ public class AccountManager implements AccountProvider {
   public static void logout() {
     getInstance().clear();
     notifyDataChanged();
+    Prefs.with(StarterKitApp.appContext()).remove("accounts_json");
   }
 
   private AccountManager() {
@@ -109,6 +114,7 @@ public class AccountManager implements AccountProvider {
 
   private void clearAccountData() {
     prefs().remove(PREFS_ACCOUNT_STORAGE);
+    prefs().remove(PREFS_KEY_ACCOUNT_JSON);
   }
 
   private static Prefs prefs() {

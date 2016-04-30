@@ -54,6 +54,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.common.io.Files;
 import com.jinguanguke.guwangjinlai.DemoApp;
 import com.jinguanguke.guwangjinlai.R;
+import com.jinguanguke.guwangjinlai.api.service.ArchivesService;
 import com.jinguanguke.guwangjinlai.api.service.ArctinyService;
 import com.jinguanguke.guwangjinlai.api.service.FileUploadService;
 import com.jinguanguke.guwangjinlai.data.Constant;
@@ -378,8 +379,7 @@ public class TabActivity extends StarterActivity {
     call.enqueue(new Callback<Arctiny>() {
       @Override
       public void onResponse(Call<Arctiny> call, Response<Arctiny> response) {
-        //update_archives(response.body().getData().get(0).getId());
-        Log.i("kskdl",response.toString());
+        update_archives(response.body().getData().get(0).getId());
     }
 
       @Override
@@ -388,15 +388,26 @@ public class TabActivity extends StarterActivity {
 
       }
     });
-//    Log.i("update","webset");
-//    Log.i("img_path",img_remote_path);
-//    Log.i("video_path",video_remote_path);
+
   }
 
   //更新主表dede_archives
   private void update_archives(String id)
   {
-    Log.i("aid",id);
+    ArchivesService archivesService = ServiceGenerator.createService(ArchivesService.class);
+    Call<Arctiny> archivesServiceCall = archivesService.add(id,img_remote_path,"1","test");
+    archivesServiceCall.enqueue(new Callback<Arctiny>() {
+      @Override
+      public void onResponse(Call<Arctiny> call, Response<Arctiny> response) {
+
+      }
+
+      @Override
+      public void onFailure(Call<Arctiny> call, Throwable t) {
+
+      }
+    });
+
   }
 
 }
