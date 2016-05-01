@@ -220,7 +220,7 @@ public class TabActivity extends StarterActivity {
     mTabHost.setup(this, getSupportFragmentManager(), android.R.id.tabcontent);
 
     mTabHost.addTab(createTabSpec(TAB_FEEDS, R.string.tab_home,
-            R.drawable.ic_blue_action_home), FeedsFragment.class, null);
+            R.drawable.selector_tab_account), FeedsFragment.class, null);
 
     mTabHost.addTab(createTabSpec(TAB_ACCOUNT, R.string.tab_account,
             R.drawable.selector_tab_feeds), AccountFragment.class, null);

@@ -2,6 +2,6 @@
 
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
   <item android:state_selected="true"
-      android:drawable="@drawable/ic_tab_account_selected"/>
-  <item android:drawable="@drawable/ic_tab_account_normal"/>
+      android:drawable="@drawable/ic_blue_action_home"/>
+  <item android:drawable="@drawable/ic_action_home"/>
 </selector>
