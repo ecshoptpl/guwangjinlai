@@ -25,7 +25,9 @@ public interface FeedService {
       @Query("page_size") int pageSize);
 
   @GET("index.php?c=api&_table=dede_archives&_interface=list")
-  Call<DataInfo> Data();
+  Call<DataInfo> Data(
+          @Query("page") int page
+  );
 
 //  @GET("index.php?c=player&a=play_movie")
   @GET("index.php?c=api&_interface=list&_table=dede_archives&typeid=13")

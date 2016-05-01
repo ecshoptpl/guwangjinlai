@@ -6,6 +6,7 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 
 /**
  * Created by YuGang Yang on February 20, 2016.
@@ -23,6 +24,10 @@ public interface AuthService {
   @FormUrlEncoded @POST("index.php?c=api&_table=dede_member&_interface=android_login") Call<User> login(
       @Field("userid") String phone,
       @Field("pwd") String password);
+
+  @POST("index.php?c=api&_table=dede_member&_interface=qq_login") Call<User> qq_login(
+          @Query("mid") String mid
+          );
 
   @GET("/user/profile") Call<User> profile();
 }

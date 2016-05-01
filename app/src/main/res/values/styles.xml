@@ -18,4 +18,9 @@
         <item name="android:textColor">@color/colorPrimary</item>
     </style>
 
+    <style name="AppTheme.Button" parent="Widget.AppCompat.Button.Colored">
+        <item name="colorButtonNormal">@color/colorPrimary</item>
+        <item name="android:textColor">#fff</item>
+    </style>
+
 </resources>

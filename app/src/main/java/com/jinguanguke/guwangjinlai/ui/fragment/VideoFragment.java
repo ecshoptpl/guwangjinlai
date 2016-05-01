@@ -202,7 +202,7 @@ public class VideoFragment extends Fragment implements OnVideoClickListener{
         //retrofit2.Call<DataInfo> call = apiService.Data();
 
 
-        call = apiService.Data();
+        call = apiService.Data(page);
         call.enqueue(new retrofit2.Callback<DataInfo>() {
             @Override
             public void onResponse(retrofit2.Call<DataInfo> call, retrofit2.Response<DataInfo> response) {

@@ -17,7 +17,7 @@ public interface SignupService {
     @GET("index.php?c=api&_interface=list&_table=dede_oauth")
     Call<Signup> check_oauth(
             @Query("oauth_name") String oauth_name,
-            @Query("oauth_id") int oauth_id
+            @Query("oauth_id") String oauth_id
     );
 
     @GET("index.php?c=api&_interface=check_mobile&_table=dede_member")
@@ -26,9 +26,17 @@ public interface SignupService {
 
     );
 
-    @POST("index.php?c=api&_interface=check_mobile&_table=dede_member")
+    @POST("index.php?c=api&_interface=insert&_table=dede_member")
     Call<Register> register(
             @Query("userid") String mobile,
+            @Query("pwd") String pwd,
+            @Query("puserid") String puserid,
+            @Query("primary_id") String primary_id
+    );
+
+    @POST("index.php?c=api&_interface=update&_table=dede_member")
+    Call<Register> update(
+            @Query("mid") String mid,
             @Query("pwd") String pwd,
             @Query("puserid") String puserid,
             @Query("primary_id") String primary_id

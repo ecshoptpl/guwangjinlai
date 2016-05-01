@@ -23,6 +23,7 @@ import com.jinguanguke.guwangjinlai.api.service.SignupService;
 import com.jinguanguke.guwangjinlai.model.entity.DataInfo;
 import com.jinguanguke.guwangjinlai.model.entity.Signup;
 import com.jinguanguke.guwangjinlai.model.entity.User;
+import com.jinguanguke.guwangjinlai.util.ServiceGenerator;
 import com.smartydroid.android.starter.kit.account.AccountManager;
 import com.smartydroid.android.starter.kit.app.StarterKitApp;
 import com.smartydroid.android.starter.kit.app.StarterNetworkActivity;
@@ -34,11 +35,13 @@ import java.util.concurrent.TimeUnit;
 
 import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.PlatformActionListener;
+import cn.sharesdk.framework.PlatformDb;
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.tencent.qq.QQ;
 import cn.sharesdk.tencent.qzone.QZone;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -61,6 +64,7 @@ public class LoginActivity extends StarterNetworkActivity<User> implements View.
 
   private AuthService mAuthService;
   private SignupService mSignuService;
+  private String auth_id = null;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -69,7 +73,7 @@ public class LoginActivity extends StarterNetworkActivity<User> implements View.
 
       ShareSDK.initSDK(this);
       handler = new Handler(this);
-      setContentView(R.layout.activity_login);
+      setContentView(R.layout.activity_login_new);
 
       mAuthService = ApiService.createAuthService();
       mSignuService = ApiService.createSignupService();
@@ -101,6 +105,8 @@ public class LoginActivity extends StarterNetworkActivity<User> implements View.
       }
       case R.id.container_register:{
         Intent intent = new Intent();
+
+        intent.setAction("com.jinguanguke.guwangjinlai.phone_reg");
         intent.setClass(LoginActivity.this, SignupActivity.class);
         startActivity(intent);
        // finish();
@@ -110,8 +116,11 @@ public class LoginActivity extends StarterNetworkActivity<User> implements View.
   }
 
   @OnClick({ R.id.image_login_qq}) public void onQqClick(View view) {
-    Platform qzone = ShareSDK.getPlatform(QZone.NAME);
+//    Platform qzone = ShareSDK.getPlatform(QZone.NAME);
     Platform qq = ShareSDK.getPlatform(QQ.NAME);
+    //qq.setPlatformActionListener(paListener);
+    qq.showUser(null);
+
     authorize(qq);
   }
   //执行授权,获取用户信息
@@ -178,6 +187,16 @@ public class LoginActivity extends StarterNetworkActivity<User> implements View.
 
   public void onComplete(Platform platform, int action, HashMap<String, Object> res) {
     if (action == Platform.ACTION_USER_INFOR) {
+
+        PlatformDb platDB = platform.getDb();//获取数平台数据DB
+        //通过DB获取各种数据
+        platDB.getToken();
+        platDB.getUserGender();
+     String icon = platDB.getUserIcon();
+      auth_id = platDB.getUserId();
+        platDB.getUserName();
+
+
       Message msg = new Message();
       msg.what = MSG_AUTH_COMPLETE;
       msg.obj = new Object[] {platform.getName(), res};
@@ -228,31 +247,55 @@ public class LoginActivity extends StarterNetworkActivity<User> implements View.
                 .build();
 
         SignupService service = retrofit.create(SignupService.class);
-        Call<Signup> sign = service.check_oauth("aa", 1);
+        Call<Signup> sign = service.check_oauth("QQ", auth_id);
         sign.enqueue(new retrofit2.Callback<Signup>() {
           @Override
           public void onResponse(retrofit2.Call<Signup> call, retrofit2.Response<Signup> response) {
-            if(response.body().isData() == false)
+            if(response.body().getData().getItems().size() < 1)
             {
+
               Intent intent = new Intent();
-              intent.setClass(LoginActivity.this, SignupActivity.class);
+              intent.putExtra("auth_id",auth_id);
+              intent.setAction("com.jinguanguke.guwangjinlai.qq_reg");
+              intent.setClass(LoginActivity.this, QQSignupActivity.class);
               startActivity(intent);
               //finish();
             }
             else
             {
-              Log.i("state","2");
+              String mid = response.body().getData().getItems().get(0).getUser_id();
+              AuthService authService = ServiceGenerator.createService(AuthService.class);
+              Call<User> authServicecall = authService.qq_login(mid);
+              authServicecall.enqueue(new retrofit2.Callback<User>() {
+                @Override
+                public void onResponse(Call<User> call, Response<User> response) {
+                  if(response.body().getMid() != null){
+                    AccountManager.store(response.body());
+                    Snackbar.make(getWindow().getDecorView(), "登录成功", Snackbar.LENGTH_SHORT).show();
+                    Intent intent = new Intent();
+                    intent.setClass(LoginActivity.this, TabActivity.class);
+                    startActivity(intent);
+                    finish();//停止当前的Activity,如果不写,则按返回键会跳转回原来的Activit
+                  }
+                }
+
+                @Override
+                public void onFailure(Call<User> call, Throwable t) {
+                  Snackbar.make(getWindow().getDecorView(), "QQ登录失败", Snackbar.LENGTH_SHORT).show();
+                }
+              });
+
             }
           }
 
           @Override
           public void onFailure(retrofit2.Call<Signup> call, Throwable t) {
-            Log.i("shibai", t.toString());
+            Toast.makeText(getBaseContext(), "网络请求出错", Toast.LENGTH_SHORT).show();
           }
         });
         Object[] objs = (Object[]) msg.obj;
         String platform = (String) objs[0];
-        Toast.makeText(getBaseContext(), platform, Toast.LENGTH_SHORT).show();
+
         HashMap<String, Object> res = (HashMap<String, Object>) objs[1];
         switch (platform)
         {

@@ -14,4 +14,7 @@
 
     <color name="divider_color">#EEEEEE</color>
     <color name="gray">#444440</color>
+    <color name="grey_600">#757575</color>
+    <color name="grey_0">#ffffff</color>
+    <color name="grey_1000">#000000</color>
 </resources>

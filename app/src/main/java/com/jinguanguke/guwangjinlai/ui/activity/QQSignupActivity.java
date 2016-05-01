@@ -45,6 +45,7 @@ import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import com.jinguanguke.guwangjinlai.R;
+import com.jinguanguke.guwangjinlai.api.service.OauthService;
 import com.jinguanguke.guwangjinlai.api.service.SignupService;
 import com.jinguanguke.guwangjinlai.data.Account;
 import com.jinguanguke.guwangjinlai.data.Constant;
@@ -54,6 +55,7 @@ import com.jinguanguke.guwangjinlai.model.entity.checkMobile;
 import com.jinguanguke.guwangjinlai.util.Callback;
 import com.jinguanguke.guwangjinlai.util.LocalAccountManager;
 import com.jinguanguke.guwangjinlai.util.SMSManager;
+import com.jinguanguke.guwangjinlai.util.ServiceGenerator;
 import com.smartydroid.android.starter.kit.app.StarterKitApp;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -67,6 +69,7 @@ import cn.smssdk.SMSSDK;
 import okhttp3.Call;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 //import cn.smssdk.SMSSDK;
@@ -77,13 +80,14 @@ import static android.Manifest.permission.READ_CONTACTS;
 /**
  * 用户注册
  */
-public class SignupActivity extends Activity implements  TimeListener{
+public class QQSignupActivity extends Activity implements  TimeListener{
 
 
     private static final int REQUEST_READ_CONTACTS = 0;
     public static final int EXTERNAL_STORAGE_REQ_CODE = 10 ;
-
-
+    private  String acction = "insert";
+    private  String mid = null;
+    retrofit2.Call<Register> rgst = null;
 
 
     @Bind(R.id.til_number)
@@ -110,7 +114,7 @@ public class SignupActivity extends Activity implements  TimeListener{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_signup);
+        setContentView(R.layout.activity_qqsignup);
         ButterKnife.bind(this);
 
 
@@ -137,8 +141,8 @@ public class SignupActivity extends Activity implements  TimeListener{
 
 
         // Set up the login form.
-      //  mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
-       // populateAutoComplete();
+        //  mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
+        // populateAutoComplete();
 
 
 
@@ -188,17 +192,20 @@ public class SignupActivity extends Activity implements  TimeListener{
             public void onResponse(retrofit2.Call<checkMobile> call, retrofit2.Response<checkMobile> response) {
                 if(response.body().getErr_code() == 1)
                 {
-                    Toast.makeText(SignupActivity.this,"手机号已经注册",Toast.LENGTH_SHORT).show();
+                    mid = response.body().getErr_msg();
+                    acction = "update";
+                    SMSManager.getInstance().sendMessage(QQSignupActivity.this, "86",tilNumber.getEditText().getText().toString());
+                    Toast.makeText(QQSignupActivity.this,"您已注册，信息将更新",Toast.LENGTH_SHORT).show();
                 }
                 else
                 {
-                    SMSManager.getInstance().sendMessage(SignupActivity.this, "86",tilNumber.getEditText().getText().toString());
+                    SMSManager.getInstance().sendMessage(QQSignupActivity.this, "86",tilNumber.getEditText().getText().toString());
                 }
             }
 
             @Override
             public void onFailure(retrofit2.Call<checkMobile> call, Throwable t) {
-                Toast.makeText(SignupActivity.this,"网络错误",Toast.LENGTH_SHORT).show();
+                Toast.makeText(QQSignupActivity.this,"网络错误",Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -237,27 +244,37 @@ public class SignupActivity extends Activity implements  TimeListener{
                         .build();
 
                 SignupService service = retrofit.create(SignupService.class);
-                retrofit2.Call<Register> rgst = service.register(tilNumber.getEditText().getText().toString(),tilPassword.getText().toString(),tilpuser.getText().toString(),"mid");
+                if(acction == "insert")
+                {
+                     rgst = service.register(tilNumber.getEditText().getText().toString(),tilPassword.getText().toString(),tilpuser.getText().toString(),"mid");
+
+                }
+                else
+                {
+                     rgst = service.update(mid,tilPassword.getText().toString(),tilpuser.getText().toString(),"mid");
+
+                }
                 rgst.enqueue(new retrofit2.Callback<Register>() {
                     @Override
                     public void onResponse(retrofit2.Call<Register> call, retrofit2.Response<Register> response) {
                         if(response.body().getErr_code() == "1")
                         {
-                            Toast.makeText(SignupActivity.this,"注册失败",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(QQSignupActivity.this,"注册失败",Toast.LENGTH_SHORT).show();
                         }
                         else
                         {
-                            Toast.makeText(SignupActivity.this, "注册成功", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent();
-                            intent.setClass(SignupActivity.this, LoginActivity.class);
-                            startActivity(intent);
-                            finish();
+                            if(acction == "insert"){
+                               mid = response.body().getData().get(0).getMid();
+                            }
+                            Toast.makeText(QQSignupActivity.this, "注册成功", Toast.LENGTH_SHORT).show();
+                            add_qq_info();
+
                         }
                     }
 
                     @Override
                     public void onFailure(retrofit2.Call<Register> call, Throwable t) {
-                        Toast.makeText(SignupActivity.this,"网络错误",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(QQSignupActivity.this,"网络错误",Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -267,10 +284,12 @@ public class SignupActivity extends Activity implements  TimeListener{
 
             @Override
             public void error(Throwable error) {
-                Toast.makeText(SignupActivity.this, "验证码错误", Toast.LENGTH_SHORT).show();
+                Toast.makeText(QQSignupActivity.this, "验证码错误", Toast.LENGTH_SHORT).show();
             }
         });
     }
+
+
     public boolean requestPermission(){
         //判断当前Activity是否已经获得了该权限
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED
@@ -316,6 +335,30 @@ public class SignupActivity extends Activity implements  TimeListener{
             btnCode.setText(lastSecond + "秒后重新发送");
         else
             btnCode.setText("发送验证码");
+    }
+
+    private void add_qq_info()
+    {
+        Intent login_intent = getIntent();
+        String oauth_id = login_intent.getStringExtra("auth_id");
+        OauthService oauthService = ServiceGenerator.createService(OauthService.class);
+        retrofit2.Call<Register> call = oauthService.register(mid,"QQ",oauth_id);
+        call.enqueue(new retrofit2.Callback<Register>() {
+            @Override
+            public void onResponse(retrofit2.Call<Register> call, Response<Register> response) {
+                Intent intent = new Intent();
+                intent.setClass(QQSignupActivity.this, LoginActivity.class);
+                startActivity(intent);
+                finish();
+            }
+
+            @Override
+            public void onFailure(retrofit2.Call<Register> call, Throwable t) {
+
+            }
+        });
+
+
     }
 
     @Override

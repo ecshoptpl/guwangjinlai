@@ -14,6 +14,11 @@
     <string name="feed_with_id">日常</string>
     <string name="feed_without">普通</string>
 
+    <string name="app_decription">一个神奇的应用</string>
+    <string name="forgot_password">忘记密码？</string>
+    <string name="create_account">创建帐号</string>
+    <string name="different_login">或</string>
+
     <string name="account_settings">设置</string>
     <string name="account_update">检查更新</string>
 

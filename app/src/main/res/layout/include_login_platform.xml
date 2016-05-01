@@ -53,22 +53,8 @@
           android:foreground="?attr/selectableItemBackgroundBorderless"
           android:src="@drawable/ic_login_qq"
           />
-      <com.smartydroid.android.starter.kit.widget.ForegroundImageView
-          android:id="@+id/image_login_wechat"
-          android:layout_width="0dp"
-          android:layout_height="wrap_content"
-          android:layout_weight="1"
-          android:foreground="?attr/selectableItemBackgroundBorderless"
-          android:src="@drawable/ic_login_wechat"
-          />
-      <com.smartydroid.android.starter.kit.widget.ForegroundImageView
-          android:id="@+id/image_login_weibo"
-          android:layout_width="0dp"
-          android:layout_height="wrap_content"
-          android:layout_weight="1"
-          android:foreground="?attr/selectableItemBackgroundBorderless"
-          android:src="@drawable/ic_login_weibo"
-          />
+
+
     </LinearLayout>
   </LinearLayout>
 </merge>

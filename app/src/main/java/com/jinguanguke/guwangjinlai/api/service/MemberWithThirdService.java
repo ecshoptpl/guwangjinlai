@@ -7,13 +7,13 @@ import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 /**
- * Created by jin on 16/4/30.
+ * Created by jin on 16/5/1.
  */
-public interface ArchivesService {
-    @POST("index.php?_interface=insert&_table=dede_archives&c=api&channel=18&typeid=14&voteid=0")
+public interface MemberWithThirdService {
+    @POST("index.php?_interface=insert&_table=dede_member&c=api")
     Call<Arctiny> add(@Query("id") String id,
                       @Query("litpic") String litpic,
                       @Query("mid") String mid,
                       @Query("title") String title
-        );
+    );
 }

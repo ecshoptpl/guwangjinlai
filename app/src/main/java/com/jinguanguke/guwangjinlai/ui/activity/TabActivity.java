@@ -28,6 +28,7 @@ import android.widget.Toast;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import me.alexrs.prefs.lib.Prefs;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -54,6 +55,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.common.io.Files;
 import com.jinguanguke.guwangjinlai.DemoApp;
 import com.jinguanguke.guwangjinlai.R;
+import com.jinguanguke.guwangjinlai.api.service.AddonarticleService;
 import com.jinguanguke.guwangjinlai.api.service.ArchivesService;
 import com.jinguanguke.guwangjinlai.api.service.ArctinyService;
 import com.jinguanguke.guwangjinlai.api.service.FileUploadService;
@@ -61,6 +63,7 @@ import com.jinguanguke.guwangjinlai.data.Constant;
 
 import com.jinguanguke.guwangjinlai.data.RequestCode;
 import com.jinguanguke.guwangjinlai.model.entity.Arctiny;
+import com.jinguanguke.guwangjinlai.model.entity.User;
 import com.jinguanguke.guwangjinlai.ui.fragment.AccountFragment;
 import com.jinguanguke.guwangjinlai.ui.fragment.FeedsFragment;
 
@@ -73,6 +76,8 @@ import com.jinguanguke.guwangjinlai.util.ServiceGenerator;
 import com.jmolsmobile.landscapevideocapture.VideoCaptureActivity;
 import com.jmolsmobile.landscapevideocapture.configuration.CaptureConfiguration;
 import com.jmolsmobile.landscapevideocapture.configuration.PredefinedCaptureConfigurations;
+import com.smartydroid.android.starter.kit.account.Account;
+import com.smartydroid.android.starter.kit.account.AccountManager;
 import com.smartydroid.android.starter.kit.app.StarterActivity;
 //import com.google.common.io.Files;
 
@@ -92,6 +97,7 @@ import com.jmolsmobile.landscapevideocapture.VideoCaptureActivity;
 import com.jmolsmobile.landscapevideocapture.configuration.CaptureConfiguration;
 import com.jmolsmobile.landscapevideocapture.configuration.PredefinedCaptureConfigurations.CaptureQuality;
 import com.jmolsmobile.landscapevideocapture.configuration.PredefinedCaptureConfigurations.CaptureResolution;
+import com.smartydroid.android.starter.kit.app.StarterKitApp;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -106,6 +112,8 @@ public class TabActivity extends StarterActivity {
           "c=upload&a=file";
   private String video_remote_path = null;
   private String img_remote_path = null;
+  private String video_title = null;
+  private String aid = null;
 
 
   @Bind(android.R.id.tabhost)
@@ -135,7 +143,7 @@ public class TabActivity extends StarterActivity {
         builder.setPositiveButton("完成", new DialogInterface.OnClickListener() {
 
           public void onClick(DialogInterface dialog, int which) {
-            String title = inputServer.getText().toString();
+            video_title = inputServer.getText().toString();
             startVideoCaptureActivity();
           }
         });
@@ -212,10 +220,10 @@ public class TabActivity extends StarterActivity {
     mTabHost.setup(this, getSupportFragmentManager(), android.R.id.tabcontent);
 
     mTabHost.addTab(createTabSpec(TAB_FEEDS, R.string.tab_home,
-            R.drawable.ic_account_balance_black_24dp), FeedsFragment.class, null);
+            R.drawable.ic_blue_action_home), FeedsFragment.class, null);
 
     mTabHost.addTab(createTabSpec(TAB_ACCOUNT, R.string.tab_account,
-            R.drawable.selector_tab_account), AccountFragment.class, null);
+            R.drawable.selector_tab_feeds), AccountFragment.class, null);
   }
 
   private TabHost.TabSpec createTabSpec(String tag, int stringRes, int drawableResId) {
@@ -374,8 +382,13 @@ public class TabActivity extends StarterActivity {
   //更新网站
   private void update_website()
   {
+    User account = AccountManager.getCurrentAccount();
+
+    String mid = account.getMid();
+
+
     ArctinyService arctinyService = ServiceGenerator.createService(ArctinyService.class);
-    Call<Arctiny> call = arctinyService.add("1");
+    Call<Arctiny> call = arctinyService.add(mid);
     call.enqueue(new Callback<Arctiny>() {
       @Override
       public void onResponse(Call<Arctiny> call, Response<Arctiny> response) {
@@ -394,12 +407,17 @@ public class TabActivity extends StarterActivity {
   //更新主表dede_archives
   private void update_archives(String id)
   {
+    User account = AccountManager.getCurrentAccount();
+
+    String mid = account.getMid();
+
+    aid = id;
     ArchivesService archivesService = ServiceGenerator.createService(ArchivesService.class);
-    Call<Arctiny> archivesServiceCall = archivesService.add(id,img_remote_path,"1","test");
+    Call<Arctiny> archivesServiceCall = archivesService.add(id,img_remote_path,mid,video_title);
     archivesServiceCall.enqueue(new Callback<Arctiny>() {
       @Override
       public void onResponse(Call<Arctiny> call, Response<Arctiny> response) {
-
+        update_addonarticle();
       }
 
       @Override
@@ -408,6 +426,28 @@ public class TabActivity extends StarterActivity {
       }
     });
 
+  }
+
+  //更新附加表
+  private void update_addonarticle()
+  {
+    User account = AccountManager.getCurrentAccount();
+
+    String mid = account.getMid();
+
+    AddonarticleService addonarticleService = ServiceGenerator.createService(AddonarticleService.class);
+    Call<Arctiny> addonarticleServiceCall = addonarticleService.add(aid,video_remote_path,mid);
+    addonarticleServiceCall.enqueue(new Callback<Arctiny>() {
+      @Override
+      public void onResponse(Call<Arctiny> call, Response<Arctiny> response) {
+        Toast.makeText(TabActivity.this, "发布成功，等待审核", Toast.LENGTH_LONG).show();
+      }
+
+      @Override
+      public void onFailure(Call<Arctiny> call, Throwable t) {
+
+      }
+    });
   }
 
 }

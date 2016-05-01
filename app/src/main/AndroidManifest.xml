@@ -3,18 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.jinguanguke.guwangjinlai">
 
-
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
     <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.INTERNET" />
-
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
-
-
     <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
@@ -33,31 +29,26 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:allowBackup">
-
         <activity
             android:name=".ui.activity.SplashActivity"
             android:label="@string/app_name"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".ui.activity.LoginActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
-         </activity>
-
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".ui.activity.SignupActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
-         </activity>
-
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".ui.activity.TabActivity"
             android:launchMode="singleTask"
@@ -67,7 +58,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.jinguanguke.guwangjinlai.ui.activity.MainActivity" />
         </activity>
-
         <activity
             android:name=".ui.activity.MainActivity"
             android:launchMode="singleTask"
@@ -93,12 +83,12 @@
         <activity
             android:name=".ui.activity.DetailActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name="com.mob.tools.MobUIShell"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:windowSoftInputMode="stateHidden|adjustResize" >
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:windowSoftInputMode="stateHidden|adjustResize">
+
             <!--
             	Adapter表示一个继承自cn.sharesdk.framework.authorize.AuthorizeAdapter的类，
             	这个类可以监听到页面的生命周期，也可以获取授权页面的各种UI控件。
@@ -106,14 +96,17 @@
             <meta-data android:name="Adapter" android:value="cn.sharesdk.demo.MyAdapter" />
             -->
 
+
             <!--
             	Dropbox的SSO功能需要在此处添加一个对ACTION_VIEW事件的过滤器，其中的scheme是
             	“db-”前缀再开发者应用的加上appKey。如果此过滤器不设置，则不能完成SSO功能授权
             -->
             <intent-filter>
                 <data android:scheme="db-7janx53ilz11gbs" />
+
                 <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.BROWSABLE"/>
+
+                <category android:name="android.intent.category.BROWSABLE" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
 
@@ -122,26 +115,29 @@
             	事件的过滤器，其中的scheme是“tencent”前缀再开发者应用的加上appId。如果此过滤器不设置，
             	则分享结束以后不能得到正确的回调
             -->
-            <intent-filter android:priority="1000" >
+            <intent-filter android:priority="1000">
                 <data android:scheme="tencent100371282" />
+
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
             </intent-filter>
         </activity>
-
         <activity
             android:name="com.jmolsmobile.landscapevideocapture.VideoCaptureActivity"
-            android:screenOrientation="sensor" >
-        </activity>
+            android:screenOrientation="sensor"></activity>
 
-        <service android:name=".update.service.DownloadService" /><!-- ATTENTION: This was auto-generated to add Google Play services to your project for
-     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
+        <service android:name=".update.service.DownloadService" />
+        <!--
+ ATTENTION: This was auto-generated to add Google Play services to your project for
+     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
+        -->
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-
+        <activity android:name=".ui.activity.QQSignupActivity"></activity>
     </application>
 
 </manifest>
