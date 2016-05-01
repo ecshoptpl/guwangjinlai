@@ -2,7 +2,7 @@
 
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
   <item android:state_selected="true"
-      android:drawable="@drawable/ic_blue_social_person"
+      android:drawable="@drawable/ic_perm_identity_black_24dp"
       />
-  <item android:drawable="@drawable/ic_social_person"/>
+  <item android:drawable="@drawable/ic_perm_identity_blue_grey_700_24dp"/>
 </selector>

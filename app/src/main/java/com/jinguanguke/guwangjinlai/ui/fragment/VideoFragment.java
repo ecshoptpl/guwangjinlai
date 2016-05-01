@@ -23,6 +23,7 @@ import com.jinguanguke.guwangjinlai.model.entity.DataInfo;
 import com.jinguanguke.guwangjinlai.model.entity.Feed;
 import com.jinguanguke.guwangjinlai.model.entity.ImageInfo;
 import com.jinguanguke.guwangjinlai.ui.activity.DetailActivity;
+import com.jinguanguke.guwangjinlai.ui.activity.MoviePlayActivity;
 import com.jinguanguke.guwangjinlai.ui.viewholder.OnVideoClickListener;
 import com.jinguanguke.guwangjinlai.ui.viewholder.VideosAdapter;
 import com.jinguanguke.guwangjinlai.util.httpUtils;
@@ -305,11 +306,16 @@ public class VideoFragment extends Fragment implements OnVideoClickListener{
     public void onVideoClick(View itemView, int position) {
         String url = imageInfos.get(position).getUrl();
         String vurl = imageInfos.get(position).getVurl();
-
-        Intent intent = new Intent(getActivity(), DetailActivity.class);
+        String title = imageInfos.get(position).getTitle();
+        String aid = imageInfos.get(position).getAid();
+        Intent intent = new Intent(getActivity(), MoviePlayActivity.class);
+//        Intent intent = new Intent(getActivity(), DetailActivity.class);
         intent.setAction("com.guwangjinlai.jiankang");
         intent.putExtra("url", url);
+        intent.putExtra("title", title);
         intent.putExtra("vurl", vurl);
+        intent.putExtra("aid",aid);
+
         startActivity(intent);
     }
 
