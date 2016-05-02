@@ -19,7 +19,7 @@
     <string name="create_account">创建帐号</string>
     <string name="different_login">或</string>
 
-    <string name="account_settings">设置</string>
+    <string name="account_settings">用户协议</string>
     <string name="account_update">检查更新</string>
 
     <string name="login_username_hint">手机号</string>

@@ -1,5 +1,7 @@
 package com.jinguanguke.guwangjinlai.ui.fragment;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
@@ -8,9 +10,10 @@ import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.OnClick;
 import com.facebook.drawee.view.SimpleDraweeView;
-import com.jinguanguke.guwangjinlai.NavUtils;
 import com.jinguanguke.guwangjinlai.R;
 import com.jinguanguke.guwangjinlai.model.entity.User;
+import com.jinguanguke.guwangjinlai.ui.activity.AgreementActivity;
+import com.jinguanguke.guwangjinlai.ui.activity.JifenActivity;
 import com.jinguanguke.guwangjinlai.update.CheckUpdate;
 import com.smartydroid.android.starter.kit.account.AccountManager;
 import com.smartydroid.android.starter.kit.utilities.ViewUtils;
@@ -42,8 +45,10 @@ public class AccountFragment extends BaseFragment {
       ViewUtils.setGone(mLoginContainer, true);
       ViewUtils.setGone(mUserInfoContainer, false);
       User user = AccountManager.getCurrentAccount();
-//      mUsernameTextView.setText(user.userid);
-      //mAvatarView.setImageURI(user.uri());
+      mUsernameTextView.setText(user.getUserid());
+      String ava = "http://www.jinguanguke.com/uploads/app/ava" + user.getMid() + ".png";
+      Uri face = Uri.parse(ava);
+      mAvatarView.setImageURI(face);
     } else {
       ViewUtils.setGone(mLoginContainer, false);
       ViewUtils.setGone(mUserInfoContainer, true);
@@ -53,7 +58,8 @@ public class AccountFragment extends BaseFragment {
   @OnClick({
       R.id.container_account_settings,
   }) public void onClick(View view) {
-    NavUtils.startAccountProfile(getActivity());
+    Intent intent = new Intent(getActivity(),AgreementActivity.class);
+    startActivity(intent);
   }
 
   @OnClick({
@@ -67,6 +73,13 @@ public class AccountFragment extends BaseFragment {
   }) public void onLogoutClick(View view) {
     AccountManager.registerObserver(new Logout());
     AccountManager.logout();
+  }
+
+  @OnClick({
+          R.id.container_account_jifen,
+  }) public void onJifenClick(View view) {
+    Intent intent = new Intent(getActivity(),JifenActivity.class);
+    startActivity(intent);
   }
 
   class Logout implements AccountManager.CurrentAccountObserver {

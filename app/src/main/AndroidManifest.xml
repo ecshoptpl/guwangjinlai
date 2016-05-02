@@ -142,6 +142,9 @@
 
         <activity android:name=".ui.activity.QQSignupActivity" />
         <activity android:name=".ui.activity.MoviePlayActivity"></activity>
+        <activity android:name=".ui.activity.AgreementActivity"></activity>
+        <activity android:name=".ui.activity.JifenActivity"></activity>
+
     </application>
 
 </manifest>

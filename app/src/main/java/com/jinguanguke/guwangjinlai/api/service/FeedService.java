@@ -19,7 +19,7 @@ public interface FeedService {
       @Query("page") int page,
       @Query("page_size") int pageSize);
 
-  @GET("index.php?c=player&a=play_movie") Call<ArrayList<Feed>> getFeedsWith(
+  @GET("index.php?c=player&a=play_youku") Call<ArrayList<Feed>> getFeedsWith(
       @Query("max-id") String maxId,
       @Query("since-id") String sinceId,
       @Query("page_size") int pageSize);

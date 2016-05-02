@@ -1,6 +1,8 @@
 package com.jinguanguke.guwangjinlai.ui.activity;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,8 +12,12 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jinguanguke.guwangjinlai.R;
+import com.jinguanguke.guwangjinlai.api.service.BiliService;
+import com.jinguanguke.guwangjinlai.model.entity.Bili;
+import com.jinguanguke.guwangjinlai.network.MyNetwork;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -28,6 +34,9 @@ import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 import cn.sharesdk.socialization.QuickCommentBar;
 import cn.sharesdk.socialization.Socialization;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MoviePlayActivity extends Activity {
     private JjVideoView mVideoView;//
@@ -38,6 +47,8 @@ public class MoviePlayActivity extends Activity {
     String mUrl = "/storage/emulated/0/Android/json.txt";
     String mPath = "/storage/emulated/0/Android/28932D2E0132471294162C90B502E32F12BF71FA.mp4";
     String mRtmp = "rtmp://live.hkstv.hk.lxdns.com/live/hks";
+    private ProgressDialog progressDialog = null;
+    private String video_url;
 
     @Bind(R.id.qcBar)
     QuickCommentBar qcBar;
@@ -55,14 +66,15 @@ public class MoviePlayActivity extends Activity {
 
 
 
-//        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-//                WindowManager.LayoutParams.FLAG_FULLSCREEN);// 去掉信息栏
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);// 去掉信息栏
         setContentView(R.layout.activity_movie_play);
         ButterKnife.bind(this);
 
         String aid = getIntent().getExtras().getString("aid");
+        String vurl = getIntent().getExtras().getString("vurl");
         String title = getIntent().getExtras().getString("title");
-        qcBar.setTopic(aid, title, null, null);
+        qcBar.setTopic(vurl, title, null, null);
 //        qcBar.getBackButton().setOnClickListener(MoviePlayActivity.this);
         OnekeyShare oks = new OnekeyShare();
         qcBar.setOnekeyShare(oks);
@@ -71,7 +83,7 @@ public class MoviePlayActivity extends Activity {
         mLoadText = (TextView) findViewById(R.id.sdk_ijk_progress_bar_text);
         mLoadBufferView = findViewById(R.id.sdk_load_layout);
         mLoadBufferTextView = (TextView) findViewById(R.id.sdk_sdk_ijk_load_buffer_text);
-        mVideoView.setMediaController(new VideoJjMediaContoller(this, true));
+//        mVideoView.setMediaController(new VideoJjMediaContoller(getBaseContext(), true));
         mLoadBufferTextView.setTextColor(Color.RED);
         /***
          * 用户自定义的外链 可 获取外链点击时间
@@ -152,8 +164,9 @@ public class MoviePlayActivity extends Activity {
         mVideoView.setVideoJjAppKey("N1VLhWJWW");
         mVideoView.setVideoJjPageName("com.jinguanguke.guwangjinlai");
         // mVideoView.setMediaCodecEnabled(true);// 是否开启 硬解 硬解对一些手机有限制
-        // 判断是否源 0 代表 8大视频网站url 3代表自己服务器的视频源 2代表直播地址 1代表本地视频(手机上的视频源),4特殊需求
-        mVideoView.setVideoJjType(3);
+
+
+
         /***
          * 视频标签显示的时间 默认显示5000毫秒 可设置 传入值 long类型 毫秒
          */
@@ -163,9 +176,50 @@ public class MoviePlayActivity extends Activity {
          * 指定时间开始播放 毫秒
          */
         // mVideoView.setVideoJjSeekToTime(Long.valueOf(20000));
-        String vurl = "http://www.jinguanguke.com/" + getIntent().getExtras().getString("vurl");
+        if(getIntent().getAction() == "com.guwangjinlai.jiankang")
+        {
+            // 判断是否源 0 代表 8大视频网站url 3代表自己服务器的视频源 2代表直播地址 1代表本地视频(手机上的视频源),4特殊需求
+            mVideoView.setVideoJjType(3);
+            video_url = "http://www.jinguanguke.com/" + getIntent().getExtras().getString("vurl");
+        }
+        else
+        {
+            // 判断是否源 0 代表 8大视频网站url 3代表自己服务器的视频源 2代表直播地址 1代表本地视频(手机上的视频源),4特殊需求
+            mVideoView.setVideoJjType(0);
+            video_url =  getIntent().getExtras().getString("video_url");
+//            int a_id = getIntent().getExtras().getInt("aid");
+//            BiliService biliService = MyNetwork.createBiliService();
+//            Call<Bili> bili_video = biliService.getBili(a_id);
+//            progressDialog = ProgressDialog.show(MoviePlayActivity.this, "请稍等", "获取数据中.....", true);
+//            bili_video.enqueue(new Callback<Bili>() {
+//                @Override
+//                public void onResponse(Call<Bili> call, Response<Bili> response) {
+//
+//                    // String url = feed.images.get(0).url;
+//
+//
+//                    video_url = "http://v.youku.com/v_show/id_XMTU0OTE5MDg2NA==.html";
+////                    video_url = response.body().getSrc();
+//                    progressDialog.dismiss();
+//
+//                    //Toast.makeText(getContext(), response.body().getSrc(), Toast.LENGTH_SHORT).show();
+//                }
+//
+//
+//                @Override
+//                public void onFailure(Call<Bili> call, Throwable t) {
+//                    Toast.makeText(null, "请求失败", Toast.LENGTH_SHORT).show();
+//                    progressDialog.dismiss();
+//                }
+//            });
+
+
+        }
+//        mVideoView.setVideoJjType(0);
+//       // String video_url = "http://www.jinguanguke.com/" + getIntent().getExtras().getString("vurl");
+//        String video_url = "http://v.youku.com/v_show/id_XMTU0OTE5MDg2NA==.html";
         mVideoView
-                .setResourceVideo(vurl);
+                .setResourceVideo(video_url);
 //                .setResourceVideo("http://v.youku.com/v_show/id_XMTUzNzM1MjUwMA==_ev_5.html?from=y1.3-idx-uhome-1519-20887.205805-205902.8-1");
 
         Button btn = (Button) findViewById(R.id.button1);

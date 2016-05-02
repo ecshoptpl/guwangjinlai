@@ -15,6 +15,7 @@ import java.util.ArrayList;
 
   public int id;
   public String content;
+  public String status;
   @JsonProperty("created_at") public int createdAt;
 
   public User2 user;
@@ -26,6 +27,7 @@ import java.util.ArrayList;
   public Feed(Parcel source) {
     this.id = source.readInt();
     this.content = source.readString();
+    this.status = source.readString();
     this.createdAt = source.readInt();
 
     this.user = source.readParcelable(getClass().getClassLoader());
@@ -50,6 +52,7 @@ import java.util.ArrayList;
   @Override public void writeToParcel(Parcel dest, int flags) {
     dest.writeInt(id);
     dest.writeString(content);
+    dest.writeString(status);
     dest.writeInt(createdAt);
     dest.writeParcelable(user, flags);
     dest.writeTypedList(images);
