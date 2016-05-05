@@ -13,6 +13,17 @@ public class ImageInfo {
     private int width;
     private int height;
     private String aid;
+    private String typeid;
+
+    public String getTypeid() {
+        return typeid;
+    }
+
+    public void setTypeid(String typeid) {
+        this.typeid = typeid;
+    }
+
+
 
 
     public String getAid() {

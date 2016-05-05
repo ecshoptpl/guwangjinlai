@@ -38,9 +38,20 @@ public class FeedsFragment extends BaseFragment {
 
     Resources r = StarterKitApp.appResources();
 
-    mAdapter.addFragment(new VideoFragment(), "健康");
-    mAdapter.addFragment(new FeedsPagedFragment(), "音乐");
-    mAdapter.addFragment(new FeedsKeyFragment(), "电影");
+    Bundle args = new Bundle();
+    VideoFragment videoFragment = new VideoFragment();
+    videoFragment.setArguments(args);
+    mAdapter.addFragment(videoFragment, "全部");
+
+
+    LectureFragment lectureFragment = new LectureFragment();
+    mAdapter.addFragment(lectureFragment, "医生讲座");
+
+
+    MovieFragment movieFragment = new MovieFragment();
+    mAdapter.addFragment(movieFragment, "微视频");
+
+
 
    // mAdapter.addFragment(new VideoFragment(), r.getString(R.string.feed_without));
   }

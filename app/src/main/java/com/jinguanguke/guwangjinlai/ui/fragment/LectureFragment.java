@@ -1,6 +1,5 @@
 package com.jinguanguke.guwangjinlai.ui.fragment;
 
-import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
@@ -9,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -20,10 +20,8 @@ import com.jinguanguke.guwangjinlai.R;
 import com.jinguanguke.guwangjinlai.api.service.FeedService;
 import com.jinguanguke.guwangjinlai.data.JinguanDB;
 import com.jinguanguke.guwangjinlai.model.entity.DataInfo;
-import com.jinguanguke.guwangjinlai.model.entity.Feed;
 import com.jinguanguke.guwangjinlai.model.entity.ImageInfo;
 import com.jinguanguke.guwangjinlai.ui.activity.DetailActivity;
-import com.jinguanguke.guwangjinlai.ui.activity.MoviePlayActivity;
 import com.jinguanguke.guwangjinlai.ui.viewholder.OnVideoClickListener;
 import com.jinguanguke.guwangjinlai.ui.viewholder.VideosAdapter;
 import com.jinguanguke.guwangjinlai.util.httpUtils;
@@ -38,10 +36,9 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
- * Created by jin on 16/4/13.
+ * Created by jin on 16/4/21.
  */
-public class VideoFragment extends Fragment implements OnVideoClickListener{
-
+public class LectureFragment extends Fragment implements OnVideoClickListener {
     private static final int REQUEST_NUM = 5;
     private static final String REQUEST_URL = "http://www.jinguanguke.com/plus/io/";
     private static final int REQUEST_FAIL = 2;
@@ -63,8 +60,9 @@ public class VideoFragment extends Fragment implements OnVideoClickListener{
     private VideosAdapter mAdapter;
 
 
+
     public static Fragment create() {
-        return new VideoFragment();
+        return new LectureFragment();
     }
 
     private Handler handler = new Handler() {
@@ -81,7 +79,7 @@ public class VideoFragment extends Fragment implements OnVideoClickListener{
                     showRefreshing(false);
                     List<ImageInfo> infos = new ArrayList<>();
                     for (ImageInfo info : imageCache) {
-                        if (!db.contain(info,"ImageInfo")) {
+                        if (!db.contain(info,"ImageInfo_jz")) {
                             infos.add(info);
                         } else {
                         }
@@ -98,11 +96,9 @@ public class VideoFragment extends Fragment implements OnVideoClickListener{
                     info.setUrl(data.getString("url"));
                     info.setTime(data.getString("time"));
                     info.setTitle(data.getString("title"));
-                    info.setVurl(data.getString("vurl"));
-                    info.setAid(data.getString("id"));
                     info.setTypeid(data.getString("typeid"));
-                    String table_name = getArguments().getString("table_name","ImageInfo");
-                    db.saveImageInfo(info,table_name);
+//                    String table_name = getArguments().getString("table_name","ImageInfo");
+                    db.saveImageInfo(info,"ImageInfo_jz");
                     imageInfos.add(info);
                     mAdapter.notifyItemInserted(imageInfos.size());
                     isLoadMore = false;
@@ -119,8 +115,8 @@ public class VideoFragment extends Fragment implements OnVideoClickListener{
 
         mContext = getActivity();
         db = JinguanDB.getInstance(mContext);
-        String table_name = getArguments().getString("table_name","ImageInfo");
-        imageInfos = db.findImageInfoAll(table_name);
+//        String table_name = getArguments().getString("table_name","ImageInfo");
+        imageInfos = db.findImageInfoAll("ImageInfo_jz");
         imageCache = new ArrayList<>();
 
     }
@@ -135,7 +131,7 @@ public class VideoFragment extends Fragment implements OnVideoClickListener{
 
         refresh.setColorSchemeResources(android.R.color.holo_blue_light, android.R.color.holo_red_light, android.R
                 .color.holo_orange_light, android.R.color.holo_green_light);
-//        refresh.setOnRefreshListener(getActivity());
+        //refresh.setOnRefreshListener(this);
         showRefreshing(true);
         return view;
     }
@@ -205,11 +201,7 @@ public class VideoFragment extends Fragment implements OnVideoClickListener{
         FeedService apiService = retrofit.create(FeedService.class);
         //retrofit2.Call<DataInfo> call = apiService.Data();
 
-
-        call = apiService.Data(page);
-
-
-
+        call = apiService.get_lecture(page);
         call.enqueue(new retrofit2.Callback<DataInfo>() {
             @Override
             public void onResponse(retrofit2.Call<DataInfo> call, retrofit2.Response<DataInfo> response) {
@@ -236,9 +228,6 @@ public class VideoFragment extends Fragment implements OnVideoClickListener{
                         info.setTime(entity.getPubdate());
                         info.setWho(entity.getUname());
                         info.setTitle(entity.getTitle());
-                        info.setVurl(entity.getVurl());
-                        info.setAid(entity.getId());
-                        info.setTypeid(entity.getTypeid());
                         imageCache.add(info);
                     }
                     Message msg = Message.obtain();
@@ -295,11 +284,9 @@ public class VideoFragment extends Fragment implements OnVideoClickListener{
                     Bundle bundle = new Bundle();
                     bundle.putInt("state", GET_SIZE_SUCCESS);
                     bundle.putString("url", info.getUrl());
-                    bundle.putString("vurl", info.getVurl());
                     bundle.putString("title", info.getTitle());
                     bundle.putString("time", info.getTime());
                     bundle.putString("who", info.getWho());
-                    bundle.putString("typeid", info.getTypeid());
                     bundle.putInt("width", point.x);
                     bundle.putInt("height", point.y);
                     msg.setData(bundle);
@@ -313,34 +300,10 @@ public class VideoFragment extends Fragment implements OnVideoClickListener{
     @Override
     public void onVideoClick(View itemView, int position) {
         String url = imageInfos.get(position).getUrl();
-        String vurl = imageInfos.get(position).getVurl();
-        String title = imageInfos.get(position).getTitle();
-        String aid = imageInfos.get(position).getAid();
-        Intent intent = new Intent(getActivity(), DetailActivity.class);
-//        Intent intent = new Intent(getActivity(), DetailActivity.class);
-        intent.setAction("com.guwangjinlai.jiankang");
-        intent.putExtra("url", url);
-        intent.putExtra("title", title);
-        intent.putExtra("vurl", vurl);
-        intent.putExtra("aid",aid);
 
+        Intent intent = new Intent(getActivity(), DetailActivity.class);
+        intent.putExtra("url", url);
+        intent.putExtra("id", url);
         startActivity(intent);
     }
-
-//    @Override
-//    public void onVideoLongClick(View itemView, final int position) {
-//        new ActionSheetDialog(getActivity())
-//                .builder()
-//                .setCancelable(false)
-//                .setCanceledOnTouchOutside(true).addSheetItem(mContext.getString(R.string.save_image), ActionSheetDialog.SheetItemColor.Blue, new ActionSheetDialog.OnSheetItemClickListener() {
-//            @Override
-//            public void onClick(int which) {
-//                String time = imageInfos.get(position).getTime();
-//                String url = imageInfos.get(position).getUrl();
-//                SaveImageTask saveImageUtils = new SaveImageTask(getActivity(), time);
-//                saveImageUtils.execute(url);
-//            }
-//        }).show();
-//    }
-
 }

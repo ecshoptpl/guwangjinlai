@@ -30,8 +30,15 @@ public interface FeedService {
   );
 
 //  @GET("index.php?c=player&a=play_movie")
-  @GET("index.php?c=api&_interface=list&_table=dede_archives&typeid=13")
-  Call<DataInfo> Dat();
+  @GET("index.php?c=api&_interface=list&_table=dede_archives&typeid=17")
+  Call<DataInfo> get_lecture(
+          @Query("page") int page
+  );
+
+  @GET("index.php?c=api&_interface=list&_table=dede_archives&typeid=14")
+  Call<DataInfo> get_funny(
+          @Query("page") int page
+  );
 
 
 }

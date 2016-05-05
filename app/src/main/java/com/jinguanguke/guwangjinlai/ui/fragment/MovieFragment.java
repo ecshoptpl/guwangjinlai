@@ -60,11 +60,7 @@ public class MovieFragment extends Fragment implements OnVideoClickListener {
     private VideosAdapter mAdapter;
 
 
-    public static MovieFragment newInstance() {
-        MovieFragment f = new MovieFragment();
 
-        return f;
-    }
     public static Fragment create() {
         return new MovieFragment();
     }
@@ -83,7 +79,7 @@ public class MovieFragment extends Fragment implements OnVideoClickListener {
                     showRefreshing(false);
                     List<ImageInfo> infos = new ArrayList<>();
                     for (ImageInfo info : imageCache) {
-                        if (!db.contain(info)) {
+                        if (!db.contain(info,"ImageInfo_zp")) {
                             infos.add(info);
                         } else {
                         }
@@ -100,7 +96,9 @@ public class MovieFragment extends Fragment implements OnVideoClickListener {
                     info.setUrl(data.getString("url"));
                     info.setTime(data.getString("time"));
                     info.setTitle(data.getString("title"));
-                    db.saveImageInfo(info);
+                    info.setTypeid(data.getString("typeid"));
+//                    String table_name = getArguments().getString("table_name","ImageInfo");
+                    db.saveImageInfo(info,"ImageInfo_zp");
                     imageInfos.add(info);
                     mAdapter.notifyItemInserted(imageInfos.size());
                     isLoadMore = false;
@@ -117,7 +115,8 @@ public class MovieFragment extends Fragment implements OnVideoClickListener {
 
         mContext = getActivity();
         db = JinguanDB.getInstance(mContext);
-        imageInfos = db.findImageInfoAll();
+//        String table_name = getArguments().getString("table_name","ImageInfo");
+        imageInfos = db.findImageInfoAll("ImageInfo_zp");
         imageCache = new ArrayList<>();
 
     }
@@ -202,7 +201,7 @@ public class MovieFragment extends Fragment implements OnVideoClickListener {
         FeedService apiService = retrofit.create(FeedService.class);
         //retrofit2.Call<DataInfo> call = apiService.Data();
 
-        call = apiService.Dat();
+        call = apiService.get_funny(page);
         call.enqueue(new retrofit2.Callback<DataInfo>() {
             @Override
             public void onResponse(retrofit2.Call<DataInfo> call, retrofit2.Response<DataInfo> response) {

@@ -55,17 +55,9 @@ public class MoviePlayActivity extends Activity {
     @SuppressLint("NewApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-
         super.onCreate(savedInstanceState);
-
         ShareSDK.initSDK(this);
         ShareSDK.registerService(Socialization.class);
-
-
-
-
-
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);// 去掉信息栏
         setContentView(R.layout.activity_movie_play);
@@ -83,7 +75,7 @@ public class MoviePlayActivity extends Activity {
         mLoadText = (TextView) findViewById(R.id.sdk_ijk_progress_bar_text);
         mLoadBufferView = findViewById(R.id.sdk_load_layout);
         mLoadBufferTextView = (TextView) findViewById(R.id.sdk_sdk_ijk_load_buffer_text);
-//        mVideoView.setMediaController(new VideoJjMediaContoller(getBaseContext(), true));
+        mVideoView.setMediaController(new VideoJjMediaContoller(getBaseContext(), true));
         mLoadBufferTextView.setTextColor(Color.RED);
         /***
          * 用户自定义的外链 可 获取外链点击时间

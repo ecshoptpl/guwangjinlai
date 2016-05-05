@@ -105,6 +105,8 @@ public class DataInfo {
             private String pubdate;
             private String senddate;
             private String mid;
+//            private String aid;
+            private String typeid;
             private String scores;
             private int goodpost;
             private String description;
@@ -124,6 +126,22 @@ public class DataInfo {
 
             public void setId(String id) {
                 this.id = id;
+            }
+
+//            public String getAid() {
+//                return aid;
+//            }
+//
+//            public void setAid(String aid) {
+//                this.aid = aid;
+//            }
+
+            public String getTypeid() {
+                return typeid;
+            }
+
+            public void setTypeid(String typeid) {
+                this.typeid = typeid;
             }
 
             public String getClick() {

@@ -189,7 +189,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.image_detail);
+        setContentView(R.layout.activity_detail);
         App.getInstance().addActivity(DetailActivity.this);
         init();
         mSuperVideoPlayer = (SuperVideoPlayer) findViewById(R.id.video_player_item_1);
