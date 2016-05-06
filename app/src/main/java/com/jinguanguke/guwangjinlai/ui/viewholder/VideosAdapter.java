@@ -26,6 +26,7 @@ public class VideosAdapter extends RecyclerView.Adapter<VideosAdapter.VideosView
     private List<ImageInfo> imageInfos;
     @Bind(R.id.tv_title)
     TextView titleView;
+
     private OnVideoClickListener onVideoClickListener;
 
     public VideosAdapter(Context mContext, List<ImageInfo> imageInfos) {

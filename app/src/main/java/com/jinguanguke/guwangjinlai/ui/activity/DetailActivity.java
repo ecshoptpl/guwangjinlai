@@ -1,5 +1,6 @@
 package com.jinguanguke.guwangjinlai.ui.activity;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -7,6 +8,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -43,7 +45,7 @@ import retrofit2.Response;
 /**
  * Created by jin on 16/4/13.
  */
-public class DetailActivity extends AppCompatActivity implements View.OnClickListener {
+public class DetailActivity extends Activity implements View.OnClickListener {
 
     @Bind(R.id.iv_meizi)
     ImageView image;
@@ -121,16 +123,19 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void onClick(View view) {
+        qcBar.setVisibility(View.INVISIBLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,  WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//        requestWindowFeature(Window.FEATURE_NO_TITLE);
         mPlayBtnView.setVisibility(View.GONE);
         mSuperVideoPlayer.setVisibility(View.VISIBLE);
         mSuperVideoPlayer.setAutoHideController(false);
 
         Video video = new Video();
         VideoUrl videoUrl1 = new VideoUrl();
-        videoUrl1.setFormatName("720P");
+        videoUrl1.setFormatName("");
         videoUrl1.setFormatUrl(this.vurl);
         VideoUrl videoUrl2 = new VideoUrl();
-        videoUrl2.setFormatName("480P");
+        videoUrl2.setFormatName("");
         videoUrl2.setFormatUrl(this.vurl);
         ArrayList<VideoUrl> arrayList1 = new ArrayList<>();
         arrayList1.add(videoUrl1);
@@ -142,9 +147,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
 
         ArrayList<Video> videoArrayList = new ArrayList<>();
         videoArrayList.add(video);
-
-
-        mSuperVideoPlayer.loadMultipleVideo(videoArrayList,0,0,0);
+         mSuperVideoPlayer.loadMultipleVideo(videoArrayList,0,0,0);
     }
 
     @Override
@@ -189,7 +192,8 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail);
+
+        setContentView(R.layout.image_detail);
         App.getInstance().addActivity(DetailActivity.this);
         init();
         mSuperVideoPlayer = (SuperVideoPlayer) findViewById(R.id.video_player_item_1);
@@ -197,9 +201,10 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         mPlayBtnView.setOnClickListener(this);
         mSuperVideoPlayer.setVideoPlayCallback(mVideoPlayCallback);
         startDLNAService();
-
-
-        qcBar.setTopic("1", "test", null, null);
+        String aid = getIntent().getExtras().getString("aid");
+        String vurl = getIntent().getExtras().getString("vurl");
+        String title = getIntent().getExtras().getString("title");
+        qcBar.setTopic(vurl, title, null, null);
         qcBar.getBackButton().setOnClickListener(this);
         OnekeyShare oks = new OnekeyShare();
         qcBar.setOnekeyShare(oks);

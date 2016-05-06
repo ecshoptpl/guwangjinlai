@@ -19,6 +19,7 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import com.jinguanguke.guwangjinlai.NavUtils;
 import com.jinguanguke.guwangjinlai.R;
 import com.jinguanguke.guwangjinlai.model.entity.User;
+import com.jinguanguke.guwangjinlai.update.CheckUpdate;
 import com.smartydroid.android.starter.kit.account.AccountManager;
 import com.smartydroid.android.starter.kit.app.StarterActivity;
 import com.smartydroid.android.starter.kit.utilities.ViewUtils;

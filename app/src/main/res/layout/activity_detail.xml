@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     >
 
-    <com.hackvg.android.views.custom_views.ObservableScrollView
+    <com.jinguanguke.guwangjinlai.custom_views.ObservableScrollView
         android:id="@+id/activity_detail_scroll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -26,7 +26,7 @@
                 android:scaleType="centerCrop"
                 />
 
-            <com.hackvg.android.views.custom_views.LobsterTextView
+            <com.jinguanguke.guwangjinlai.custom_views.LobsterTextView
                 android:id="@+id/activity_detail_title"
                 android:layout_width="match_parent"
                 android:layout_height="96dp"
@@ -41,7 +41,7 @@
                 android:textColor="#FFF"
                 android:ellipsize="end"
                 android:maxLines="2"
-                android:background="@color/theme_primary"
+                android:background="#ccc"
                 android:elevation="4dp"
                 tools:text="An awesome title"
                 />
@@ -155,7 +155,7 @@
                     />
             </LinearLayout>
         </RelativeLayout>
-    </com.hackvg.android.views.custom_views.ObservableScrollView>
+    </com.jinguanguke.guwangjinlai.custom_views.ObservableScrollView>
 
 
     <FrameLayout
@@ -166,7 +166,7 @@
         style="@style/MaterialMoviesDetailConfirmation"
         >
 
-        <com.hackvg.android.views.custom_views.LobsterTextView
+        <com.jinguanguke.guwangjinlai.custom_views.LobsterTextView
             android:id="@+id/activity_detail_confirmation_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

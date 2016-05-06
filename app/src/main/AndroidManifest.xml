@@ -85,7 +85,9 @@
         </activity>
         <activity
             android:name=".ui.activity.DetailActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar"
+            />
         <activity
             android:name="com.mob.tools.MobUIShell"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -141,9 +143,10 @@
             android:value="@integer/google_play_services_version" />
 
         <activity android:name=".ui.activity.QQSignupActivity" />
-        <activity android:name=".ui.activity.MoviePlayActivity"></activity>
+
         <activity android:name=".ui.activity.AgreementActivity"></activity>
         <activity android:name=".ui.activity.JifenActivity"></activity>
+        <activity android:name=".ui.activity.PublishActivity"></activity>
 
     </application>
 

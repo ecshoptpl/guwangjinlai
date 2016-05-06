@@ -32,7 +32,7 @@
         <com.android.tedcoder.wkvideoplayer.view.SuperVideoPlayer
             android:id="@+id/video_player_item_1"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="match_parent"
             android:visibility="gone">
         </com.android.tedcoder.wkvideoplayer.view.SuperVideoPlayer>
 

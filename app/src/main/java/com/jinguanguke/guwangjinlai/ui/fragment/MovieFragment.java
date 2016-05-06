@@ -38,7 +38,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 /**
  * Created by jin on 16/4/21.
  */
-public class MovieFragment extends Fragment implements OnVideoClickListener {
+public class MovieFragment extends Fragment implements OnVideoClickListener,SwipeRefreshLayout.OnRefreshListener {
     private static final int REQUEST_NUM = 5;
     private static final String REQUEST_URL = "http://www.jinguanguke.com/plus/io/";
     private static final int REQUEST_FAIL = 2;
@@ -131,7 +131,7 @@ public class MovieFragment extends Fragment implements OnVideoClickListener {
 
         refresh.setColorSchemeResources(android.R.color.holo_blue_light, android.R.color.holo_red_light, android.R
                 .color.holo_orange_light, android.R.color.holo_green_light);
-        //refresh.setOnRefreshListener(this);
+        refresh.setOnRefreshListener(this);
         showRefreshing(true);
         return view;
     }
@@ -246,10 +246,10 @@ public class MovieFragment extends Fragment implements OnVideoClickListener {
 
     }
 
-//    @Override
-//    public void onRefresh() {
-//        showRefreshing(false);
-//    }
+    @Override
+    public void onRefresh() {
+        showRefreshing(false);
+    }
 
     public Point loadImageForSize(String url) {
         Point point = new Point();

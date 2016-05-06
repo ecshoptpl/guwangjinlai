@@ -23,7 +23,8 @@ import com.jinguanguke.guwangjinlai.model.entity.DataInfo;
 import com.jinguanguke.guwangjinlai.model.entity.Feed;
 import com.jinguanguke.guwangjinlai.model.entity.ImageInfo;
 import com.jinguanguke.guwangjinlai.ui.activity.DetailActivity;
-import com.jinguanguke.guwangjinlai.ui.activity.MoviePlayActivity;
+
+import com.jinguanguke.guwangjinlai.ui.viewholder.GridSpacingItemDecoration;
 import com.jinguanguke.guwangjinlai.ui.viewholder.OnVideoClickListener;
 import com.jinguanguke.guwangjinlai.ui.viewholder.VideosAdapter;
 import com.jinguanguke.guwangjinlai.util.httpUtils;
@@ -40,7 +41,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 /**
  * Created by jin on 16/4/13.
  */
-public class VideoFragment extends Fragment implements OnVideoClickListener{
+public class VideoFragment extends Fragment implements OnVideoClickListener,SwipeRefreshLayout.OnRefreshListener {
 
     private static final int REQUEST_NUM = 5;
     private static final String REQUEST_URL = "http://www.jinguanguke.com/plus/io/";
@@ -135,7 +136,7 @@ public class VideoFragment extends Fragment implements OnVideoClickListener{
 
         refresh.setColorSchemeResources(android.R.color.holo_blue_light, android.R.color.holo_red_light, android.R
                 .color.holo_orange_light, android.R.color.holo_green_light);
-//        refresh.setOnRefreshListener(getActivity());
+        refresh.setOnRefreshListener(this);
         showRefreshing(true);
         return view;
     }
@@ -171,6 +172,10 @@ public class VideoFragment extends Fragment implements OnVideoClickListener{
 
             }
         });
+        int spanCount = 3; // 3 columns
+        int spacing = 50; // 50px
+        boolean includeEdge = true;
+        recyclerView.addItemDecoration(new GridSpacingItemDecoration(2,10,true));
 
         requestData(1);
     }
@@ -257,10 +262,10 @@ public class VideoFragment extends Fragment implements OnVideoClickListener{
 
     }
 
-//    @Override
-//    public void onRefresh() {
-//        showRefreshing(false);
-//    }
+    @Override
+    public void onRefresh() {
+        showRefreshing(false);
+    }
 
     public Point loadImageForSize(String url) {
         Point point = new Point();

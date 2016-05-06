@@ -14,8 +14,7 @@ import com.jinguanguke.guwangjinlai.api.service.FeedService;
 import com.jinguanguke.guwangjinlai.model.entity.Bili;
 import com.jinguanguke.guwangjinlai.model.entity.Feed;
 import com.jinguanguke.guwangjinlai.network.MyNetwork;
-import com.jinguanguke.guwangjinlai.ui.activity.DetailActivity;
-import com.jinguanguke.guwangjinlai.ui.activity.MoviePlayActivity;
+
 import com.jinguanguke.guwangjinlai.ui.viewholder.FeedViewHolderFactory;
 import com.jinguanguke.guwangjinlai.ui.viewholder.FeedsTextViewHolder;
 import com.smartydroid.android.starter.kit.app.StarterKeysFragment;
@@ -73,12 +72,12 @@ public class FeedsKeyFragment extends StarterKeysFragment<Feed> {
     final Feed feed = getItem(position);
     String url = feed.images.get(0).url;
     String video_url = feed.status;
-
-    Intent intent = new Intent(getActivity(), MoviePlayActivity.class);
-    intent.setAction("com.jinguangguke.guwangjinlai.movie");
-    intent.putExtra("url", url);
-    intent.putExtra("video_url", video_url);
-    intent.putExtra("aid", feed.id);
-    startActivity(intent);
+//
+//    Intent intent = new Intent(getActivity(), MoviePlayActivity.class);
+//    intent.setAction("com.jinguangguke.guwangjinlai.movie");
+//    intent.putExtra("url", url);
+//    intent.putExtra("video_url", video_url);
+//    intent.putExtra("aid", feed.id);
+//    startActivity(intent);
   }
 }

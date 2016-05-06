@@ -67,6 +67,7 @@ import com.jinguanguke.guwangjinlai.model.entity.User;
 import com.jinguanguke.guwangjinlai.ui.fragment.AccountFragment;
 import com.jinguanguke.guwangjinlai.ui.fragment.FeedsFragment;
 
+import com.jinguanguke.guwangjinlai.update.CheckUpdate;
 import com.jinguanguke.guwangjinlai.util.AppConfig;
 
 
@@ -128,26 +129,26 @@ public class TabActivity extends StarterActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_tab);
-
+    CheckUpdate.getInstance().startCheck(this);
     FloatingActionButton myFab = (FloatingActionButton) mTabHost.findViewById(R.id.fab);
 
     myFab.setOnClickListener(new View.OnClickListener() {
 
 
       public void onClick(View v) {
-
-        final EditText inputServer = new EditText(TabActivity.this);
-        AlertDialog.Builder builder = new AlertDialog.Builder(TabActivity.this);
-        builder.setTitle("视频标题").setIcon(android.R.drawable.ic_dialog_info).setView(inputServer)
-                .setNegativeButton("取消", null);
-        builder.setPositiveButton("完成", new DialogInterface.OnClickListener() {
-
-          public void onClick(DialogInterface dialog, int which) {
-            video_title = inputServer.getText().toString();
-            startVideoCaptureActivity();
-          }
-        });
-        builder.show();
+        startVideoCaptureActivity();
+//        final EditText inputServer = new EditText(TabActivity.this);
+//        AlertDialog.Builder builder = new AlertDialog.Builder(TabActivity.this);
+//        builder.setTitle("视频标题").setIcon(android.R.drawable.ic_dialog_info).setView(inputServer)
+//                .setNegativeButton("取消", null);
+//        builder.setPositiveButton("完成", new DialogInterface.OnClickListener() {
+//
+//          public void onClick(DialogInterface dialog, int which) {
+//            video_title = inputServer.getText().toString();
+//            startVideoCaptureActivity();
+//          }
+//        });
+//        builder.show();
       }
     });
     setupTab();
@@ -162,8 +163,10 @@ public class TabActivity extends StarterActivity {
     if (resultCode == Activity.RESULT_OK) {
       filename = data.getStringExtra(VideoCaptureActivity.EXTRA_OUTPUT_FILENAME);
       statusMessage = String.format(getString(R.string.status_capturesuccess), filename);
-      uploadFile(filename);
-      Log.i("filename", filename);
+      final Intent intent = new Intent(this, PublishActivity.class);
+      startActivity(intent);
+//      uploadFile(filename);
+//      Log.i("filename", filename);
     } else if (resultCode == Activity.RESULT_CANCELED) {
       filename = null;
       statusMessage = getString(R.string.status_capturecancelled);
@@ -171,10 +174,10 @@ public class TabActivity extends StarterActivity {
       filename = null;
       statusMessage = getString(R.string.status_capturefailed);
     }
-    Log.i("statusMessage", statusMessage);
-    updateStatusAndThumbnail();
-
-    super.onActivityResult(requestCode, resultCode, data);
+//    Log.i("statusMessage", statusMessage);
+//    updateStatusAndThumbnail();
+//
+//    super.onActivityResult(requestCode, resultCode, data);
   }
 
   private void updateStatusAndThumbnail() {
