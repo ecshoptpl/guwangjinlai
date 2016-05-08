@@ -175,7 +175,7 @@ public class VideoFragment extends Fragment implements OnVideoClickListener,Swip
         int spanCount = 3; // 3 columns
         int spacing = 50; // 50px
         boolean includeEdge = true;
-        recyclerView.addItemDecoration(new GridSpacingItemDecoration(2,10,true));
+        recyclerView.addItemDecoration(new GridSpacingItemDecoration(2,8,true));
 
         requestData(1);
     }

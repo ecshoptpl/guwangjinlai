@@ -82,6 +82,30 @@
             C 255.048,238.561 254.706,187.75 248.302,183.489
             C 221.536,165.677 218.848,144.628 223.42,133.484 z
     </string>
+    <string-array name="user_photos">
+        <item>http://www.gbblw.com/uploads/151011/4-151011100535515.jpg</item>
+        <item>http://www.gbblw.com/uploads/151011/4-151011100535515.jpg</item>
+        <item>http://www.gbblw.com/uploads/151011/4-151011100535515.jpg</item>
+        <item>http://www.gbblw.com/uploads/151011/4-151011100535515.jpg</item>
+        <item>http://www.gbblw.com/uploads/151011/4-151011100535515.jpg</item>
+        <item>http://www.gbblw.com/uploads/151011/4-151011100535515.jpg</item>
+        <item>http://www.gbblw.com/uploads/151011/4-151011100535515.jpg</item>
+        <item>http://www.gbblw.com/uploads/151011/4-151011100535515.jpg</item>
+        <item>http://www.gbblw.com/uploads/151011/4-151011100535515.jpg</item>
+        <item>http://www.gbblw.com/uploads/151011/4-151011100535515.jpg</item>
+        <item>http://www.gbblw.com/uploads/151011/4-151011100535515.jpg</item>
+        <item>http://www.gbblw.com/uploads/151011/4-151011100535515.jpg</item>
+        <item>http://www.gbblw.com/uploads/151011/4-151011100535515.jpg</item>
+        <item>http://www.gbblw.com/uploads/151011/4-151011100535515.jpg</item>
+        <item>http://www.gbblw.com/uploads/151011/4-151011100535515.jpg</item>
+        <item>http://www.gbblw.com/uploads/151011/4-151011100535515.jpg</item>
+        <item>http://www.gbblw.com/uploads/151011/4-151011100535515.jpg</item>
+        <item>http://www.gbblw.com/uploads/151011/4-151011100535515.jpg</item>
+        <item>http://www.gbblw.com/uploads/151011/4-151011100535515.jpg</item>
+        <item>http://www.gbblw.com/uploads/151011/4-151011100535515.jpg</item>
+    </string-array>
+    <string name="user_profile_photo">http://igcdn-photos-f-a.akamaihd.net/hphotos-ak-xpa1/t51.2885-19/929118_455075441302693_1605108410_a.jpg</string>
+
 
 
 </resources>
