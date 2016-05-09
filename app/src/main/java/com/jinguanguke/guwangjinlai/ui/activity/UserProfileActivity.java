@@ -11,6 +11,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -28,7 +30,9 @@ import android.widget.TextView;
 
 import com.jinguanguke.guwangjinlai.R;
 import com.jinguanguke.guwangjinlai.model.entity.User;
+import com.jinguanguke.guwangjinlai.ui.fragment.AccountFragment;
 import com.jinguanguke.guwangjinlai.ui.view.RevealBackgroundView;
+import com.jinguanguke.guwangjinlai.ui.viewholder.TabsPagerAdapter;
 import com.jinguanguke.guwangjinlai.ui.viewholder.UserProfileAdapter;
 import com.jinguanguke.guwangjinlai.util.CircleTransformation;
 import com.smartydroid.android.starter.kit.account.AccountManager;
@@ -79,6 +83,9 @@ public class UserProfileActivity extends Fragment implements RevealBackgroundVie
     @Bind(R.id.nickename)
     TextView nikename;
 
+//    @Bind(R.id.pager)
+//    ViewPager pager;
+
     private int avatarSize;
     private String profilePhoto;
     private UserProfileAdapter userPhotosAdapter;
@@ -117,9 +124,18 @@ public class UserProfileActivity extends Fragment implements RevealBackgroundVie
                 .transform(new CircleTransformation())
                 .into(ivUserProfilePhoto);
 
-        setupTabs();
-        setupUserProfileGrid();
-        setupRevealBackground(savedInstanceState);
+
+        //TabsPagerAdapter adapter = new TabsPagerAdapter(getActivity().getSupportFragmentManager());
+        //pager.setAdapter(adapter);
+       // tlUserProfileTabs.setupWithViewPager(pager);
+
+
+
+        //tlUserProfileTabs.setupWithViewPager(pager);
+//        setupTabs();
+
+        // setupUserProfileGrid();
+       // setupRevealBackground(savedInstanceState);
         return view1;
     }
 

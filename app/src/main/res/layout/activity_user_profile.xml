@@ -1,9 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
+    <com.github.florent37.materialviewpager.MaterialViewPager
+        android:id="@+id/materialViewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:viewpager_logo="@layout/header_logo"
+        app:viewpager_logoMarginTop="100dp"
+        app:viewpager_color="@color/colorPrimary"
+        app:viewpager_headerHeight="200dp"
+        app:viewpager_headerAlpha="1.0"
+        app:viewpager_hideLogoWithFade="false"
+        app:viewpager_hideToolbarAndTitle="true"
+        app:viewpager_enableToolbarElevation="true"
+        app:viewpager_parallaxHeaderFactor="1.5"
+        app:viewpager_headerAdditionalHeight="20dp"
+        app:viewpager_displayToolbarWhenSwipe="true"
+        app:viewpager_transparentToolbar="true"
+        app:viewpager_animatedHeaderImage="true"
+        app:viewpager_disableToolbar="false"
+
+        />
 
     <com.jinguanguke.guwangjinlai.ui.view.RevealBackgroundView
         android:id="@+id/vRevealBackground"
@@ -205,7 +227,6 @@
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="48dp">
-
                 <android.support.design.widget.TabLayout
                     android:id="@+id/tlUserProfileTabs"
                     android:layout_width="match_parent"
@@ -215,8 +236,7 @@
                     app:tabIndicatorColor="#5be5ad"
                     app:tabIndicatorHeight="4dp"
                     app:tabMode="fixed" />
-
-            </FrameLayout>
+             </FrameLayout>
 
         </android.support.design.widget.AppBarLayout>
 
