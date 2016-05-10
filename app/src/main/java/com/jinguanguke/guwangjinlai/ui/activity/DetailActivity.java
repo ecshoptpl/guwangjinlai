@@ -29,6 +29,7 @@ import com.jinguanguke.guwangjinlai.network.MyNetwork;
 import com.jinguanguke.guwangjinlai.ui.App;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.logging.Handler;
 import java.util.logging.LogRecord;
 
@@ -38,6 +39,8 @@ import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 import cn.sharesdk.socialization.QuickCommentBar;
 import cn.sharesdk.socialization.Socialization;
+import cn.sharesdk.wechat.friends.Wechat;
+import cn.sharesdk.wechat.moments.WechatMoments;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -201,13 +204,6 @@ public class DetailActivity extends Activity implements View.OnClickListener {
         mPlayBtnView.setOnClickListener(this);
         mSuperVideoPlayer.setVideoPlayCallback(mVideoPlayCallback);
         startDLNAService();
-        String aid = getIntent().getExtras().getString("aid");
-        String vurl = getIntent().getExtras().getString("vurl");
-        String title = getIntent().getExtras().getString("title");
-        qcBar.setTopic(vurl, title, null, null);
-        qcBar.getBackButton().setOnClickListener(this);
-        OnekeyShare oks = new OnekeyShare();
-        qcBar.setOnekeyShare(oks);
     }
 
     private void init() {
@@ -248,30 +244,40 @@ public class DetailActivity extends Activity implements View.OnClickListener {
         String url = getIntent().getExtras().getString("url");
 
         Glide.with(this).load(url).diskCacheStrategy(DiskCacheStrategy.ALL).into(image);
-        ShareSDK.initSDK(this);
+        ShareSDK.initSDK(this,"285ce8dba339");
+        HashMap<String, Object> wechat = new HashMap<String, Object>();
+        wechat.put("Id", "4");
+        wechat.put("SortId", "4");
+        wechat.put("AppId", "wxdb0f7a71c883b423");
+        wechat.put("AppSecret", "daecf556b42463ce11c2421f9570cac7");
+        wechat.put("BypassApproval", "false");
+        wechat.put("Enable", "true");
+        ShareSDK.setPlatformDevInfo(Wechat.NAME, wechat);
+        // 代码配置第三方平台
+        HashMap<String, Object> WechatMoment = new HashMap<String, Object>();
+        WechatMoment.put("Id", "5");
+        WechatMoment.put("SortId", "5");
+        WechatMoment.put("AppId", "wxdb0f7a71c883b423");
+        WechatMoment.put("AppSecret", "daecf556b42463ce11c2421f9570cac7");
+        WechatMoment.put("BypassApproval", "false");
+        WechatMoment.put("Enable", "true");
+        ShareSDK.setPlatformDevInfo(WechatMoments.NAME, WechatMoment);
+
+
         ShareSDK.registerService(Socialization.class);
         OnekeyShare oks = new OnekeyShare();
-        //关闭sso授权
-        //oks.disableSSOWhenAuthorize();
-
-        // 分享时Notification的图标和文字  2.5.9以后的版本不调用此方法
-        //oks.setNotification(R.drawable.ic_launcher, getString(R.string.app_name));
-        // title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间使用
-        oks.setTitle(getIntent().getExtras().getString("title"));
-        // titleUrl是标题的网络链接，仅在人人网和QQ空间使用
-        oks.setTitleUrl("http://www.jinguanguke.com");
-        // text是分享文本，所有平台都需要这个字段
-        oks.setText(getIntent().getExtras().getString("title"));
-        // imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
-        //oks.setImagePath("/sdcard/test.jpg");//确保SDcard下面存在此张图片
-        // url仅在微信（包括好友和朋友圈）中使用
-        oks.setUrl(vurl);
-        // comment是我对这条分享的评论，仅在人人网和QQ空间使用
-        //oks.setComment("我是测试评论文本");
-        // site是分享此内容的网站名称，仅在QQ空间使用
-        oks.setSite(getString(R.string.app_name));
-        // siteUrl是分享此内容的网站地址，仅在QQ空间使用
-        oks.setSiteUrl("http://www.jinguanguke.com");
+        oks.setTitle("Title");
+        oks.setTitleUrl("http://www.baidu.com"); // 标题的超链接
+        oks.setText("123165646	846");
+        oks.setUrl("http://mob.com");
+        oks.setImageUrl("http://f1.sharesdk.cn/imgs/2014/02/26/owWpLZo_638x960.jpg");
+        String aid = getIntent().getExtras().getString("aid");
+        String vurl = getIntent().getExtras().getString("vurl");
+        String title = getIntent().getExtras().getString("title");
+        qcBar.setTopic(vurl, title, null, null);
+        qcBar.getBackButton().setOnClickListener(this);
+        //OnekeyShare oks = new OnekeyShare();
+        qcBar.setOnekeyShare(oks);
 
 // 启动分享GUI
        // oks.show(this);

@@ -24,7 +24,7 @@ import com.smartydroid.android.starter.kit.utilities.ViewUtils;
  */
 public class AccountFragment extends BaseFragment {
 
-  @Bind(R.id.toolbar) Toolbar mToolbar;
+ // @Bind(R.id.toolbar) Toolbar mToolbar;
   @Bind(R.id.container_login) View mLoginContainer;
   @Bind(R.id.container_account) View mUserInfoContainer;
   @Bind(R.id.image_avatar) SimpleDraweeView mAvatarView;
@@ -36,7 +36,7 @@ public class AccountFragment extends BaseFragment {
 
   @Override public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
-    mToolbar.setTitle(R.string.toolbar_title_account);
+   // mToolbar.setTitle(R.string.toolbar_title_account);
   }
 
   @Override public void onResume() {

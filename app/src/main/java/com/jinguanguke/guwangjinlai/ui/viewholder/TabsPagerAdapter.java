@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.jinguanguke.guwangjinlai.R;
+import com.jinguanguke.guwangjinlai.ui.fragment.AccountFragment;
 import com.jinguanguke.guwangjinlai.ui.fragment.PageFragment;
 
 
@@ -17,7 +18,23 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
         // getItem is called to instantiate the fragment for the given page.
-        return PageFragment.newInstance(position + 1);
+        switch (position)
+        {
+            case 0:
+            {
+                return PageFragment.newInstance(position + 1);
+
+            }
+            case 1:
+            {
+                return PageFragment.newInstance(position + 1);
+            }
+            default:
+            {
+                return new AccountFragment();
+            }
+        }
+
     }
 
     @Override
@@ -27,16 +44,22 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-//        switch (position)
-//        {
-//            case 0:
-//            {
-//                tlUserProfileTabs.addTab(tlUserProfileTabs.newTab().setIcon(R.drawable.ic_grid_on_white));
-//                tlUserProfileTabs.addTab(tlUserProfileTabs.newTab().setIcon(R.drawable.ic_list_white));
-//                tlUserProfileTabs.addTab(tlUserProfileTabs.newTab().setIcon(R.drawable.ic_place_white));
-//                tlUserProfileTabs.addTab(tlUserProfileTabs.newTab().setIcon(R.drawable.ic_label_white));
-//            }
-//        }
-        return "TAB " + (position + 1);
+        switch (position)
+        {
+            case 0:
+            {
+                return "看过的";
+
+            }
+            case 1:
+            {
+                return "发布的";
+            }
+            default:
+            {
+                return "设置";
+            }
+        }
+
     }
 }

@@ -64,8 +64,8 @@ public class UserProfileActivity extends Fragment implements RevealBackgroundVie
 
     @Bind(R.id.vRevealBackground)
     RevealBackgroundView vRevealBackground;
-    @Bind(R.id.rvUserProfile)
-    RecyclerView rvUserProfile;
+//    @Bind(R.id.rvUserProfile)
+//    RecyclerView rvUserProfile;
 
     @Bind(R.id.tlUserProfileTabs)
     TabLayout tlUserProfileTabs;
@@ -83,8 +83,8 @@ public class UserProfileActivity extends Fragment implements RevealBackgroundVie
     @Bind(R.id.nickename)
     TextView nikename;
 
-//    @Bind(R.id.pager)
-//    ViewPager pager;
+    @Bind(R.id.pager)
+    ViewPager pager;
 
     private int avatarSize;
     private String profilePhoto;
@@ -125,17 +125,17 @@ public class UserProfileActivity extends Fragment implements RevealBackgroundVie
                 .into(ivUserProfilePhoto);
 
 
-        //TabsPagerAdapter adapter = new TabsPagerAdapter(getActivity().getSupportFragmentManager());
-        //pager.setAdapter(adapter);
-       // tlUserProfileTabs.setupWithViewPager(pager);
+        TabsPagerAdapter adapter = new TabsPagerAdapter(getActivity().getSupportFragmentManager());
+        pager.setAdapter(adapter);
+        tlUserProfileTabs.setupWithViewPager(pager);
 
 
 
-        //tlUserProfileTabs.setupWithViewPager(pager);
+        tlUserProfileTabs.setupWithViewPager(pager);
 //        setupTabs();
 
-        // setupUserProfileGrid();
-       // setupRevealBackground(savedInstanceState);
+//        setupUserProfileGrid();
+        setupRevealBackground(savedInstanceState);
         return view1;
     }
 
@@ -146,16 +146,16 @@ public class UserProfileActivity extends Fragment implements RevealBackgroundVie
         tlUserProfileTabs.addTab(tlUserProfileTabs.newTab().setIcon(R.drawable.ic_label_white));
     }
 
-    private void setupUserProfileGrid() {
-        final StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
-        rvUserProfile.setLayoutManager(layoutManager);
-        rvUserProfile.setOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                userPhotosAdapter.setLockedAnimations(true);
-            }
-        });
-    }
+//    private void setupUserProfileGrid() {
+//        final StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
+//        rvUserProfile.setLayoutManager(layoutManager);
+//        rvUserProfile.setOnScrollListener(new RecyclerView.OnScrollListener() {
+//            @Override
+//            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+//                userPhotosAdapter.setLockedAnimations(true);
+//            }
+//        });
+//    }
 
     private void setupRevealBackground(Bundle savedInstanceState) {
         vRevealBackground.setOnStateChangeListener(this);
@@ -180,16 +180,16 @@ public class UserProfileActivity extends Fragment implements RevealBackgroundVie
     @Override
     public void onStateChange(int state) {
         if (RevealBackgroundView.STATE_FINISHED == state) {
-            rvUserProfile.setVisibility(View.VISIBLE);
+//            rvUserProfile.setVisibility(View.VISIBLE);
             tlUserProfileTabs.setVisibility(View.VISIBLE);
             vUserProfileRoot.setVisibility(View.VISIBLE);
             userPhotosAdapter = new UserProfileAdapter(getActivity());
-            rvUserProfile.setAdapter(userPhotosAdapter);
+//            rvUserProfile.setAdapter(userPhotosAdapter);
             animateUserProfileOptions();
             animateUserProfileHeader();
         } else {
             tlUserProfileTabs.setVisibility(View.INVISIBLE);
-            rvUserProfile.setVisibility(View.INVISIBLE);
+//            rvUserProfile.setVisibility(View.INVISIBLE);
             vUserProfileRoot.setVisibility(View.INVISIBLE);
         }
     }
