@@ -25,10 +25,10 @@ import com.smartydroid.android.starter.kit.utilities.ViewUtils;
 public class AccountFragment extends BaseFragment {
 
  // @Bind(R.id.toolbar) Toolbar mToolbar;
-  @Bind(R.id.container_login) View mLoginContainer;
-  @Bind(R.id.container_account) View mUserInfoContainer;
-  @Bind(R.id.image_avatar) SimpleDraweeView mAvatarView;
-  @Bind(R.id.text_account_username) TextView mUsernameTextView;
+//  @Bind(R.id.container_login) View mLoginContainer;
+//  @Bind(R.id.container_account) View mUserInfoContainer;
+//  @Bind(R.id.image_avatar) SimpleDraweeView mAvatarView;
+//  @Bind(R.id.text_account_username) TextView mUsernameTextView;
 
   @Override protected int getFragmentLayout() {
     return R.layout.fragment_account;
@@ -42,16 +42,16 @@ public class AccountFragment extends BaseFragment {
   @Override public void onResume() {
     super.onResume();
     if (AccountManager.isLogin()) {
-      ViewUtils.setGone(mLoginContainer, true);
-      ViewUtils.setGone(mUserInfoContainer, false);
+//      ViewUtils.setGone(mLoginContainer, true);
+//      ViewUtils.setGone(mUserInfoContainer, false);
       User user = AccountManager.getCurrentAccount();
-      mUsernameTextView.setText(user.getUserid());
+//      mUsernameTextView.setText(user.getUserid());
       String ava = "http://www.jinguanguke.com/uploads/app/ava" + user.getMid() + ".png";
       Uri face = Uri.parse(ava);
-      mAvatarView.setImageURI(face);
+//      mAvatarView.setImageURI(face);
     } else {
-      ViewUtils.setGone(mLoginContainer, false);
-      ViewUtils.setGone(mUserInfoContainer, true);
+//      ViewUtils.setGone(mLoginContainer, false);
+//      ViewUtils.setGone(mUserInfoContainer, true);
     }
   }
 

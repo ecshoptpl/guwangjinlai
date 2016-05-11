@@ -42,4 +42,11 @@ public interface SignupService {
             @Query("primary_id") String primary_id
     );
 
+    @POST("index.php?c=api&_interface=update&_table=dede_member")
+    Call<Register> update_uname(
+            @Query("mid") String mid,
+            @Query("uname") String uname
+
+    );
+
 }

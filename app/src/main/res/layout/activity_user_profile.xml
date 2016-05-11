@@ -14,7 +14,7 @@
     <android.support.design.widget.CoordinatorLayout
         android:id="@+id/content"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical">
      <android.support.design.widget.AppBarLayout
             android:id="@+id/appBarLayout"
@@ -69,20 +69,6 @@
                                 android:textColor="#ffffff"
                                 android:textSize="20sp" />
 
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="\@石家庄金冠"
-                                android:textColor="#bbbbbb"
-                                android:textSize="12sp" />
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="承认自己的伟大，就是认同自己的愚疑。"
-                                android:textColor="#ffffff"
-                                android:textSize="12sp" />
-
                             <Button
                                 android:id="@+id/btnFollow"
                                 android:layout_width="match_parent"
@@ -90,9 +76,9 @@
                                 android:layout_marginRight="24dp"
                                 android:layout_marginTop="8dp"
                                 android:background="@drawable/btn_following"
-                                android:text="签到"
                                 android:textColor="#ffffff"
-                                android:textSize="12sp" />
+                                android:textSize="12sp"
+                                android:text="积分" />
 
                         </LinearLayout>
                     </LinearLayout>
@@ -105,71 +91,6 @@
                         android:layout_marginRight="16dp"
                         android:layout_marginTop="16dp">
 
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="1167"
-                                android:textColor="#ffffff"
-                                android:textSize="20sp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="视频"
-                                android:textColor="#ffffff"
-                                android:textSize="12sp" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="396"
-                                android:textColor="#ffffff"
-                                android:textSize="20sp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="喜欢"
-                                android:textColor="#ffffff"
-                                android:textSize="12sp" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="485"
-                                android:textColor="#ffffff"
-                                android:textSize="20sp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="积分"
-                                android:textColor="#ffffff"
-                                android:textSize="12sp" />
-                        </LinearLayout>
                     </LinearLayout>
 
                 </LinearLayout>
@@ -193,6 +114,7 @@
                         android:src="@drawable/img_toolbar_logo" />
                 </android.support.v7.widget.Toolbar>
 
+
             </android.support.design.widget.CollapsingToolbarLayout>
          <android.support.design.widget.TabLayout
              android:id="@+id/tlUserProfileTabs"
@@ -204,16 +126,15 @@
              app:tabIndicatorColor="#5be5ad"
              app:tabIndicatorHeight="4dp"
              app:tabMode="fixed" />
-         <android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:id="@+id/pager"
-             android:layout_below="@id/tlUserProfileTabs"
-             android:layout_width="match_parent"
-             android:layout_height="0dp"
-             android:layout_weight="1.0"
-             tools:context="net.voidynullness.android.tabitytabs.TabLayoutActivity">
-         </android.support.v4.view.ViewPager>
+
         </android.support.design.widget.AppBarLayout>
+        <android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+           >
+        </android.support.v4.view.ViewPager>
 
     </android.support.design.widget.CoordinatorLayout>
 

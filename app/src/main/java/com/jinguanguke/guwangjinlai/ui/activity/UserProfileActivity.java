@@ -3,9 +3,11 @@ package com.jinguanguke.guwangjinlai.ui.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
@@ -28,13 +30,20 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.jinguanguke.guwangjinlai.R;
+import com.jinguanguke.guwangjinlai.api.service.AuthService;
+import com.jinguanguke.guwangjinlai.api.service.FeedService;
+import com.jinguanguke.guwangjinlai.api.service.SignupService;
+import com.jinguanguke.guwangjinlai.model.entity.DataInfo;
+import com.jinguanguke.guwangjinlai.model.entity.Register;
 import com.jinguanguke.guwangjinlai.model.entity.User;
 import com.jinguanguke.guwangjinlai.ui.fragment.AccountFragment;
 import com.jinguanguke.guwangjinlai.ui.view.RevealBackgroundView;
 import com.jinguanguke.guwangjinlai.ui.viewholder.TabsPagerAdapter;
 import com.jinguanguke.guwangjinlai.ui.viewholder.UserProfileAdapter;
 import com.jinguanguke.guwangjinlai.util.CircleTransformation;
+import com.jinguanguke.guwangjinlai.util.ServiceGenerator;
 import com.smartydroid.android.starter.kit.account.AccountManager;
 import com.squareup.picasso.Picasso;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -50,6 +59,8 @@ import io.valuesfeng.picker.Picker;
 import io.valuesfeng.picker.engine.glide.GlideEngine;
 import io.valuesfeng.picker.engine.picasso.PicassoEngine;
 import io.valuesfeng.picker.utils.PicturePickerUtils;
+import retrofit2.Call;
+import retrofit2.Response;
 
 
 /**
@@ -61,6 +72,7 @@ public class UserProfileActivity extends Fragment implements RevealBackgroundVie
     private static final int USER_OPTIONS_ANIMATION_DELAY = 300;
     private static final Interpolator INTERPOLATOR = new DecelerateInterpolator();
     private String mid = null;
+    List<String> potos = null;
 
     @Bind(R.id.vRevealBackground)
     RevealBackgroundView vRevealBackground;
@@ -104,6 +116,7 @@ public class UserProfileActivity extends Fragment implements RevealBackgroundVie
          ButterKnife.bind(this, view1);
         User user = AccountManager.getCurrentAccount();
         mid = user.getMid();
+        get_me_video(mid);
         this.avatarSize = getResources().getDimensionPixelSize(R.dimen.user_profile_avatar_size);
         this.profilePhoto = "http://www.jinguanguke.com/uploads/app/ava/" + mid + ".png";
 
@@ -129,9 +142,6 @@ public class UserProfileActivity extends Fragment implements RevealBackgroundVie
         pager.setAdapter(adapter);
         tlUserProfileTabs.setupWithViewPager(pager);
 
-
-
-        tlUserProfileTabs.setupWithViewPager(pager);
 //        setupTabs();
 
 //        setupUserProfileGrid();
@@ -183,7 +193,7 @@ public class UserProfileActivity extends Fragment implements RevealBackgroundVie
 //            rvUserProfile.setVisibility(View.VISIBLE);
             tlUserProfileTabs.setVisibility(View.VISIBLE);
             vUserProfileRoot.setVisibility(View.VISIBLE);
-            userPhotosAdapter = new UserProfileAdapter(getActivity());
+//            userPhotosAdapter = new UserProfileAdapter(getActivity());
 //            rvUserProfile.setAdapter(userPhotosAdapter);
             animateUserProfileOptions();
             animateUserProfileHeader();
@@ -234,6 +244,8 @@ public class UserProfileActivity extends Fragment implements RevealBackgroundVie
           public void onClick(DialogInterface dialog, int which) {
 //            video_title = inputServer.getText().toString();
               nikename.setText(inputServer.getText().toString());
+              update_uname(mid,inputServer.getText().toString());
+              AccountManager.getCurrentAccount();
 
           }
         });
@@ -298,4 +310,50 @@ public class UserProfileActivity extends Fragment implements RevealBackgroundVie
             }
         }
     }
+
+    private void get_me_video(String mid)
+    {
+        FeedService feedService = ServiceGenerator.createService(FeedService.class);
+       final List<String> photos = null;
+        Call<DataInfo> feedServicecall = feedService.get_me(mid);
+        feedServicecall.enqueue(new retrofit2.Callback<DataInfo>() {
+            @Override
+            public void onResponse(Call<DataInfo> call, Response<DataInfo> response) {
+                if(response.body().getData().getItems() != null){
+                    for(DataInfo.DataBean.ItemsBean item : response.body().getData().getItems()){
+                        photos.add(item.getLitpic());
+                    }
+                    userPhotosAdapter = new UserProfileAdapter(getActivity(),photos);
+
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<DataInfo> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void update_uname(String mid, String uname)
+    {
+        SignupService signupService = ServiceGenerator.createService(SignupService.class);
+        Call<Register> feedServicecall = signupService.update_uname(mid,uname);
+        feedServicecall.enqueue(new retrofit2.Callback<Register>() {
+            @Override
+            public void onResponse(Call<Register> call, Response<Register> response) {
+                if(response.body().getErr_msg() == "success"){
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Register> call, Throwable t) {
+
+            }
+        });
+    }
+
+
 }

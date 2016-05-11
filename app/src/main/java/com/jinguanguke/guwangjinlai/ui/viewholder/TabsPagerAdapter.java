@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import com.jinguanguke.guwangjinlai.R;
 import com.jinguanguke.guwangjinlai.ui.fragment.AccountFragment;
 import com.jinguanguke.guwangjinlai.ui.fragment.PageFragment;
+import com.jinguanguke.guwangjinlai.ui.fragment.SettingsFragment;
 
 
 public class TabsPagerAdapter extends FragmentPagerAdapter {
@@ -25,10 +26,6 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
                 return PageFragment.newInstance(position + 1);
 
             }
-            case 1:
-            {
-                return PageFragment.newInstance(position + 1);
-            }
             default:
             {
                 return new AccountFragment();
@@ -39,7 +36,7 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 3;
+        return 2;
     }
 
     @Override
@@ -48,12 +45,7 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
         {
             case 0:
             {
-                return "看过的";
-
-            }
-            case 1:
-            {
-                return "发布的";
+                return "我的视频";
             }
             default:
             {

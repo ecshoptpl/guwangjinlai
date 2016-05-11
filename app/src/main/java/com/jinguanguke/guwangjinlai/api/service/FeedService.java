@@ -40,5 +40,9 @@ public interface FeedService {
           @Query("page") int page
   );
 
+  @GET("index.php?c=api&_interface=list&_table=dede_archives")
+  Call<DataInfo> get_me(
+          @Query("mid") String mid
+  );
 
 }

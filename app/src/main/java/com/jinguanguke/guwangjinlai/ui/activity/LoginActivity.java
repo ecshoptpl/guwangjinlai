@@ -208,7 +208,7 @@ public class LoginActivity extends StarterNetworkActivity<User> implements View.
     if (action == Platform.ACTION_USER_INFOR) {
       handler.sendEmptyMessage(MSG_AUTH_ERROR);
     }
-    t.printStackTrace();
+//    t.printStackTrace();
   }
 
   public void onCancel(Platform platform, int action) {

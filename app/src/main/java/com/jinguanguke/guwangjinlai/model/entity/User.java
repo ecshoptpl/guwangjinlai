@@ -24,6 +24,16 @@ import com.smartydroid.android.starter.kit.account.Account;
     private String uname;
     private String rank;
     private String face;
+    private String scores;
+
+    public String getScores() {
+        return scores;
+    }
+
+    public void setScores(String scores) {
+        this.scores = scores;
+    }
+
 
 
 

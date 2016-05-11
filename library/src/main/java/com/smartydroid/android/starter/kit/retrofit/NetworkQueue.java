@@ -75,7 +75,7 @@ public class NetworkQueue<T> implements Callback<T> {
       ErrorModel errorModel = new ErrorModel(500, "无网络连接", "请连接到无线网络或者蜂窝数据网络");
       callback.errorUnknownHost(e, errorModel);
     } else {
-      callback.respondWithError(t);
+//      callback.respondWithError(t);
     }
     callback.endRequest();
   }
