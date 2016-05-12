@@ -8,7 +8,7 @@ android {
     applicationId "com.jinguanguke.guwangjinlai"
     minSdkVersion rootProject.ext.minSdkVersion
     targetSdkVersion rootProject.ext.targetSdkVersion
-    versionCode 6
+    versionCode 7
     versionName "3.0"
     multiDexEnabled true
   }

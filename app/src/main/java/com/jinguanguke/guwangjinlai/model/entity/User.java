@@ -25,6 +25,15 @@ import com.smartydroid.android.starter.kit.account.Account;
     private String rank;
     private String face;
     private String scores;
+    private String jointime;
+
+    public String getJointime() {
+        return jointime;
+    }
+
+    public void setJointime(String jointime) {
+        this.jointime = jointime;
+    }
 
     public String getScores() {
         return scores;

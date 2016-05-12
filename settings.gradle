@@ -1,1 +1,1 @@
-include ':app', ':wkvideoplayer', ':share', ':onekey', ':OneSDK', ':library'
+include ':app', ':wkvideoplayer', ':share', ':onekey', ':library'

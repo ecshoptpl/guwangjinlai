@@ -7,6 +7,7 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -24,9 +25,14 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.jinguanguke.guwangjinlai.R;
 import com.jinguanguke.guwangjinlai.api.service.BiliService;
+import com.jinguanguke.guwangjinlai.api.service.SignupService;
 import com.jinguanguke.guwangjinlai.model.entity.Bili;
+import com.jinguanguke.guwangjinlai.model.entity.Register;
+import com.jinguanguke.guwangjinlai.model.entity.User;
 import com.jinguanguke.guwangjinlai.network.MyNetwork;
 import com.jinguanguke.guwangjinlai.ui.App;
+import com.jinguanguke.guwangjinlai.util.ServiceGenerator;
+import com.smartydroid.android.starter.kit.account.AccountManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,6 +41,8 @@ import java.util.logging.LogRecord;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import cn.sharesdk.framework.Platform;
+import cn.sharesdk.framework.PlatformActionListener;
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 import cn.sharesdk.socialization.QuickCommentBar;
@@ -244,36 +252,63 @@ public class DetailActivity extends Activity implements View.OnClickListener {
         String url = getIntent().getExtras().getString("url");
 
         Glide.with(this).load(url).diskCacheStrategy(DiskCacheStrategy.ALL).into(image);
-        ShareSDK.initSDK(this,"285ce8dba339");
-        HashMap<String, Object> wechat = new HashMap<String, Object>();
-        wechat.put("Id", "4");
-        wechat.put("SortId", "4");
-        wechat.put("AppId", "wxdb0f7a71c883b423");
-        wechat.put("AppSecret", "daecf556b42463ce11c2421f9570cac7");
-        wechat.put("BypassApproval", "false");
-        wechat.put("Enable", "true");
-        ShareSDK.setPlatformDevInfo(Wechat.NAME, wechat);
-        // 代码配置第三方平台
-        HashMap<String, Object> WechatMoment = new HashMap<String, Object>();
-        WechatMoment.put("Id", "5");
-        WechatMoment.put("SortId", "5");
-        WechatMoment.put("AppId", "wxdb0f7a71c883b423");
-        WechatMoment.put("AppSecret", "daecf556b42463ce11c2421f9570cac7");
-        WechatMoment.put("BypassApproval", "false");
-        WechatMoment.put("Enable", "true");
-        ShareSDK.setPlatformDevInfo(WechatMoments.NAME, WechatMoment);
+        ShareSDK.initSDK(this);
+//        ShareSDK.initSDK(this,"285ce8dba339");
+//        HashMap<String, Object> wechat = new HashMap<String, Object>();
+//        wechat.put("Id", "4");
+//        wechat.put("SortId", "4");
+//        wechat.put("AppId", "wxdb0f7a71c883b423");
+//        wechat.put("AppSecret", "daecf556b42463ce11c2421f9570cac7");
+//        wechat.put("BypassApproval", "false");
+//        wechat.put("Enable", "true");
+//        ShareSDK.setPlatformDevInfo(Wechat.NAME, wechat);
+//        // 代码配置第三方平台
+//        HashMap<String, Object> WechatMoment = new HashMap<String, Object>();
+//        WechatMoment.put("Id", "5");
+//        WechatMoment.put("SortId", "5");
+//        WechatMoment.put("AppId", "wxdb0f7a71c883b423");
+//        WechatMoment.put("AppSecret", "daecf556b42463ce11c2421f9570cac7");
+//        WechatMoment.put("BypassApproval", "false");
+//        WechatMoment.put("Enable", "true");
+//        ShareSDK.setPlatformDevInfo(WechatMoments.NAME, WechatMoment);
 
-
-        ShareSDK.registerService(Socialization.class);
-        OnekeyShare oks = new OnekeyShare();
-        oks.setTitle("Title");
-        oks.setTitleUrl("http://www.baidu.com"); // 标题的超链接
-        oks.setText("123165646	846");
-        oks.setUrl("http://mob.com");
-        oks.setImageUrl("http://f1.sharesdk.cn/imgs/2014/02/26/owWpLZo_638x960.jpg");
         String aid = getIntent().getExtras().getString("aid");
         String vurl = getIntent().getExtras().getString("vurl");
         String title = getIntent().getExtras().getString("title");
+
+        ShareSDK.registerService(Socialization.class);
+
+        OnekeyShare oks = new OnekeyShare();
+
+
+        oks.setTitle(title);
+        oks.setTitleUrl("http://www.jinguanguke.com"); // 标题的超链接
+        oks.setText(title);
+        oks.setUrl(vurl);
+        oks.setImageUrl(url);
+
+        oks.setCallback(new PlatformActionListener() {
+
+            @Override
+            public void onError(Platform arg0, int arg1, Throwable arg2) {
+                // TODO Auto-generated method stub
+
+            }
+
+            @Override
+            public void onComplete(Platform arg0, int arg1, HashMap<String, Object> arg2) {
+                plus_score();
+
+            }
+
+            @Override
+            public void onCancel(Platform arg0, int arg1) {
+                // TODO Auto-generated method stub
+
+            }
+        });
+
+
         qcBar.setTopic(vurl, title, null, null);
         qcBar.getBackButton().setOnClickListener(this);
         //OnekeyShare oks = new OnekeyShare();
@@ -306,6 +341,26 @@ public class DetailActivity extends Activity implements View.OnClickListener {
         stopService(intent);
     }
 
+    private void plus_score() {
+        Log.i("sss","score");
+        SignupService signupService = ServiceGenerator.createService(SignupService.class);
+        User user = AccountManager.getCurrentAccount();
+        String mid = user.getMid();
+        Call<Register> feedServicecall = signupService.update_score(mid);
+        feedServicecall.enqueue(new retrofit2.Callback<Register>() {
+            @Override
+            public void onResponse(Call<Register> call, Response<Register> response) {
+                if(response.body().getErr_msg() == "success"){
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Register> call, Throwable t) {
+
+            }
+        });
+    }
 
 
 }

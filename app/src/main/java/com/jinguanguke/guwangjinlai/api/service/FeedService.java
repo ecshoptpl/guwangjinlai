@@ -6,6 +6,7 @@ package com.jinguanguke.guwangjinlai.api.service;
 
 import com.jinguanguke.guwangjinlai.model.entity.DataInfo;
 import com.jinguanguke.guwangjinlai.model.entity.Feed;
+import com.jinguanguke.guwangjinlai.model.entity.VideoTotal;
 
 import java.util.ArrayList;
 import retrofit2.Call;
@@ -42,6 +43,21 @@ public interface FeedService {
 
   @GET("index.php?c=api&_interface=list&_table=dede_archives")
   Call<DataInfo> get_me(
+          @Query("mid") String mid
+  );
+
+  @GET("index.php?c=api&_interface=list&_table=dede_archives")
+  Call<DataInfo> get_my_videos(
+          @Query("mid") String mid
+  );
+
+  @GET("index.php?c=api&_interface=get_video_total&_table=dede_archives")
+  Call<VideoTotal> get_video_total(
+          @Query("mid") String mid
+  );
+
+  @GET("index.php?c=api&_interface=get_sub_total&_table=dede_member")
+  Call<VideoTotal> get_sub_total(
           @Query("mid") String mid
   );
 

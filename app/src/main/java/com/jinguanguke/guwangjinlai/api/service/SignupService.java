@@ -49,4 +49,9 @@ public interface SignupService {
 
     );
 
+    @POST("index.php?c=api&_interface=update_socre&_table=dede_member")
+    Call<Register> update_score(
+            @Query("mid") String mid
+    );
+
 }

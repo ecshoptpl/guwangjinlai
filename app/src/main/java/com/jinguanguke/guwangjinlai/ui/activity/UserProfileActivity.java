@@ -22,6 +22,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.view.ViewTreeObserver;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
@@ -38,18 +39,22 @@ import com.jinguanguke.guwangjinlai.api.service.SignupService;
 import com.jinguanguke.guwangjinlai.model.entity.DataInfo;
 import com.jinguanguke.guwangjinlai.model.entity.Register;
 import com.jinguanguke.guwangjinlai.model.entity.User;
+import com.jinguanguke.guwangjinlai.model.entity.VideoTotal;
 import com.jinguanguke.guwangjinlai.ui.fragment.AccountFragment;
 import com.jinguanguke.guwangjinlai.ui.view.RevealBackgroundView;
 import com.jinguanguke.guwangjinlai.ui.viewholder.TabsPagerAdapter;
 import com.jinguanguke.guwangjinlai.ui.viewholder.UserProfileAdapter;
 import com.jinguanguke.guwangjinlai.util.CircleTransformation;
 import com.jinguanguke.guwangjinlai.util.ServiceGenerator;
+import com.jinguanguke.guwangjinlai.util.Utils;
 import com.smartydroid.android.starter.kit.account.AccountManager;
 import com.squareup.picasso.Picasso;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.io.File;
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -72,7 +77,8 @@ public class UserProfileActivity extends Fragment implements RevealBackgroundVie
     private static final int USER_OPTIONS_ANIMATION_DELAY = 300;
     private static final Interpolator INTERPOLATOR = new DecelerateInterpolator();
     private String mid = null;
-    List<String> potos = null;
+    String photo = null;
+    List<String> photos = new ArrayList<>();
 
     @Bind(R.id.vRevealBackground)
     RevealBackgroundView vRevealBackground;
@@ -86,21 +92,38 @@ public class UserProfileActivity extends Fragment implements RevealBackgroundVie
     ImageView ivUserProfilePhoto;
     @Bind(R.id.vUserDetails)
     View vUserDetails;
-    @Bind(R.id.btnFollow)
-    Button btnFollow;
+//    @Bind(R.id.btnFollow)
+//    Button btnFollow;
     @Bind(R.id.vUserStats)
     View vUserStats;
+
     @Bind(R.id.vUserProfileRoot)
     View vUserProfileRoot;
+
     @Bind(R.id.nickename)
     TextView nikename;
 
     @Bind(R.id.pager)
     ViewPager pager;
 
+    @Bind(R.id.scores)
+    TextView scores;
+
+    @Bind(R.id.video_total)
+    TextView video_total;
+
+    @Bind(R.id.jointime)
+    TextView jointime;
+
+    @Bind(R.id.sub)
+    TextView sub;
+
     private int avatarSize;
     private String profilePhoto;
     private UserProfileAdapter userPhotosAdapter;
+    User user = AccountManager.getCurrentAccount();
+    private LayoutInflater mInflater;
+    private WeakReference<View> mRootView = null;
 
     public static void startUserProfileFromLocation(int[] startingLocation, Activity startingActivity) {
         Intent intent = new Intent(startingActivity, UserProfileActivity.class);
@@ -111,12 +134,15 @@ public class UserProfileActivity extends Fragment implements RevealBackgroundVie
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         View view1 = inflater.inflate(R.layout.activity_user_profile,container,false);
-//        setContentView(R.layout.activity_user_profile);
+
          ButterKnife.bind(this, view1);
-        User user = AccountManager.getCurrentAccount();
+
         mid = user.getMid();
-        get_me_video(mid);
+
+
+        set_video_num(mid);
         this.avatarSize = getResources().getDimensionPixelSize(R.dimen.user_profile_avatar_size);
         this.profilePhoto = "http://www.jinguanguke.com/uploads/app/ava/" + mid + ".png";
 
@@ -129,6 +155,8 @@ public class UserProfileActivity extends Fragment implements RevealBackgroundVie
         {
             nikename.setText(user.getUname());
         }
+
+       // 头像
         Picasso.with(getActivity())
                 .load(profilePhoto)
                 .placeholder(R.drawable.img_circle_placeholder)
@@ -138,13 +166,35 @@ public class UserProfileActivity extends Fragment implements RevealBackgroundVie
                 .into(ivUserProfilePhoto);
 
 
-        TabsPagerAdapter adapter = new TabsPagerAdapter(getActivity().getSupportFragmentManager());
-        pager.setAdapter(adapter);
-        tlUserProfileTabs.setupWithViewPager(pager);
+
+        //积分
+        scores.setText(user.getScores());
+
+        //加入时间
+        String jtime = user.getJointime();
+        if(jtime != null)
+        {
+            jtime = Utils.TimeStamp2Date(jtime, "yyyy-MM-dd");
+            jointime.setText("注册日期：" + jtime);
+        }
+        else
+        {
+            jointime.setText("注册日期未知");
+        }
+
+
+        //设置下级数
+        set_sub_num(mid);
 
 //        setupTabs();
 
 //        setupUserProfileGrid();
+
+
+        TabsPagerAdapter adapter = new TabsPagerAdapter(getChildFragmentManager());
+//        TabsPagerAdapter adapter = new TabsPagerAdapter(getActivity().getSupportFragmentManager());
+        pager.setAdapter(adapter);
+        tlUserProfileTabs.setupWithViewPager(pager);
         setupRevealBackground(savedInstanceState);
         return view1;
     }
@@ -156,16 +206,7 @@ public class UserProfileActivity extends Fragment implements RevealBackgroundVie
         tlUserProfileTabs.addTab(tlUserProfileTabs.newTab().setIcon(R.drawable.ic_label_white));
     }
 
-//    private void setupUserProfileGrid() {
-//        final StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
-//        rvUserProfile.setLayoutManager(layoutManager);
-//        rvUserProfile.setOnScrollListener(new RecyclerView.OnScrollListener() {
-//            @Override
-//            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-//                userPhotosAdapter.setLockedAnimations(true);
-//            }
-//        });
-//    }
+
 
     private void setupRevealBackground(Bundle savedInstanceState) {
         vRevealBackground.setOnStateChangeListener(this);
@@ -183,7 +224,7 @@ public class UserProfileActivity extends Fragment implements RevealBackgroundVie
             });
         } else {
             vRevealBackground.setToFinishedFrame();
-            userPhotosAdapter.setLockedAnimations(true);
+            //userPhotosAdapter.setLockedAnimations(true);
         }
     }
 
@@ -193,7 +234,7 @@ public class UserProfileActivity extends Fragment implements RevealBackgroundVie
 //            rvUserProfile.setVisibility(View.VISIBLE);
             tlUserProfileTabs.setVisibility(View.VISIBLE);
             vUserProfileRoot.setVisibility(View.VISIBLE);
-//            userPhotosAdapter = new UserProfileAdapter(getActivity());
+           // userPhotosAdapter = new UserProfileAdapter(getActivity());
 //            rvUserProfile.setAdapter(userPhotosAdapter);
             animateUserProfileOptions();
             animateUserProfileHeader();
@@ -243,9 +284,10 @@ public class UserProfileActivity extends Fragment implements RevealBackgroundVie
 
           public void onClick(DialogInterface dialog, int which) {
 //            video_title = inputServer.getText().toString();
+              user.setUname(inputServer.getText().toString());
               nikename.setText(inputServer.getText().toString());
               update_uname(mid,inputServer.getText().toString());
-              AccountManager.getCurrentAccount();
+
 
           }
         });
@@ -311,31 +353,51 @@ public class UserProfileActivity extends Fragment implements RevealBackgroundVie
         }
     }
 
-    private void get_me_video(String mid)
+
+
+    //设置视频数
+    private void set_video_num(String mid)
     {
         FeedService feedService = ServiceGenerator.createService(FeedService.class);
-       final List<String> photos = null;
-        Call<DataInfo> feedServicecall = feedService.get_me(mid);
-        feedServicecall.enqueue(new retrofit2.Callback<DataInfo>() {
+
+        Call<VideoTotal> feedServicecall = feedService.get_video_total(mid);
+        feedServicecall.enqueue(new retrofit2.Callback<VideoTotal>() {
             @Override
-            public void onResponse(Call<DataInfo> call, Response<DataInfo> response) {
-                if(response.body().getData().getItems() != null){
-                    for(DataInfo.DataBean.ItemsBean item : response.body().getData().getItems()){
-                        photos.add(item.getLitpic());
-                    }
-                    userPhotosAdapter = new UserProfileAdapter(getActivity(),photos);
-
-
+            public void onResponse(Call<VideoTotal> call, Response<VideoTotal> response) {
+                if(response.body().getData() != null){
+                    video_total.setText(response.body().getData());
                 }
             }
 
             @Override
-            public void onFailure(Call<DataInfo> call, Throwable t) {
+            public void onFailure(Call<VideoTotal> call, Throwable t) {
 
             }
         });
     }
 
+    //设置推荐下级数量
+    private void set_sub_num(String mid)
+    {
+        FeedService feedService = ServiceGenerator.createService(FeedService.class);
+
+        Call<VideoTotal> feedServicecall = feedService.get_sub_total(mid);
+        feedServicecall.enqueue(new retrofit2.Callback<VideoTotal>() {
+            @Override
+            public void onResponse(Call<VideoTotal> call, Response<VideoTotal> response) {
+                if(response.body().getData() != null){
+                    sub.setText(response.body().getData());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<VideoTotal> call, Throwable t) {
+
+            }
+        });
+    }
+
+    //更新用户名
     private void update_uname(String mid, String uname)
     {
         SignupService signupService = ServiceGenerator.createService(SignupService.class);

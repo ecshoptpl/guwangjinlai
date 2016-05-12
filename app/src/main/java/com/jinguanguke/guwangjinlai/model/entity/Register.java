@@ -18,6 +18,7 @@ public class Register {
      * mid : 63
      */
 
+
     private java.util.List<DataBean> data;
 
     public String getErr_code() {
