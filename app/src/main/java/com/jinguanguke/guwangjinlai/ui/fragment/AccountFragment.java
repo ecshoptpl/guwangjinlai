@@ -1,6 +1,8 @@
 package com.jinguanguke.guwangjinlai.ui.fragment;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,6 +11,11 @@ import android.view.View;
 import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.OnClick;
+
+import com.baoyz.swipemenulistview.SwipeMenu;
+import com.baoyz.swipemenulistview.SwipeMenuCreator;
+import com.baoyz.swipemenulistview.SwipeMenuItem;
+import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.jinguanguke.guwangjinlai.R;
 import com.jinguanguke.guwangjinlai.model.entity.User;
@@ -30,13 +37,16 @@ public class AccountFragment extends BaseFragment {
 //  @Bind(R.id.image_avatar) SimpleDraweeView mAvatarView;
 //  @Bind(R.id.text_account_username) TextView mUsernameTextView;
 
+
+
   @Override protected int getFragmentLayout() {
     return R.layout.fragment_account;
+
+
   }
 
   @Override public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
-   // mToolbar.setTitle(R.string.toolbar_title_account);
   }
 
   @Override public void onResume() {

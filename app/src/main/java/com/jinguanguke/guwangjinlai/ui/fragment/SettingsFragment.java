@@ -40,115 +40,23 @@ public class SettingsFragment extends Fragment {
     private List<ApplicationInfo> mAppList;
     private AppAdapter mAdapter;
 
-    @Bind(R.id.fr_settings)
-    SwipeMenuListView fr_settings;
+    @Bind(R.id.recycler_view)
+    RecyclerView fr_settings;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View mListView = inflater.inflate(R.layout.fragment_settings_layout, container, false);
         ButterKnife.bind(this, mListView);
+        fr_settings.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mAdapter = new SettingsRecylerAdapter(getActivity());
+        fr_settings.setAdapter(mAdapter);
 
         mAppList = getActivity().getPackageManager().getInstalledApplications(0);
-        mAdapter = new AppAdapter();
-        // step 1. create a MenuCreator
-        SwipeMenuCreator creator = new SwipeMenuCreator() {
 
-            @Override
-            public void create(SwipeMenu menu) {
-                // create "open" item
-                SwipeMenuItem openItem = new SwipeMenuItem(
-                        getActivity().getApplicationContext());
-                // set item background
-                openItem.setBackground(new ColorDrawable(Color.rgb(0xC9, 0xC9,
-                        0xCE)));
-                // set item width
-                openItem.setWidth(dp2px(90));
-                // set item title
-                openItem.setTitle("Open");
-                // set item title fontsize
-                openItem.setTitleSize(18);
-                // set item title font color
-                openItem.setTitleColor(Color.WHITE);
-                // add to menu
-                menu.addMenuItem(openItem);
 
-                // create "delete" item
-                SwipeMenuItem deleteItem = new SwipeMenuItem(
-                        getActivity().getApplicationContext());
-                // set item background
-                deleteItem.setBackground(new ColorDrawable(Color.rgb(0xF9,
-                        0x3F, 0x25)));
-                // set item width
-               // deleteItem.setWidth(dp2px(90));
-                // set a icon
-               // deleteItem.setIcon(R.drawable.ic_delete);
-                // add to menu
-                menu.addMenuItem(deleteItem);
-            }
-        };
-        // set creator
-        fr_settings.setMenuCreator(creator);
 
-        // step 2. listener item click event
-        fr_settings.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
-                ApplicationInfo item = mAppList.get(position);
-                switch (index) {
-                    case 0:
-                        // open
-                       // open(item);
-                        break;
-                    case 1:
-                        // delete
-//					delete(item);
-                        mAppList.remove(position);
-                        mAdapter.notifyDataSetChanged();
-                        break;
-                }
-                return false;
-            }
-        });
 
-        // set SwipeListener
-        fr_settings.setOnSwipeListener(new SwipeMenuListView.OnSwipeListener() {
-
-            @Override
-            public void onSwipeStart(int position) {
-                // swipe start
-            }
-
-            @Override
-            public void onSwipeEnd(int position) {
-                // swipe end
-            }
-        });
-
-        // set MenuStateChangeListener
-        fr_settings.setOnMenuStateChangeListener(new SwipeMenuListView.OnMenuStateChangeListener() {
-            @Override
-            public void onMenuOpen(int position) {
-            }
-
-            @Override
-            public void onMenuClose(int position) {
-            }
-        });
-
-        // other setting
-//		listView.setCloseInterpolator(new BounceInterpolator());
-
-        // test item long click
-        fr_settings.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view,
-                                           int position, long id) {
-                Toast.makeText(getActivity().getApplicationContext(), position + " long click", Toast.LENGTH_SHORT).show();
-                return false;
-            }
-        });
 
 
 
