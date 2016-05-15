@@ -75,6 +75,13 @@
                                 android:text="zzz"
                                 android:textColor="#ffffff"
                                 android:textSize="12sp" />
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/address"
+                                android:text=""
+                                android:textColor="#ffffff"
+                                android:textSize="12sp" />
 
                         </LinearLayout>
                     </LinearLayout>

@@ -25,6 +25,8 @@ import com.smartydroid.android.starter.kit.retrofit.RetrofitBuilder;
 
 import java.io.IOException;
 
+import cn.jpush.android.api.JPushInterface;
+
 import static android.os.Build.VERSION.SDK_INT;
 import static android.os.Build.VERSION_CODES.GINGERBREAD;
 
@@ -38,16 +40,15 @@ public class DemoApp extends StarterKitApp {
         .build();
 
     super.onCreate();
-    //enabledStrictMode();
-    //LeakCanary.install(this);
 
-    // init api service
     new RetrofitBuilder.Builder()
 
         .accept(Profile.API_ACCEPT)
         .baseUrl(Profile.API_ENDPOINT)
         .build();
 
+    JPushInterface.setDebugMode(true);
+    JPushInterface.init(this);
     Fresco.initialize(appContext());
 
 
