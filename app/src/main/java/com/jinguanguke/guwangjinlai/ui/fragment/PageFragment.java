@@ -52,7 +52,7 @@ public class PageFragment extends Fragment {
         FeedService feedService = ServiceGenerator.createService(FeedService.class);
 
         final String pic_link = null;
-        Call<DataInfo> feedServicecall = feedService.get_me("1");
+        Call<DataInfo> feedServicecall = feedService.get_me(mid);
         feedServicecall.enqueue(new retrofit2.Callback<DataInfo>() {
             @Override
             public void onResponse(Call<DataInfo> call, Response<DataInfo> response) {

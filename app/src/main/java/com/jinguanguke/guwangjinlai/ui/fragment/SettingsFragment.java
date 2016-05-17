@@ -49,8 +49,8 @@ public class SettingsFragment extends Fragment {
         View mListView = inflater.inflate(R.layout.fragment_settings_layout, container, false);
         ButterKnife.bind(this, mListView);
         fr_settings.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mAdapter = new SettingsRecylerAdapter(getActivity());
-        fr_settings.setAdapter(mAdapter);
+       // mAdapter = new SettingsRecylerAdapter(getActivity());
+       // fr_settings.setAdapter(mAdapter);
 
         mAppList = getActivity().getPackageManager().getInstalledApplications(0);
 

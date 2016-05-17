@@ -141,24 +141,22 @@ public class DetailActivity extends Activity implements View.OnClickListener {
         mSuperVideoPlayer.setVisibility(View.VISIBLE);
         mSuperVideoPlayer.setAutoHideController(false);
 
+
+
         Video video = new Video();
+
         VideoUrl videoUrl1 = new VideoUrl();
-        videoUrl1.setFormatName("");
+//        videoUrl1.setFormatName("");
         videoUrl1.setFormatUrl(this.vurl);
-        VideoUrl videoUrl2 = new VideoUrl();
-        videoUrl2.setFormatName("");
-        videoUrl2.setFormatUrl(this.vurl);
+
         ArrayList<VideoUrl> arrayList1 = new ArrayList<>();
         arrayList1.add(videoUrl1);
-        arrayList1.add(videoUrl2);
-        video.setVideoName("");
+
+        //video.setVideoName("");
         video.setVideoUrl(arrayList1);
-
-
-
         ArrayList<Video> videoArrayList = new ArrayList<>();
         videoArrayList.add(video);
-         mSuperVideoPlayer.loadMultipleVideo(videoArrayList,0,0,0);
+        mSuperVideoPlayer.loadMultipleVideo(videoArrayList,0,0,0);
     }
 
     @Override
@@ -216,36 +214,37 @@ public class DetailActivity extends Activity implements View.OnClickListener {
 
     private void init() {
         ButterKnife.bind(this);
+        this.vurl = "http://www.jinguanguke.com/" + getIntent().getExtras().getString("vurl");
         if(getIntent().getAction() == "com.guwangjinlai.jiankang")
         {
             this.vurl = "http://www.jinguanguke.com/" + getIntent().getExtras().getString("vurl");
         }
         else
         {
-            int aid = getIntent().getExtras().getInt("aid");
-            BiliService biliService = MyNetwork.createBiliService();
-            Call<Bili> bili_video = biliService.getBili(aid);
-            progressDialog = ProgressDialog.show(DetailActivity.this, "请稍等", "获取数据中.....", true);
-            bili_video.enqueue(new Callback<Bili>() {
-                @Override
-                public void onResponse(Call<Bili> call, Response<Bili> response) {
-
-                    // String url = feed.images.get(0).url;
-
-
-                    vurl = response.body().getSrc();
-                    progressDialog.dismiss();
-
-                    //Toast.makeText(getContext(), response.body().getSrc(), Toast.LENGTH_SHORT).show();
-                }
-
-
-                @Override
-                public void onFailure(Call<Bili> call, Throwable t) {
-                    Toast.makeText(null, "请求失败", Toast.LENGTH_SHORT).show();
-                    progressDialog.dismiss();
-                }
-            });
+//            int aid = getIntent().getExtras().getInt("aid");
+//            BiliService biliService = MyNetwork.createBiliService();
+//            Call<Bili> bili_video = biliService.getBili(aid);
+//            progressDialog = ProgressDialog.show(DetailActivity.this, "请稍等", "获取数据中.....", true);
+//            bili_video.enqueue(new Callback<Bili>() {
+//                @Override
+//                public void onResponse(Call<Bili> call, Response<Bili> response) {
+//
+//                    // String url = feed.images.get(0).url;
+//
+//
+//                    vurl = response.body().getSrc();
+//                    progressDialog.dismiss();
+//
+//                    //Toast.makeText(getContext(), response.body().getSrc(), Toast.LENGTH_SHORT).show();
+//                }
+//
+//
+//                @Override
+//                public void onFailure(Call<Bili> call, Throwable t) {
+//                    Toast.makeText(null, "请求失败", Toast.LENGTH_SHORT).show();
+//                    progressDialog.dismiss();
+//                }
+//            });
         }
 //        String vurl = imageInfos.get(position).getVurl();
 
@@ -273,7 +272,7 @@ public class DetailActivity extends Activity implements View.OnClickListener {
 //        ShareSDK.setPlatformDevInfo(WechatMoments.NAME, WechatMoment);
 
         String aid = getIntent().getExtras().getString("aid");
-        String vurl = getIntent().getExtras().getString("vurl");
+        //String vurl = getIntent().getExtras().getString("vurl");
         String title = getIntent().getExtras().getString("title");
 
         ShareSDK.registerService(Socialization.class);
@@ -281,10 +280,12 @@ public class DetailActivity extends Activity implements View.OnClickListener {
         OnekeyShare oks = new OnekeyShare();
 
 
+
         oks.setTitle(title);
         oks.setTitleUrl("http://www.jinguanguke.com"); // 标题的超链接
         oks.setText(title);
-        oks.setUrl(vurl);
+        String t_url = "http://m.jinguanguke.com/yishengjiangzuo/gusuiyan/319.html";
+        oks.setUrl(t_url);
         oks.setImageUrl(url);
 
         oks.setCallback(new PlatformActionListener() {
