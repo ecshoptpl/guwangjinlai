@@ -157,9 +157,10 @@
             android:value="@integer/google_play_services_version" />
 
         <activity android:name=".ui.activity.QQSignupActivity" />
-
+        <activity android:name=".ui.activity.FindPasswordActivity" />
         <activity android:name=".ui.activity.AgreementActivity"></activity>
         <activity android:name=".ui.activity.JifenActivity"></activity>
+
         <activity android:name=".ui.activity.PublishActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
 

@@ -366,28 +366,6 @@ public class QQSignupActivity extends Activity implements  TimeListener{
         btnCode.setEnabled(valuable);
     }
 
-//    @OnTextChanged(
-//            R.id.til_number)
-//    public void onUsernameTextChanged(CharSequence s, int start, int before, int count) {
-//        if (s.length() < 6) {
-//            tilNumber.setErrorEnabled(true);
-//            tilNumber.setError(
-//                    StarterKitApp.appResources().getString(R.string.login_username_error));
-//        } else {
-//            tilNumber.setErrorEnabled(false);
-//        }
-//    }
 
-//    @OnTextChanged(
-//            R.id.til_password)
-//    public void onPasswordTextChanged(CharSequence s, int start, int before, int count) {
-//        if (s.length() < 6) {
-//            passwordContainer.setErrorEnabled(true);
-//            passwordContainer.setError(
-//                    StarterKitApp.appResources().getString(R.string.login_passowrd_error));
-//        } else {
-//            passwordContainer.setErrorEnabled(false);
-//        }
-//    }
 }
 

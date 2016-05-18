@@ -123,6 +123,13 @@ public class LoginActivity extends StarterNetworkActivity<User> implements View.
 
     authorize(qq);
   }
+
+  //忘记密码
+  @OnClick({R.id.txt_forgot}) public void onFgtClick(View view) {
+    Intent intent = new Intent(this, FindPasswordActivity.class);
+    startActivity(intent);
+    finish();
+  }
   //执行授权,获取用户信息
   //文档：http://wiki.mob.com/Android_%E8%8E%B7%E5%8F%96%E7%94%A8%E6%88%B7%E8%B5%84%E6%96%99
   private void authorize(Platform plat) {
