@@ -91,12 +91,14 @@ public class MovieFragment extends Fragment implements OnVideoClickListener,Swip
                     Bundle data = msg.getData();
                     ImageInfo info = new ImageInfo();
                     info.setHeight(data.getInt("height"));
+                    info.setAid(data.getString("id"));
                     info.setWho(data.getString("who"));
                     info.setWidth(data.getInt("width"));
                     info.setUrl(data.getString("url"));
                     info.setTime(data.getString("time"));
                     info.setTitle(data.getString("title"));
                     info.setTypeid(data.getString("typeid"));
+                    info.setTypedir(data.getString("typedir"));
 //                    String table_name = getArguments().getString("table_name","ImageInfo");
                     db.saveImageInfo(info,"ImageInfo_zp");
                     imageInfos.add(info);
@@ -225,9 +227,14 @@ public class MovieFragment extends Fragment implements OnVideoClickListener,Swip
                             info.setUrl("http://www.jinguanguke.com/" + entity.getLitpic());
                         }
                         //info.setUrl("http://www.jinguanguke.com/" + entity.getLitpic());
+                        //向数据库中写入的数据
                         info.setTime(entity.getPubdate());
                         info.setWho(entity.getUname());
                         info.setTitle(entity.getTitle());
+                        info.setTypeid(entity.getTypeid());
+                        info.setVurl(entity.getVurl());
+                        info.setTypedir(entity.getTypedir());
+                        info.setAid(entity.getId());
                         imageCache.add(info);
                     }
                     Message msg = Message.obtain();
@@ -273,6 +280,7 @@ public class MovieFragment extends Fragment implements OnVideoClickListener,Swip
 
     }
 
+
     public void dosometing(final List<ImageInfo> infos) {
         for (final ImageInfo info : infos) {
             new Thread() {
@@ -284,6 +292,9 @@ public class MovieFragment extends Fragment implements OnVideoClickListener,Swip
                     Bundle bundle = new Bundle();
                     bundle.putInt("state", GET_SIZE_SUCCESS);
                     bundle.putString("url", info.getUrl());
+                    bundle.putString("typedir", info.getTypedir());
+                    bundle.putString("typeid", info.getTypeid());
+                    bundle.putString("id", info.getAid());
                     bundle.putString("title", info.getTitle());
                     bundle.putString("time", info.getTime());
                     bundle.putString("who", info.getWho());
@@ -300,10 +311,13 @@ public class MovieFragment extends Fragment implements OnVideoClickListener,Swip
     @Override
     public void onVideoClick(View itemView, int position) {
         String url = imageInfos.get(position).getUrl();
+        String typedir = imageInfos.get(position).getTypedir();
+        String aid = imageInfos.get(position).getAid();
 
         Intent intent = new Intent(getActivity(), DetailActivity.class);
         intent.putExtra("url", url);
-        intent.putExtra("id", url);
+        intent.putExtra("aid", aid);
+        intent.putExtra("typedir", typedir);
         startActivity(intent);
     }
 }

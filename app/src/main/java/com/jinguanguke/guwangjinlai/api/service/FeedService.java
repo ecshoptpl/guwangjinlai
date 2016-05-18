@@ -61,4 +61,9 @@ public interface FeedService {
           @Query("mid") String mid
   );
 
+  @GET("index.php?c=api&_interface=get_arc_url&_table=dede_archives")
+  Call<VideoTotal> get_arc_url(
+          @Query("aid") String aid
+  );
+
 }

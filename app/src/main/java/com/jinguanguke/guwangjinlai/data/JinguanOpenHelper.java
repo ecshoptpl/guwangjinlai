@@ -18,6 +18,7 @@ public class JinguanOpenHelper extends SQLiteOpenHelper {
             + "width integer, "
             + "aid char(50), "
             + "typeid char(50), "
+            + "typedir char(50), "
             + "height integer)";
 
     private final String TABLE_ZP = "create table ImageInfo_zp ("
@@ -30,6 +31,7 @@ public class JinguanOpenHelper extends SQLiteOpenHelper {
             + "width integer, "
             + "aid char(50), "
             + "typeid char(50), "
+            + "typedir char(50), "
             + "height integer)";
 
     private final String TABLE_JZ = "create table ImageInfo_jz ("
@@ -42,6 +44,7 @@ public class JinguanOpenHelper extends SQLiteOpenHelper {
             + "width integer, "
             + "aid char(50), "
             + "typeid char(50), "
+            + "typedir char(50), "
             + "height integer)";
 
     public JinguanOpenHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {

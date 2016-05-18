@@ -15,6 +15,16 @@ public class ImageInfo {
     private String aid;
     private String typeid;
 
+    public String getTypedir() {
+        return typedir;
+    }
+
+    public void setTypedir(String typedir) {
+        this.typedir = typedir;
+    }
+
+    private String typedir;
+
     public String getTypeid() {
         return typeid;
     }

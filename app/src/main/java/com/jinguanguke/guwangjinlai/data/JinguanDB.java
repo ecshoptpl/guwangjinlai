@@ -45,6 +45,7 @@ public class JinguanDB {
             values.put("aid", info.getAid());
             values.put("typeid", info.getTypeid());
             values.put("vurl", info.getVurl());
+            values.put("typedir", info.getTypedir());
             db.insert(table_name, null, values);
         }
     }
@@ -68,6 +69,7 @@ public class JinguanDB {
                 info.setAid(cursor.getString(cursor.getColumnIndex("aid")));
                 info.setTypeid(cursor.getString(cursor.getColumnIndex("typeid")));
                 info.setVurl(cursor.getString(cursor.getColumnIndex("vurl")));
+                info.setTypedir(cursor.getString(cursor.getColumnIndex("typedir")));
 
                 imageInfos.add(info);
             } while (cursor.moveToNext());

@@ -102,6 +102,7 @@ public class VideoFragment extends Fragment implements OnVideoClickListener,Swip
                     info.setVurl(data.getString("vurl"));
                     info.setAid(data.getString("id"));
                     info.setTypeid(data.getString("typeid"));
+                    info.setTypedir(data.getString("typedir"));
                     String table_name = getArguments().getString("table_name","ImageInfo");
                     db.saveImageInfo(info,table_name);
                     imageInfos.add(info);
@@ -244,6 +245,8 @@ public class VideoFragment extends Fragment implements OnVideoClickListener,Swip
                         info.setVurl(entity.getVurl());
                         info.setAid(entity.getId());
                         info.setTypeid(entity.getTypeid());
+                        info.setTypedir(entity.getTypedir());
+
                         imageCache.add(info);
                     }
                     Message msg = Message.obtain();
@@ -300,11 +303,13 @@ public class VideoFragment extends Fragment implements OnVideoClickListener,Swip
                     Bundle bundle = new Bundle();
                     bundle.putInt("state", GET_SIZE_SUCCESS);
                     bundle.putString("url", info.getUrl());
+                    bundle.putString("id", info.getAid());
                     bundle.putString("vurl", info.getVurl());
                     bundle.putString("title", info.getTitle());
                     bundle.putString("time", info.getTime());
                     bundle.putString("who", info.getWho());
                     bundle.putString("typeid", info.getTypeid());
+                    bundle.putString("typedir", info.getTypedir());
                     bundle.putInt("width", point.x);
                     bundle.putInt("height", point.y);
                     msg.setData(bundle);
@@ -321,6 +326,7 @@ public class VideoFragment extends Fragment implements OnVideoClickListener,Swip
         String vurl = imageInfos.get(position).getVurl();
         String title = imageInfos.get(position).getTitle();
         String aid = imageInfos.get(position).getAid();
+        String typedir = imageInfos.get(position).getTypedir();
         Intent intent = new Intent(getActivity(), DetailActivity.class);
 //        Intent intent = new Intent(getActivity(), DetailActivity.class);
         intent.setAction("com.guwangjinlai.jiankang");
@@ -328,24 +334,11 @@ public class VideoFragment extends Fragment implements OnVideoClickListener,Swip
         intent.putExtra("title", title);
         intent.putExtra("vurl", vurl);
         intent.putExtra("aid",aid);
+        intent.putExtra("typedir",typedir);
 
         startActivity(intent);
     }
 
-//    @Override
-//    public void onVideoLongClick(View itemView, final int position) {
-//        new ActionSheetDialog(getActivity())
-//                .builder()
-//                .setCancelable(false)
-//                .setCanceledOnTouchOutside(true).addSheetItem(mContext.getString(R.string.save_image), ActionSheetDialog.SheetItemColor.Blue, new ActionSheetDialog.OnSheetItemClickListener() {
-//            @Override
-//            public void onClick(int which) {
-//                String time = imageInfos.get(position).getTime();
-//                String url = imageInfos.get(position).getUrl();
-//                SaveImageTask saveImageUtils = new SaveImageTask(getActivity(), time);
-//                saveImageUtils.execute(url);
-//            }
-//        }).show();
-//    }
+
 
 }

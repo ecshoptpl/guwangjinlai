@@ -115,8 +115,18 @@ public class DataInfo {
             private String face;
             private String uname;
             private String vurl;
+            private String typedir;
             private String mtype;
             private int width;
+
+            public String getTypedir() {
+                return typedir;
+            }
+
+            public void setTypedir(String typedir) {
+                this.typedir = typedir;
+            }
+
             private int height;
             private List<String> images;
 
