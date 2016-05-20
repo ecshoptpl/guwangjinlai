@@ -24,6 +24,7 @@ import com.jinguanguke.guwangjinlai.model.entity.Feed;
 import com.jinguanguke.guwangjinlai.model.entity.ImageInfo;
 import com.jinguanguke.guwangjinlai.ui.activity.DetailActivity;
 
+import com.jinguanguke.guwangjinlai.ui.activity.PlayActivity;
 import com.jinguanguke.guwangjinlai.ui.viewholder.GridSpacingItemDecoration;
 import com.jinguanguke.guwangjinlai.ui.viewholder.OnVideoClickListener;
 import com.jinguanguke.guwangjinlai.ui.viewholder.VideosAdapter;
@@ -327,7 +328,7 @@ public class VideoFragment extends Fragment implements OnVideoClickListener,Swip
         String title = imageInfos.get(position).getTitle();
         String aid = imageInfos.get(position).getAid();
         String typedir = imageInfos.get(position).getTypedir();
-        Intent intent = new Intent(getActivity(), DetailActivity.class);
+        Intent intent = new Intent(getActivity(), PlayActivity.class);
 //        Intent intent = new Intent(getActivity(), DetailActivity.class);
         intent.setAction("com.guwangjinlai.jiankang");
         intent.putExtra("url", url);

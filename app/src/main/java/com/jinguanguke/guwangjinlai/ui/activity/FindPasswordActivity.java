@@ -125,7 +125,7 @@ public class FindPasswordActivity extends Activity implements  TimeListener {
                 {
                     mid = response.body().getErr_msg();
                     SMSManager.getInstance().sendMessage(FindPasswordActivity.this, "86",tilNumber.getEditText().getText().toString());
-                    Toast.makeText(FindPasswordActivity.this,"您已注册，信息将更新",Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(FindPasswordActivity.this,"您已注册，信息将更新",Toast.LENGTH_SHORT).show();
                 }
                 else
                 {
@@ -145,7 +145,6 @@ public class FindPasswordActivity extends Activity implements  TimeListener {
     }
 
     public void register(){
-
         if (tilPassword.getText().toString().length() < 6 || tilPassword.getText().toString().length() > 12) {
             Toast.makeText(this,"请输入6-12位密码",Toast.LENGTH_SHORT).show();
             return;

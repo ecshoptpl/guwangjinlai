@@ -162,7 +162,7 @@ public class LoginActivity extends StarterNetworkActivity<User> implements View.
 //    ArrayList users = (ArrayList) data.getData().getItems();
 //    User user = (User) users.get(0);
 
-    if(data.getUserid() != null) {
+    if(data != null && data.getUserid() != null) {
       AccountManager.store(data);
       Snackbar.make(getWindow().getDecorView(), "登录成功", Snackbar.LENGTH_SHORT).show();
       Intent intent = new Intent();

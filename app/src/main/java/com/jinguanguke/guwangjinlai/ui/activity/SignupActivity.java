@@ -43,6 +43,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.jinguanguke.guwangjinlai.R;
 import com.jinguanguke.guwangjinlai.api.service.SignupService;
@@ -223,8 +225,6 @@ public class SignupActivity extends Activity implements  TimeListener{
         SMSManager.getInstance().verifyCode(this, "86", tilNumber.getEditText().getText().toString(), tilCode.getText().toString(), new Callback() {
             @Override
             public void success() {
-
-
                 OkHttpClient client = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS).writeTimeout(10, TimeUnit.SECONDS)
                         .readTimeout(30, TimeUnit.SECONDS)
                         .build();
@@ -323,28 +323,14 @@ public class SignupActivity extends Activity implements  TimeListener{
         btnCode.setEnabled(valuable);
     }
 
-//    @OnTextChanged(
-//            R.id.til_number)
-//    public void onUsernameTextChanged(CharSequence s, int start, int before, int count) {
-//        if (s.length() < 6) {
-//            tilNumber.setErrorEnabled(true);
-//            tilNumber.setError(
-//                    StarterKitApp.appResources().getString(R.string.login_username_error));
-//        } else {
-//            tilNumber.setErrorEnabled(false);
-//        }
-//    }
+    public static boolean isMobileNO(String mobiles) {
+        Pattern p = Pattern
+                .compile("^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$");
+        Matcher m = p.matcher(mobiles);
+        System.out.println(m.matches() + "---");
+        return m.matches();
+    }
 
-//    @OnTextChanged(
-//            R.id.til_password)
-//    public void onPasswordTextChanged(CharSequence s, int start, int before, int count) {
-//        if (s.length() < 6) {
-//            passwordContainer.setErrorEnabled(true);
-//            passwordContainer.setError(
-//                    StarterKitApp.appResources().getString(R.string.login_passowrd_error));
-//        } else {
-//            passwordContainer.setErrorEnabled(false);
-//        }
-//    }
+
 }
 

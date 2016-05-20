@@ -22,6 +22,7 @@ import com.jinguanguke.guwangjinlai.data.JinguanDB;
 import com.jinguanguke.guwangjinlai.model.entity.DataInfo;
 import com.jinguanguke.guwangjinlai.model.entity.ImageInfo;
 import com.jinguanguke.guwangjinlai.ui.activity.DetailActivity;
+import com.jinguanguke.guwangjinlai.ui.activity.PlayActivity;
 import com.jinguanguke.guwangjinlai.ui.viewholder.OnVideoClickListener;
 import com.jinguanguke.guwangjinlai.ui.viewholder.VideosAdapter;
 import com.jinguanguke.guwangjinlai.util.httpUtils;
@@ -95,6 +96,7 @@ public class LectureFragment extends Fragment implements OnVideoClickListener,Sw
                     info.setAid(data.getString("id"));
                     info.setWidth(data.getInt("width"));
                     info.setUrl(data.getString("url"));
+                    info.setVurl(data.getString("vurl"));
                     info.setTime(data.getString("time"));
                     info.setTitle(data.getString("title"));
                     info.setTypeid(data.getString("typeid"));
@@ -291,7 +293,7 @@ public class LectureFragment extends Fragment implements OnVideoClickListener,Sw
                     bundle.putInt("state", GET_SIZE_SUCCESS);
                     bundle.putString("url", info.getUrl());
                     bundle.putString("title", info.getTitle());
-                   // bundle.putString("typedir", info.getTypedir());
+                    // bundle.putString("typedir", info.getTypedir());
                     bundle.putString("time", info.getTime());
                     bundle.putString("who", info.getWho());
                     bundle.putString("id", info.getAid());
@@ -306,16 +308,17 @@ public class LectureFragment extends Fragment implements OnVideoClickListener,Sw
             }.start();
         }
     }
-
-
     @Override
     public void onVideoClick(View itemView, int position) {
         String url = imageInfos.get(position).getUrl();
+        String vurl = imageInfos.get(position).getVurl();
+        String aid = imageInfos.get(position).getAid();
         String typedir = imageInfos.get(position).getTypedir();
 
-        Intent intent = new Intent(getActivity(), DetailActivity.class);
+        Intent intent = new Intent(getActivity(), PlayActivity.class);
         intent.putExtra("url", url);
-        intent.putExtra("id", url);
+        intent.putExtra("vurl", vurl);
+        intent.putExtra("aid", aid);
         intent.putExtra("typedir", typedir);
         startActivity(intent);
     }

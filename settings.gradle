@@ -1,1 +1,2 @@
 include ':app', ':wkvideoplayer', ':share', ':onekey', ':library'
+include ':videoJjlibrary'
