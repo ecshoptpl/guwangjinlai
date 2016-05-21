@@ -314,11 +314,13 @@ public class LectureFragment extends Fragment implements OnVideoClickListener,Sw
         String vurl = imageInfos.get(position).getVurl();
         String aid = imageInfos.get(position).getAid();
         String typedir = imageInfos.get(position).getTypedir();
+        String title = imageInfos.get(position).getTitle();
 
         Intent intent = new Intent(getActivity(), PlayActivity.class);
         intent.putExtra("url", url);
         intent.putExtra("vurl", vurl);
         intent.putExtra("aid", aid);
+        intent.putExtra("title", title);
         intent.putExtra("typedir", typedir);
         startActivity(intent);
     }

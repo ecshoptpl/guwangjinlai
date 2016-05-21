@@ -317,11 +317,13 @@ public class MovieFragment extends Fragment implements OnVideoClickListener,Swip
         String vurl = imageInfos.get(position).getVurl();
         String typedir = imageInfos.get(position).getTypedir();
         String aid = imageInfos.get(position).getAid();
+        String title = imageInfos.get(position).getTitle();
 
         Intent intent = new Intent(getActivity(), PlayActivity.class);
         intent.putExtra("url", url);
         intent.putExtra("vurl", vurl);
         intent.putExtra("aid", aid);
+        intent.putExtra("title", title);
         intent.putExtra("typedir", typedir);
         startActivity(intent);
     }
