@@ -29,11 +29,11 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
                 return PageFragment.newInstance(position + 1);
 
             }
-//            case 1:
-//            {
-//                return new SettingsFragment();
-//
-//            }
+            case 1:
+            {
+                return new SettingsFragment();
+
+            }
             default:
             {
                 return new AccountFragment();
@@ -55,10 +55,10 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
             {
                 return "我的视频";
             }
-//            case 1:
-//            {
-//                return "我的推荐";
-//            }
+            case 1:
+            {
+                return "我的推荐";
+            }
             default:
             {
                 return "设置";

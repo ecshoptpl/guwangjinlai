@@ -246,7 +246,7 @@ public class QQSignupActivity extends Activity implements  TimeListener{
                 SignupService service = retrofit.create(SignupService.class);
                 if(acction == "insert")
                 {
-                     rgst = service.register(tilNumber.getEditText().getText().toString(),tilPassword.getText().toString(),tilpuser.getText().toString(),"mid");
+                     rgst = service.register(tilNumber.getEditText().getText().toString(),tilPassword.getText().toString(),tilpuser.getText().toString(),"mid","app_android");
 
                 }
                 else

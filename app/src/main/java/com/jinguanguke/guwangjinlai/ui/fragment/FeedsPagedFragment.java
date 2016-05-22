@@ -14,7 +14,7 @@ import support.ui.adapters.EasyRecyclerAdapter;
 import com.jinguanguke.guwangjinlai.api.ApiService;
 import com.jinguanguke.guwangjinlai.api.service.FeedService;
 import com.jinguanguke.guwangjinlai.model.entity.Feed;
-import com.jinguanguke.guwangjinlai.ui.activity.DetailActivity;
+//import com.jinguanguke.guwangjinlai.ui.activity.DetailActivity;
 import com.jinguanguke.guwangjinlai.ui.viewholder.FeedViewHolderFactory;
 import com.jinguanguke.guwangjinlai.ui.viewholder.FeedsTextViewHolder;
 import com.smartydroid.android.starter.kit.app.StarterPagedFragment;
@@ -57,13 +57,13 @@ public class FeedsPagedFragment extends StarterPagedFragment<Feed> {
   }
 
   @Override public void onItemClick(int position, View view) {
-    super.onItemClick(position, view);
-    final Feed feed = getItem(position);
-    String url = feed.images.get(0).url;
-    Intent intent = new Intent(getActivity(), DetailActivity.class);
-    intent.putExtra("url", url);
-    intent.putExtra("aid", feed.id);
-    startActivity(intent);
+//    super.onItemClick(position, view);
+//    final Feed feed = getItem(position);
+//    String url = feed.images.get(0).url;
+//  //  Intent intent = new Intent(getActivity(), DetailActivity.class);
+//    intent.putExtra("url", url);
+//    intent.putExtra("aid", feed.id);
+//    startActivity(intent);
 
   }
 

@@ -26,13 +26,21 @@ public interface SignupService {
 
     );
 
+    @GET("index.php?c=api&_interface=check_puser&_table=dede_member")
+    Call<checkMobile> check_puser(
+            @Query("mobile") String mobile
+
+    );
+
     @POST("index.php?c=api&_interface=insert&_table=dede_member")
     Call<Register> register(
             @Query("userid") String mobile,
             @Query("pwd") String pwd,
             @Query("puserid") String puserid,
-            @Query("primary_id") String primary_id
-    );
+            @Query("primary_id") String primary_id,
+            @Query("mtype") String mtype
+
+            );
 
     @POST("index.php?c=api&_interface=update&_table=dede_member")
     Call<Register> update(

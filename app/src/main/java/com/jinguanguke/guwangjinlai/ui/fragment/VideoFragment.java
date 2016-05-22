@@ -22,7 +22,7 @@ import com.jinguanguke.guwangjinlai.data.JinguanDB;
 import com.jinguanguke.guwangjinlai.model.entity.DataInfo;
 import com.jinguanguke.guwangjinlai.model.entity.Feed;
 import com.jinguanguke.guwangjinlai.model.entity.ImageInfo;
-import com.jinguanguke.guwangjinlai.ui.activity.DetailActivity;
+//import com.jinguanguke.guwangjinlai.ui.activity.DetailActivity;
 
 import com.jinguanguke.guwangjinlai.ui.activity.PlayActivity;
 import com.jinguanguke.guwangjinlai.ui.viewholder.GridSpacingItemDecoration;

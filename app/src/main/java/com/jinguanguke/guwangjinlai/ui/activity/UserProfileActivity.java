@@ -176,10 +176,10 @@ public class UserProfileActivity extends Fragment implements RevealBackgroundVie
        // 头像
         Picasso.with(getActivity())
                 .load(profilePhoto)
-                .placeholder(R.drawable.img_circle_placeholder)
                 .resize(avatarSize, avatarSize)
                 .centerCrop()
                 .transform(new CircleTransformation())
+                .error(R.drawable.profile4)
                 .into(ivUserProfilePhoto);
 
 

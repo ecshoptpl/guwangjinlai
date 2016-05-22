@@ -56,6 +56,7 @@ import com.jinguanguke.guwangjinlai.model.entity.checkMobile;
 import com.jinguanguke.guwangjinlai.util.Callback;
 import com.jinguanguke.guwangjinlai.util.LocalAccountManager;
 import com.jinguanguke.guwangjinlai.util.SMSManager;
+import com.jinguanguke.guwangjinlai.util.ServiceGenerator;
 import com.smartydroid.android.starter.kit.app.StarterKitApp;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -84,7 +85,7 @@ public class SignupActivity extends Activity implements  TimeListener{
 
     private static final int REQUEST_READ_CONTACTS = 0;
     public static final int EXTERNAL_STORAGE_REQ_CODE = 10 ;
-
+    private String puser = "0";
 
 
 
@@ -222,6 +223,22 @@ public class SignupActivity extends Activity implements  TimeListener{
             return;
         }
 
+        if(tilpuser.getText() == null || tilpuser.getText().length() <= 0)
+        {
+            verifycode();
+        }
+        else
+        {
+            verify_puser();
+
+        }
+
+
+
+    }
+
+    //验证验证码是否正确并注册
+    private void verifycode () {
         SMSManager.getInstance().verifyCode(this, "86", tilNumber.getEditText().getText().toString(), tilCode.getText().toString(), new Callback() {
             @Override
             public void success() {
@@ -237,7 +254,7 @@ public class SignupActivity extends Activity implements  TimeListener{
                         .build();
 
                 SignupService service = retrofit.create(SignupService.class);
-                retrofit2.Call<Register> rgst = service.register(tilNumber.getEditText().getText().toString(),tilPassword.getText().toString(),tilpuser.getText().toString(),"mid");
+                retrofit2.Call<Register> rgst = service.register(tilNumber.getEditText().getText().toString(),tilPassword.getText().toString(),puser,"mid","app_android");
                 rgst.enqueue(new retrofit2.Callback<Register>() {
                     @Override
                     public void onResponse(retrofit2.Call<Register> call, retrofit2.Response<Register> response) {
@@ -270,6 +287,32 @@ public class SignupActivity extends Activity implements  TimeListener{
                 Toast.makeText(SignupActivity.this, "验证码错误", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    //验证puser是否存在
+    private void verify_puser() {
+        SignupService signupService = ServiceGenerator.createService(SignupService.class);
+        retrofit2.Call<checkMobile> sign = signupService.check_puser(tilpuser.getText().toString());
+        sign.enqueue(new retrofit2.Callback<checkMobile>() {
+            @Override
+            public void onResponse(retrofit2.Call<checkMobile> call, retrofit2.Response<checkMobile> response) {
+                if(response.body().getErr_code() == 1)
+                {
+                    puser = response.body().getErr_msg();
+                    verifycode();
+                }
+                else
+                {
+                    Toast.makeText(SignupActivity.this,"您输入的推荐人不存在",Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(retrofit2.Call<checkMobile> call, Throwable t) {
+                Toast.makeText(SignupActivity.this,"网络错误",Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
     public boolean requestPermission(){
         //判断当前Activity是否已经获得了该权限
