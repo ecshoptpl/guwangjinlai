@@ -61,4 +61,9 @@
     <dimen name="publish_photo_thumbnail_size">96dp</dimen>
     <dimen name="user_profile_avatar_size">88dp</dimen>
     <dimen name="global_menu_avatar_size">64dp</dimen>
+
+    <dimen name="carddemo_keyline_1">16dp</dimen>
+    <dimen name="carddemo_keyline_1_minus_8dp">8dp</dimen>
+    <dimen name="carddemo_keyline_margin">16dp</dimen>
+
 </resources>

@@ -23,6 +23,8 @@ import com.baoyz.swipemenulistview.SwipeMenuCreator;
 import com.baoyz.swipemenulistview.SwipeMenuItem;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.jinguanguke.guwangjinlai.R;
+import com.jinguanguke.guwangjinlai.ui.cards.GoogleNowWeatherCard;
+import com.jinguanguke.guwangjinlai.ui.cards.SettingsCard;
 import com.jinguanguke.guwangjinlai.ui.viewholder.SettingsAdapter;
 import com.jinguanguke.guwangjinlai.ui.viewholder.UserProfileAdapter;
 
@@ -32,6 +34,8 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import it.gmariotti.cardslib.library.internal.Card;
+import it.gmariotti.cardslib.library.view.CardView;
 
 /**
  * Created by jin on 16/5/11.
@@ -39,6 +43,8 @@ import butterknife.ButterKnife;
 public class SettingsFragment extends Fragment {
     private List<ApplicationInfo> mAppList;
     private AppAdapter mAdapter;
+    GoogleNowWeatherCard card;
+    SettingsCard card2;
 
     @Bind(R.id.recycler_view)
     RecyclerView fr_settings;
@@ -46,47 +52,36 @@ public class SettingsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View mListView = inflater.inflate(R.layout.fragment_settings_layout, container, false);
-        ButterKnife.bind(this, mListView);
-        fr_settings.setLayoutManager(new LinearLayoutManager(getActivity()));
-       // mAdapter = new SettingsRecylerAdapter(getActivity());
-       // fr_settings.setAdapter(mAdapter);
-
-        mAppList = getActivity().getPackageManager().getInstalledApplications(0);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
-//        fr_settings.setLayoutManager(linearLayoutManager);
-//        fr_settings.setHasFixedSize(true);
-//
-//        String[] listItems = {"用户协议","用户积分","清除缓存","退出"};
-////        String[] listItems = mItemData.split(" ");
-//        List<String> list = new ArrayList<String>();
-//        Collections.addAll(list, listItems);
-//        SettingsAdapter settingsAdapter = new SettingsAdapter(list);
-//        fr_settings.setAdapter(settingsAdapter);
-       // setupUserProfileGrid();
-//
-
-//        TextView txt = (TextView) rootView.findViewById(R.id.page_number_label);
-//        int page = getArguments().getInt(ARG_PAGE_NUMBER, -1);
-//        txt.setText(String.format("Page %d", page));
-
-        return mListView;
+        return inflater.inflate(R.layout.demo_fragment_cardwithlist_card, container, false);
     }
 
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        initCard();
+    }
+
+    private void initCard() {
+
+        //Create a Card
+        card= new GoogleNowWeatherCard(getActivity());
+        card.init();
+
+        //Set card in the cardView
+        CardView cardView = (CardView) getActivity().findViewById(R.id.carddemo_weathercard);
+        cardView.setCard(card);
+
+
+        //Card
+        card2 = new SettingsCard(getActivity());
+        card2.init();
+
+        //Set card in the cardView
+        CardView cardView2 = (CardView) getActivity().findViewById(R.id.carddemo_stockcard);
+        cardView2.setCard(card2);
+
+    }
     class AppAdapter extends BaseAdapter {
 
         @Override

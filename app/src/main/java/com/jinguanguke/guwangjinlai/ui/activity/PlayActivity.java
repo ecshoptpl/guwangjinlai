@@ -59,9 +59,7 @@ public class PlayActivity extends Activity {
     private TextView mLoadBufferTextView;// //
     private View mLoadView;// /
     private TextView mLoadText;// /
-    String mUrl = "/storage/emulated/0/Android/json.txt";
-    String mPath = "/storage/emulated/0/Android/28932D2E0132471294162C90B502E32F12BF71FA.mp4";
-    String mRtmp = "rtmp://live.hkstv.hk.lxdns.com/live/hks";
+
 
     @SuppressLint("NewApi")
     @Override
@@ -178,7 +176,7 @@ public class PlayActivity extends Activity {
          */
         // mVideoView.setVideoJjSeekToTime(Long.valueOf(20000));
         //https://mvvideo5.meitudata.com/56d094a963d3a9973.mp4
-//        mVideoView.setResourceVideo(vurl);
+        mVideoView.setResourceVideo(vurl);
         Button btn = (Button) findViewById(R.id.button1);
         btn.setOnClickListener(new OnClickListener() {
 

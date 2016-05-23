@@ -26,12 +26,13 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
         {
             case 0:
             {
-                return PageFragment.newInstance(position + 1);
+                return new SettingsFragment();
+
 
             }
             case 1:
             {
-                return new SettingsFragment();
+                return PageFragment.newInstance(position + 1);
 
             }
             default:
@@ -44,7 +45,7 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 2;
+        return 3;
     }
 
     @Override
@@ -53,15 +54,17 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
         {
             case 0:
             {
-                return "我的视频";
+                return "设置";
             }
             case 1:
             {
-                return "我的推荐";
+                return "我的视频";
+
             }
             default:
             {
-                return "设置";
+                return "我的推荐";
+
             }
         }
 
